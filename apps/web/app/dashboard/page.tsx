@@ -1,7 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Activity, Shield, Swords, TrendingUp, AlertTriangle, CheckCircle } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { Activity, Shield, Swords, TrendingUp, AlertTriangle, CheckCircle, Play, Eye, RefreshCw } from 'lucide-react';
+import { sendNotification } from '@/hooks/use-notifications';
 
 interface DashboardMetrics {
   totalEpisodes: number;
@@ -15,6 +17,7 @@ interface DashboardMetrics {
 }
 
 export default function Dashboard() {
+  const router = useRouter();
   const [metrics, setMetrics] = useState<DashboardMetrics>({
     totalEpisodes: 523,
     redWins: 271,
@@ -27,6 +30,47 @@ export default function Dashboard() {
   });
 
   const [realtimeUpdates, setRealtimeUpdates] = useState<string[]>([]);
+  const [isTraining, setIsTraining] = useState(false);
+  const [isResetting, setIsResetting] = useState(false);
+
+  const handleStartTraining = () => {
+    setIsTraining(true);
+    sendNotification('system', 'Training Started', 'New co-evolution training session initiated', 'low');
+
+    setTimeout(() => {
+      setMetrics(prev => ({
+        ...prev,
+        totalEpisodes: prev.totalEpisodes + 1
+      }));
+      setIsTraining(false);
+      sendNotification('system', 'Training Complete', 'Episode finished successfully', 'low');
+    }, 3000);
+  };
+
+  const handleViewEvolution = () => {
+    router.push('/evolution');
+  };
+
+  const handleResetCyberRange = () => {
+    setIsResetting(true);
+    sendNotification('system', 'Resetting Cyber Range', 'All systems are being reset to initial state', 'medium');
+
+    setTimeout(() => {
+      setMetrics({
+        totalEpisodes: 0,
+        redWins: 0,
+        blueWins: 0,
+        currentPhase: 'initialization',
+        redWinRate: 0,
+        blueDetectionRate: 0,
+        activeAttacks: 0,
+        blockedAttacks: 0,
+      });
+      setRealtimeUpdates([]);
+      setIsResetting(false);
+      sendNotification('system', 'Reset Complete', 'Cyber Range has been reset successfully', 'low');
+    }, 2000);
+  };
 
   useEffect(() => {
     // Simulate real-time updates
@@ -65,7 +109,7 @@ export default function Dashboard() {
       {/* Metrics Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         {/* Total Episodes */}
-        <div className="bg-white/10 backdrop-blur-lg rounded-lg p-6 border border-white/20">
+        <div className="bg-white/10 backdrop-blur-lg rounded-lg p-6 border border-white/20 hover:bg-white/15 hover:border-blue-400/50 transition-all cursor-pointer transform hover:scale-105 hover:shadow-xl hover:shadow-blue-500/20">
           <div className="flex items-center justify-between mb-4">
             <div className="p-3 bg-blue-500/20 rounded-lg">
               <Activity className="w-6 h-6 text-blue-400" />
@@ -77,7 +121,7 @@ export default function Dashboard() {
         </div>
 
         {/* Red Team Wins */}
-        <div className="bg-white/10 backdrop-blur-lg rounded-lg p-6 border border-white/20">
+        <div className="bg-white/10 backdrop-blur-lg rounded-lg p-6 border border-white/20 hover:bg-white/15 hover:border-red-400/50 transition-all cursor-pointer transform hover:scale-105 hover:shadow-xl hover:shadow-red-500/20">
           <div className="flex items-center justify-between mb-4">
             <div className="p-3 bg-red-500/20 rounded-lg">
               <Swords className="w-6 h-6 text-red-400" />
@@ -91,7 +135,7 @@ export default function Dashboard() {
         </div>
 
         {/* Blue Team Wins */}
-        <div className="bg-white/10 backdrop-blur-lg rounded-lg p-6 border border-white/20">
+        <div className="bg-white/10 backdrop-blur-lg rounded-lg p-6 border border-white/20 hover:bg-white/15 hover:border-blue-400/50 transition-all cursor-pointer transform hover:scale-105 hover:shadow-xl hover:shadow-blue-500/20">
           <div className="flex items-center justify-between mb-4">
             <div className="p-3 bg-blue-500/20 rounded-lg">
               <Shield className="w-6 h-6 text-blue-400" />
@@ -105,7 +149,7 @@ export default function Dashboard() {
         </div>
 
         {/* Evolution Phase */}
-        <div className="bg-white/10 backdrop-blur-lg rounded-lg p-6 border border-white/20">
+        <div className="bg-white/10 backdrop-blur-lg rounded-lg p-6 border border-white/20 hover:bg-white/15 hover:border-purple-400/50 transition-all cursor-pointer transform hover:scale-105 hover:shadow-xl hover:shadow-purple-500/20">
           <div className="flex items-center justify-between mb-4">
             <div className="p-3 bg-purple-500/20 rounded-lg">
               <TrendingUp className="w-6 h-6 text-purple-400" />
@@ -197,14 +241,28 @@ export default function Dashboard() {
           <div className="mt-6 pt-6 border-t border-white/10">
             <h3 className="text-sm font-semibold text-white mb-3">Quick Actions</h3>
             <div className="space-y-2">
-              <button className="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-lg transition-colors">
-                Start New Training
+              <button
+                onClick={handleStartTraining}
+                disabled={isTraining}
+                className="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed text-white text-sm rounded-lg transition-all flex items-center justify-center gap-2"
+              >
+                <Play className="w-4 h-4" />
+                {isTraining ? 'Training...' : 'Start New Training'}
               </button>
-              <button className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm rounded-lg transition-colors">
+              <button
+                onClick={handleViewEvolution}
+                className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm rounded-lg transition-all flex items-center justify-center gap-2"
+              >
+                <Eye className="w-4 h-4" />
                 View Evolution
               </button>
-              <button className="w-full px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white text-sm rounded-lg transition-colors">
-                Reset Cyber Range
+              <button
+                onClick={handleResetCyberRange}
+                disabled={isResetting}
+                className="w-full px-4 py-2 bg-red-600 hover:bg-red-700 disabled:bg-red-400 disabled:cursor-not-allowed text-white text-sm rounded-lg transition-all flex items-center justify-center gap-2"
+              >
+                <RefreshCw className={`w-4 h-4 ${isResetting ? 'animate-spin' : ''}`} />
+                {isResetting ? 'Resetting...' : 'Reset Cyber Range'}
               </button>
             </div>
           </div>

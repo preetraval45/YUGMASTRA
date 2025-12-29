@@ -17,7 +17,23 @@
       "Bash(docker-compose down:*)",
       "Bash(xargs docker rmi:*)",
       "Bash(docker image prune:*)",
-      "Bash(docker stats:*)"
+      "Bash(docker stats:*)",
+      "Bash(npm run build:*)",
+      "Bash(docker rm:*)",
+      "Bash(docker rmi:*)",
+      "Bash(powershell -Command \"if \\(Test-Path ''apps/web/.next''\\) { Remove-Item -Recurse -Force ''apps/web/.next'' }\")",
+      "Bash(npx prisma init)",
+      "Bash(npx prisma migrate:*)",
+      "Bash(npx prisma generate)",
+      "Bash(docker exec:*)",
+      "Bash(npx prisma db push:*)",
+      "Bash(npx tsx:*)",
+      "Bash(docker-compose restart:*)",
+      "Bash(DATABASE_URL=\"postgresql://yugmastra:yugmastra_dev_password@localhost:5432/yugmastra?schema=public\" npx prisma db push:*)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(DATABASE_URL=\"postgresql://yugmastra:yugmastra_dev_password@localhost:5433/yugmastra?schema=public\" npx prisma db push:*)",
+      "Bash(DATABASE_URL=\"postgresql://yugmastra:yugmastra_dev_password@localhost:5433/yugmastra?schema=public\" npx tsx:*)"
     ]
   }
 }

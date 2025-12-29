@@ -9,6 +9,8 @@ services:
       POSTGRES_DB: yugmastra
       POSTGRES_USER: yugmastra
       POSTGRES_PASSWORD: yugmastra_dev_password
+    ports:
+      - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
@@ -274,12 +276,17 @@ services:
       dockerfile: ./apps/web/Dockerfile
     container_name: yugmastra-web
     environment:
+      DATABASE_URL: postgresql://yugmastra:yugmastra_dev_password@postgres:5432/yugmastra?schema=public
+      JWT_SECRET: yugmastra-super-secret-jwt-key-change-in-production-2024
       NEXT_PUBLIC_API_URL: http://localhost/api
       NEXT_PUBLIC_WS_URL: http://localhost/ws
     networks:
       - yugmastra-network
     depends_on:
-      - api
+      postgres:
+        condition: service_healthy
+      api:
+        condition: service_started
     restart: unless-stopped
 
   # Nginx Reverse Proxy

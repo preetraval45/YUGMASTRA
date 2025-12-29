@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from 'react';
 import { Shield, Swords, AlertTriangle, CheckCircle2, XCircle, Zap, Target, Activity } from 'lucide-react';
+import { sendNotification } from '@/hooks/use-notifications';
 
 interface Attack {
   id: string;
@@ -81,6 +82,16 @@ export default function LiveBattlePage() {
 
       setAttacks((prev) => [...prev.slice(-20), newAttack]);
 
+      // Send notification for critical attacks
+      if (attackType.severity === 'critical' || attackType.severity === 'high') {
+        sendNotification(
+          'attack',
+          `${attackType.severity.toUpperCase()}: ${attackType.type}`,
+          `Red Team attacking ${target.replace('_', ' ')} using ${attackType.technique}`,
+          attackType.severity
+        );
+      }
+
       // Simulate defense response (70% detection rate)
       setTimeout(() => {
         const detected = Math.random() > 0.3;
@@ -109,9 +120,27 @@ export default function LiveBattlePage() {
 
           if (blocked) {
             setScore((prev) => ({ ...prev, blue: prev.blue + 1 }));
+            // Send notification for successful blocks on critical attacks
+            if (attackType.severity === 'critical') {
+              sendNotification(
+                'defense',
+                'Critical Attack Blocked!',
+                `Blue Team successfully blocked ${attackType.type} on ${target.replace('_', ' ')}`,
+                'high'
+              );
+            }
           } else {
             setScore((prev) => ({ ...prev, red: prev.red + 1 }));
             setSystemHealth((prev) => Math.max(0, prev - (effectiveness > 0.5 ? 3 : 8)));
+            // Send notification for detected but not blocked attacks
+            if (attackType.severity === 'critical' || attackType.severity === 'high') {
+              sendNotification(
+                'attack',
+                'Attack Detected but Not Blocked',
+                `${attackType.type} was detected but succeeded on ${target.replace('_', ' ')}`,
+                attackType.severity
+              );
+            }
           }
         } else {
           setAttacks((prev) =>
@@ -121,6 +150,13 @@ export default function LiveBattlePage() {
           );
           setScore((prev) => ({ ...prev, red: prev.red + 1 }));
           setSystemHealth((prev) => Math.max(0, prev - 12));
+          // Send notification for successful undetected attacks
+          sendNotification(
+            'attack',
+            'Undetected Attack Successful!',
+            `${attackType.type} bypassed defenses on ${target.replace('_', ' ')}`,
+            'critical'
+          );
         }
       }, 1000 + Math.random() * 2000);
     }, 800 + Math.random() * 1200);

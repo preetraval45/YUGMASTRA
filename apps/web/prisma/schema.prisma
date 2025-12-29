@@ -1,0 +1,154 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  password      String
+  role          String    @default("user") // admin, user, analyst
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  battles       Battle[]
+  settings      Settings?
+}
+
+model Battle {
+  id            String    @id @default(cuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  redScore      Int       @default(0)
+  blueScore     Int       @default(0)
+  duration      Int       @default(0) // in seconds
+  status        String    @default("active") // active, completed, paused
+
+  nashEquilibrium Float?
+  coevolutionGen  Int     @default(1)
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  attacks       Attack[]
+  defenses      Defense[]
+  metrics       BattleMetrics?
+}
+
+model Attack {
+  id            String    @id @default(cuid())
+  battleId      String
+  battle        Battle    @relation(fields: [battleId], references: [id], onDelete: Cascade)
+
+  type          String    // SQL Injection, XSS, Phishing, etc.
+  technique     String    // MITRE ATT&CK technique
+  target        String    // target system/component
+  severity      String    // low, medium, high, critical
+
+  success       Boolean   @default(false)
+  detected      Boolean   @default(false)
+  impact        Float     @default(0.0)
+
+  timestamp     DateTime  @default(now())
+
+  @@index([battleId])
+  @@index([timestamp])
+}
+
+model Defense {
+  id            String    @id @default(cuid())
+  battleId      String
+  battle        Battle    @relation(fields: [battleId], references: [id], onDelete: Cascade)
+
+  action        String    // block, monitor, patch, etc.
+  ruleType      String    // WAF, IDS, firewall, etc.
+  effectiveness Float     @default(0.0)
+
+  attacksBlocked Int      @default(0)
+  falsePositives Int      @default(0)
+
+  timestamp     DateTime  @default(now())
+
+  @@index([battleId])
+  @@index([timestamp])
+}
+
+model BattleMetrics {
+  id            String    @id @default(cuid())
+  battleId      String    @unique
+  battle        Battle    @relation(fields: [battleId], references: [id], onDelete: Cascade)
+
+  totalAttacks  Int       @default(0)
+  successfulAttacks Int   @default(0)
+  detectedAttacks Int     @default(0)
+
+  totalDefenses Int       @default(0)
+  effectiveDefenses Int   @default(0)
+
+  avgDetectionTime Float  @default(0.0)
+
+  updatedAt     DateTime  @updatedAt
+}
+
+model Settings {
+  id            String    @id @default(cuid())
+  userId        String    @unique
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Notification preferences
+  notifyAttacks Boolean   @default(true)
+  notifyDefenses Boolean  @default(true)
+  notifySystem  Boolean   @default(true)
+  emailNotifications Boolean @default(false)
+
+  // Training configuration
+  learningRate  Float     @default(0.001)
+  episodes      Int       @default(100)
+  batchSize     Int       @default(32)
+
+  // Display preferences
+  theme         String    @default("dark")
+
+  updatedAt     DateTime  @updatedAt
+}
+
+model KnowledgeGraphNode {
+  id            String    @id @default(cuid())
+  label         String
+  type          String    // attack, defense, vulnerability, asset
+  x             Float
+  y             Float
+
+  connections   String[]  // Array of connected node IDs
+  metadata      Json?     // Additional data
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([type])
+}
+
+model ActivityLog {
+  id            String    @id @default(cuid())
+  userId        String?
+
+  action        String    // login, logout, start_battle, etc.
+  details       String?
+  ipAddress     String?
+
+  timestamp     DateTime  @default(now())
+
+  @@index([userId])
+  @@index([timestamp])
+}

@@ -1,10 +1,10 @@
 node_modules
 .next
 .git
-.gitignore
-.env*.local
-README.md
-.DS_Store
+.env.local
+.env.*.local
 *.log
-npm-debug.log*
-.vscode
+dist
+build
+coverage
+.DS_Store
