@@ -10,7 +10,14 @@
       "Bash(done)",
       "Bash(for dir in red-team-ai blue-team-ai evolution-engine cyber-range)",
       "Bash(ls:*)",
-      "Bash(docker-compose build:*)"
+      "Bash(docker-compose build:*)",
+      "Bash(docker-compose up:*)",
+      "Bash(docker-compose ps:*)",
+      "Bash(docker logs:*)",
+      "Bash(docker-compose down:*)",
+      "Bash(xargs docker rmi:*)",
+      "Bash(docker image prune:*)",
+      "Bash(docker stats:*)"
     ]
   }
 }

@@ -49,8 +49,17 @@ export default function Dashboard() {
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 p-8">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-4xl font-bold text-white mb-2">Dashboard</h1>
-        <p className="text-blue-200">Real-time co-evolution metrics and system status</p>
+        <div className="flex items-center justify-between flex-wrap gap-4">
+          <div>
+            <h1 className="text-4xl font-bold text-white mb-2">Dashboard</h1>
+            <p className="text-blue-200">Real-time co-evolution metrics and system status</p>
+          </div>
+          <div className="bg-white/10 backdrop-blur-lg rounded-lg px-6 py-3 border border-blue-500/30">
+            <p className="text-sm text-gray-300">Defending system owned by</p>
+            <p className="text-lg font-semibold text-white">Preet Raval</p>
+            <p className="text-xs text-blue-300">preetraval45@gmail.com</p>
+          </div>
+        </div>
       </div>
 
       {/* Metrics Grid */}
