@@ -1,0 +1,28 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: 'api'
+    static_configs:
+      - targets: ['api:8000']
+
+  - job_name: 'red-team-ai'
+    static_configs:
+      - targets: ['red-team-ai:8000']
+
+  - job_name: 'blue-team-ai'
+    static_configs:
+      - targets: ['blue-team-ai:8000']
+
+  - job_name: 'evolution-engine'
+    static_configs:
+      - targets: ['evolution-engine:8000']
+
+  - job_name: 'cyber-range'
+    static_configs:
+      - targets: ['cyber-range:8000']

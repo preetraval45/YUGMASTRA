@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(tree:*)",
+      "Bash(chmod:*)",
+      "Bash(npm install:*)",
+      "Bash(npx next build:*)",
+      "Bash(for dir in red-team-ai blue-team-ai evolution-engine analytics-engine knowledge-graph cyber-range model-registry)",
+      "Bash(do cp Dockerfile.template \"$dir/Dockerfile\")",
+      "Bash(done)",
+      "Bash(for dir in red-team-ai blue-team-ai evolution-engine cyber-range)",
+      "Bash(ls:*)",
+      "Bash(docker-compose build:*)"
+    ]
+  }
+}
