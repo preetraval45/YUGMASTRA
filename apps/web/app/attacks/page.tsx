@@ -7,7 +7,7 @@ export default function AttacksPage() {
   const [animateStats, setAnimateStats] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState<'all' | 'successful' | 'detected' | 'undetected'>('all');
 
-  const [recentAttacks, setRecentAttacks] = useState([
+  const [recentAttacks] = useState([
     { id: 1, type: 'SQL Injection', target: 'web_server', success: true, detected: false, impact: 0.85, time: '2 min ago', severity: 'critical' as const },
     { id: 2, type: 'Phishing', target: 'endpoint_1', success: true, detected: true, impact: 0.65, time: '5 min ago', severity: 'high' as const },
     { id: 3, type: 'Port Scan', target: 'all', success: true, detected: true, impact: 0.15, time: '8 min ago', severity: 'low' as const },

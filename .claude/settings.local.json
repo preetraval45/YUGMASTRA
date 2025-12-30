@@ -35,7 +35,28 @@
       "Bash(DATABASE_URL=\"postgresql://yugmastra:yugmastra_dev_password@localhost:5433/yugmastra?schema=public\" npx prisma db push:*)",
       "Bash(DATABASE_URL=\"postgresql://yugmastra:yugmastra_dev_password@localhost:5433/yugmastra?schema=public\" npx tsx:*)",
       "Bash(copy:*)",
-      "Bash(del docker-compose.yml)"
+      "Bash(del docker-compose.yml)",
+      "Bash(curl:*)",
+      "Bash(docker network inspect:*)",
+      "Bash(docker ps:*)",
+      "Bash(node fix-themes.js:*)",
+      "Bash(node fix-all-pages.js:*)",
+      "Bash(node cleanup-unused.js:*)",
+      "Bash(del:*)",
+      "Bash(npm uninstall:*)",
+      "Bash(docker system prune:*)",
+      "Bash(powershell -Command \"Start-Process ''C:\\\\Program Files\\\\Docker\\\\Docker\\\\Docker Desktop.exe''\")",
+      "Bash(timeout /t 30 /nobreak)",
+      "Bash(powershell -Command \"Start-Sleep -Seconds 30; docker ps\")",
+      "Bash(where:*)",
+      "Bash(ollama pull:*)",
+      "Bash(powershell -Command \"ollama pull llama3\")",
+      "Bash(powershell -Command \"Get-Command ollama -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source\")",
+      "Bash(powershell:*)",
+      "Bash(npm run dev:*)",
+      "Bash(npm run start:*)",
+      "Bash(timeout /t 5 /nobreak)",
+      "Bash(python clean_ai_indicators.py:*)"
     ]
   }
 }

@@ -3,14 +3,19 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, TrendingUp, Swords, Shield, Network, Settings, LogOut, Zap, Lightbulb, Menu, X, User, Sparkles } from 'lucide-react';
+import { Home, TrendingUp, Swords, Shield, Network, Settings, LogOut, Zap, Lightbulb, Menu, X, User, Sparkles, Activity, Target, Brain, Server, BarChart3 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Logo } from '@/components/logo';
 
 const navItems = [
   { href: '/dashboard', icon: Home, label: 'Dashboard' },
-  { href: '/ai-assistant', icon: Sparkles, label: 'AI Assistant', highlight: true },
+  { href: '/threat-intelligence', icon: Activity, label: 'Threat Intel', highlight: true },
+  { href: '/attack-simulator', icon: Target, label: 'Attack Sim', highlight: true },
+  { href: '/ai-assistant', icon: Sparkles, label: 'AI Assistant' },
   { href: '/live-battle', icon: Zap, label: 'Live Battle' },
+  { href: '/cyber-range', icon: Server, label: 'Cyber Range', highlight: true },
+  { href: '/model-training', icon: Brain, label: 'Model Training', highlight: true },
+  { href: '/analytics', icon: BarChart3, label: 'ML Analytics', highlight: true },
   { href: '/recommendations', icon: Lightbulb, label: 'Recommendations' },
   { href: '/evolution', icon: TrendingUp, label: 'Evolution' },
   { href: '/attacks', icon: Swords, label: 'Attacks' },
@@ -66,14 +71,14 @@ export function Sidebar() {
                 isActive
                   ? 'bg-primary text-primary-foreground'
                   : isHighlight
-                  ? 'text-yellow-400 hover:bg-yellow-500/20 border border-yellow-500/30 animate-pulse'
+                  ? 'text-amber-700 dark:text-yellow-400 hover:bg-amber-100 dark:hover:bg-yellow-500/20 border border-amber-300 dark:border-yellow-500/30 animate-pulse'
                   : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
               )}
             >
               <item.icon className="h-5 w-5" />
               {item.label}
               {isHighlight && !isActive && (
-                <span className="ml-auto text-xs bg-yellow-500/20 text-yellow-400 px-2 py-0.5 rounded">
+                <span className="ml-auto text-xs bg-amber-100 dark:bg-yellow-500/20 text-amber-800 dark:text-yellow-400 px-2 py-0.5 rounded font-semibold">
                   LIVE
                 </span>
               )}

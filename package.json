@@ -24,7 +24,15 @@
   ],
   "scripts": {
     "dev": "turbo run dev",
+    "dev:web": "cd apps/web && npm run dev",
+    "dev:mobile": "cd apps/mobile && npm run start",
+    "dev:desktop": "cd apps/desktop && npm run dev",
+    "dev:all": "concurrently \"npm run dev:web\" \"npm run dev:mobile\"",
     "build": "turbo run build",
+    "build:web": "cd apps/web && npm run build",
+    "build:mobile": "cd apps/mobile && npm run build:android",
+    "build:desktop": "cd apps/desktop && npm run make",
+    "build:all": "npm run build:web && npm run build:mobile && npm run build:desktop",
     "test": "turbo run test",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
@@ -32,10 +40,15 @@
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
     "docker:logs": "docker-compose logs -f",
-    "type-check": "turbo run type-check"
+    "docker:build": "docker-compose build",
+    "docker:restart": "docker-compose restart",
+    "type-check": "turbo run type-check",
+    "install:all": "npm install && npm run install:packages",
+    "install:packages": "cd packages/ai-sdk && npm install && cd ../.. && cd apps/web && npm install && cd ../mobile && npm install && cd ../desktop && npm install && cd ../.."
   },
   "devDependencies": {
     "@turbo/gen": "^2.3.3",
+    "concurrently": "^8.2.2",
     "eslint": "^8.57.0",
     "prettier": "^3.2.5",
     "turbo": "^2.3.3",
@@ -45,5 +58,10 @@
     "node": ">=20.0.0",
     "npm": ">=10.0.0"
   },
-  "packageManager": "npm@10.2.5"
+  "packageManager": "npm@10.2.5",
+  "dependencies": {
+    "ajv": "^8.17.1",
+    "ajv-keywords": "^5.1.0",
+    "d3": "^7.9.0"
+  }
 }

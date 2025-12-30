@@ -14,6 +14,7 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@yugmastra/ai-sdk": "*",
     "expo": "~51.0.0",
     "expo-router": "~3.5.0",
     "react": "18.3.1",

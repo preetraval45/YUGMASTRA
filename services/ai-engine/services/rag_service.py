@@ -13,11 +13,8 @@ class RAGService:
     """
 
     def __init__(self):
-        # Initialize ChromaDB for vector storage
-        self.client = chromadb.Client(Settings(
-            chroma_db_impl="duckdb+parquet",
-            persist_directory="./data/chroma"
-        ))
+        # Initialize ChromaDB for vector storage (new API)
+        self.client = chromadb.PersistentClient(path="./data/chroma")
 
         # Initialize embedding model
         self.embedding_model = SentenceTransformer('all-MiniLM-L6-v2')

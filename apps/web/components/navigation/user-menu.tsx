@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { User, Settings, LogOut, X, AlertCircle } from 'lucide-react';
+import { User, Settings, LogOut, AlertCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 export function UserMenu() {

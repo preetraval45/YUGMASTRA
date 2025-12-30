@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { Shield, Swords, AlertTriangle, CheckCircle2, XCircle, Zap, Target, Activity } from 'lucide-react';
 import { sendNotification } from '@/hooks/use-notifications';
 
@@ -32,9 +32,7 @@ export default function LiveBattlePage() {
   const [isRunning, setIsRunning] = useState(true);
   const [battleEnded, setBattleEnded] = useState(false);
   const [battleDuration, setBattleDuration] = useState(0);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  const attackTypes = [
+  const attackTypes = useMemo(() => [
     { type: 'SQL Injection', technique: 'UNION-based SQLi', severity: 'high' as const },
     { type: 'XSS Attack', technique: 'Stored XSS', severity: 'medium' as const },
     { type: 'CSRF', technique: 'Token forgery', severity: 'medium' as const },
@@ -45,11 +43,11 @@ export default function LiveBattlePage() {
     { type: 'DDoS', technique: 'SYN flood', severity: 'high' as const },
     { type: 'Phishing', technique: 'Spear phishing', severity: 'medium' as const },
     { type: 'Brute Force', technique: 'Credential stuffing', severity: 'low' as const },
-  ];
+  ], []);
 
-  const targets = ['web_server', 'database', 'api_gateway', 'auth_service', 'file_storage', 'network_router'];
+  const targets = useMemo(() => ['web_server', 'database', 'api_gateway', 'auth_service', 'file_storage', 'network_router'], []);
 
-  const defenseActions = [
+  const defenseActions = useMemo(() => [
     'Blocked by firewall rule',
     'Detected anomalous pattern',
     'IDS signature match',
@@ -58,7 +56,7 @@ export default function LiveBattlePage() {
     'Traffic redirected to honeypot',
     'Machine learning model detected',
     'Behavioral analysis flagged',
-  ];
+  ], []);
 
   // Generate attacks
   useEffect(() => {
@@ -162,7 +160,7 @@ export default function LiveBattlePage() {
     }, 800 + Math.random() * 1200);
 
     return () => clearInterval(interval);
-  }, [isRunning]);
+  }, [isRunning, attackTypes, defenseActions, targets]);
 
   // Auto-heal system and battle timer
   useEffect(() => {
@@ -231,20 +229,20 @@ export default function LiveBattlePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-red-950 to-gray-900 p-6">
+    <div className="min-h-screen bg-background p-6">
       {/* Header */}
       <div className="mb-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-4xl font-bold text-white mb-2 flex items-center gap-3">
+            <h1 className="text-4xl font-bold mb-2 flex items-center gap-3">
               <Zap className="w-8 h-8 text-yellow-500 animate-pulse" />
               Live Battle Arena
             </h1>
-            <p className="text-blue-200">
+            <p className="text-muted-foreground">
               Red Team AI vs Blue Team AI - Real-time Defense of Preet Raval's System
             </p>
-            <p className="text-sm text-gray-400 mt-1">
-              Battle Duration: <span className="font-mono text-white">{formatDuration(battleDuration)}</span>
+            <p className="text-sm text-muted-foreground mt-1">
+              Battle Duration: <span className="font-mono font-semibold">{formatDuration(battleDuration)}</span>
             </p>
           </div>
           <div className="flex gap-3">
@@ -278,22 +276,22 @@ export default function LiveBattlePage() {
           </div>
         </div>
         {battleEnded && (
-          <div className="mt-4 p-4 bg-gradient-to-r from-purple-500/20 to-blue-500/20 border border-purple-500/30 rounded-lg">
-            <h2 className="text-2xl font-bold text-white mb-2">🏁 Battle Ended!</h2>
+          <div className="mt-4 p-4 bg-gradient-to-r from-purple-500/20 to-primary/20 border border-purple-500/30 rounded-lg">
+            <h2 className="text-2xl font-bold mb-2">🏁 Battle Ended!</h2>
             <div className="grid grid-cols-3 gap-4 text-center">
               <div>
-                <p className="text-gray-300 text-sm">Duration</p>
-                <p className="text-2xl font-bold text-white">{formatDuration(battleDuration)}</p>
+                <p className="text-muted-foreground text-sm">Duration</p>
+                <p className="text-2xl font-bold">{formatDuration(battleDuration)}</p>
               </div>
               <div>
-                <p className="text-gray-300 text-sm">Winner</p>
-                <p className="text-2xl font-bold text-white">
+                <p className="text-muted-foreground text-sm">Winner</p>
+                <p className="text-2xl font-bold">
                   {score.red > score.blue ? '🔴 Red Team' : score.blue > score.red ? '🔵 Blue Team' : '🤝 Draw'}
                 </p>
               </div>
               <div>
-                <p className="text-gray-300 text-sm">Final Score</p>
-                <p className="text-2xl font-bold text-white">{score.red} - {score.blue}</p>
+                <p className="text-muted-foreground text-sm">Final Score</p>
+                <p className="text-2xl font-bold">{score.red} - {score.blue}</p>
               </div>
             </div>
           </div>
@@ -302,32 +300,32 @@ export default function LiveBattlePage() {
 
       {/* Score and Health */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <div className="bg-white/10 backdrop-blur-lg rounded-lg p-6 border border-red-500/30">
+        <div className="bg-card rounded-lg p-6 border border-red-500/30">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
               <Swords className="w-6 h-6 text-red-500" />
-              <h3 className="text-xl font-bold text-white">Red Team</h3>
+              <h3 className="text-xl font-bold">Red Team</h3>
             </div>
             <span className="text-3xl font-bold text-red-500">{score.red}</span>
           </div>
-          <p className="text-sm text-gray-300">Successful Attacks</p>
+          <p className="text-sm text-muted-foreground">Successful Attacks</p>
         </div>
 
-        <div className="bg-white/10 backdrop-blur-lg rounded-lg p-6 border border-blue-500/30">
+        <div className="bg-card rounded-lg p-6 border border-primary/30">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
-              <Shield className="w-6 h-6 text-blue-500" />
-              <h3 className="text-xl font-bold text-white">Blue Team</h3>
+              <Shield className="w-6 h-6 text-primary" />
+              <h3 className="text-xl font-bold">Blue Team</h3>
             </div>
-            <span className="text-3xl font-bold text-blue-500">{score.blue}</span>
+            <span className="text-3xl font-bold text-primary">{score.blue}</span>
           </div>
-          <p className="text-sm text-gray-300">Blocked Attacks</p>
+          <p className="text-sm text-muted-foreground">Blocked Attacks</p>
         </div>
 
-        <div className="bg-white/10 backdrop-blur-lg rounded-lg p-6 border border-green-500/30">
+        <div className="bg-card rounded-lg p-6 border border-green-500/30">
           <div className="mb-2">
-            <h3 className="text-xl font-bold text-white mb-2">System Health</h3>
-            <div className="h-4 bg-gray-700 rounded-full overflow-hidden">
+            <h3 className="text-xl font-bold mb-2">System Health</h3>
+            <div className="h-4 bg-muted rounded-full overflow-hidden">
               <div
                 className={`h-full transition-all duration-500 ${
                   systemHealth > 70
@@ -340,15 +338,15 @@ export default function LiveBattlePage() {
               />
             </div>
           </div>
-          <p className="text-sm text-gray-300">{systemHealth.toFixed(1)}%</p>
+          <p className="text-sm text-muted-foreground">{systemHealth.toFixed(1)}%</p>
         </div>
       </div>
 
       {/* Main Content */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Live Attacks Feed */}
-        <div className="bg-white/10 backdrop-blur-lg rounded-lg p-6 border border-white/20">
-          <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
+        <div className="bg-card rounded-lg p-6 border">
+          <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
             <Target className="w-6 h-6 text-red-500" />
             Incoming Attacks
           </h2>
@@ -359,41 +357,41 @@ export default function LiveBattlePage() {
               .map((attack) => (
                 <div
                   key={attack.id}
-                  className="p-4 bg-white/5 rounded-lg border border-white/10 hover:bg-white/10 transition-all"
+                  className="p-4 bg-accent/50 rounded-lg border hover:bg-accent transition-all"
                 >
                   <div className="flex items-start justify-between mb-2">
                     <div className="flex items-center gap-2">
                       {getStatusIcon(attack.status)}
-                      <span className="font-semibold text-white">{attack.type}</span>
+                      <span className="font-semibold">{attack.type}</span>
                     </div>
                     <span className={`text-xs px-2 py-1 rounded border ${getSeverityColor(attack.severity)}`}>
                       {attack.severity.toUpperCase()}
                     </span>
                   </div>
-                  <div className="text-sm text-gray-300 space-y-1">
+                  <div className="text-sm text-muted-foreground space-y-1">
                     <p>
                       <strong>Technique:</strong> {attack.technique}
                     </p>
                     <p>
                       <strong>Target:</strong>{' '}
-                      <code className="bg-black/30 px-2 py-0.5 rounded">{attack.target}</code>
+                      <code className="bg-muted px-2 py-0.5 rounded">{attack.target}</code>
                     </p>
                     <p>
                       <strong>Status:</strong>{' '}
                       <span
                         className={
                           attack.status === 'blocked'
-                            ? 'text-green-400'
+                            ? 'text-green-500'
                             : attack.status === 'successful'
-                            ? 'text-red-400'
-                            : 'text-yellow-400'
+                            ? 'text-red-500'
+                            : 'text-yellow-500'
                         }
                       >
                         {attack.status}
                       </span>
                     </p>
                   </div>
-                  <div className="mt-2 text-xs text-gray-500">
+                  <div className="mt-2 text-xs text-muted-foreground">
                     {new Date(attack.timestamp).toLocaleTimeString()}
                   </div>
                 </div>
@@ -402,9 +400,9 @@ export default function LiveBattlePage() {
         </div>
 
         {/* Defense Actions Feed */}
-        <div className="bg-white/10 backdrop-blur-lg rounded-lg p-6 border border-white/20">
-          <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
-            <Shield className="w-6 h-6 text-blue-500" />
+        <div className="bg-card rounded-lg p-6 border">
+          <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
+            <Shield className="w-6 h-6 text-primary" />
             Defense Actions
           </h2>
           <div className="space-y-3 max-h-[600px] overflow-y-auto">
@@ -416,29 +414,29 @@ export default function LiveBattlePage() {
                 return (
                   <div
                     key={defense.id}
-                    className="p-4 bg-white/5 rounded-lg border border-blue-500/20 hover:bg-white/10 transition-all"
+                    className="p-4 bg-accent/50 rounded-lg border border-primary/20 hover:bg-accent transition-all"
                   >
                     <div className="flex items-start justify-between mb-2">
                       <div className="flex items-center gap-2">
-                        <CheckCircle2 className="w-4 h-4 text-blue-500" />
-                        <span className="font-semibold text-white">{defense.action}</span>
+                        <CheckCircle2 className="w-4 h-4 text-primary" />
+                        <span className="font-semibold">{defense.action}</span>
                       </div>
-                      <span className="text-xs bg-blue-500/20 text-blue-400 px-2 py-1 rounded">
+                      <span className="text-xs bg-primary/20 text-primary px-2 py-1 rounded">
                         {(defense.effectiveness * 100).toFixed(0)}% effective
                       </span>
                     </div>
                     {attack && (
-                      <div className="text-sm text-gray-300">
+                      <div className="text-sm text-muted-foreground">
                         <p>
                           Defending against:{' '}
-                          <span className="text-red-400">{attack.type}</span>
+                          <span className="text-red-500">{attack.type}</span>
                         </p>
                         <p>
-                          Target: <code className="bg-black/30 px-2 py-0.5 rounded">{attack.target}</code>
+                          Target: <code className="bg-muted px-2 py-0.5 rounded">{attack.target}</code>
                         </p>
                       </div>
                     )}
-                    <div className="mt-2 text-xs text-gray-500">
+                    <div className="mt-2 text-xs text-muted-foreground">
                       {new Date(defense.timestamp).toLocaleTimeString()}
                     </div>
                   </div>
@@ -449,35 +447,35 @@ export default function LiveBattlePage() {
       </div>
 
       {/* Battle Stats */}
-      <div className="mt-6 bg-white/10 backdrop-blur-lg rounded-lg p-6 border border-white/20">
-        <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
+      <div className="mt-6 bg-card rounded-lg p-6 border">
+        <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
           <Activity className="w-6 h-6 text-purple-500" />
           Battle Statistics
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="p-4 bg-white/5 rounded-lg">
-            <p className="text-sm text-gray-400 mb-1">Total Attacks</p>
-            <p className="text-2xl font-bold text-white">{attacks.length}</p>
+          <div className="p-4 bg-accent/50 rounded-lg">
+            <p className="text-sm text-muted-foreground mb-1">Total Attacks</p>
+            <p className="text-2xl font-bold">{attacks.length}</p>
           </div>
-          <div className="p-4 bg-white/5 rounded-lg">
-            <p className="text-sm text-gray-400 mb-1">Detection Rate</p>
-            <p className="text-2xl font-bold text-white">
+          <div className="p-4 bg-accent/50 rounded-lg">
+            <p className="text-sm text-muted-foreground mb-1">Detection Rate</p>
+            <p className="text-2xl font-bold">
               {attacks.length > 0
                 ? ((defenses.length / attacks.length) * 100).toFixed(1)
                 : 0}%
             </p>
           </div>
-          <div className="p-4 bg-white/5 rounded-lg">
-            <p className="text-sm text-gray-400 mb-1">Blue Team Win Rate</p>
-            <p className="text-2xl font-bold text-white">
+          <div className="p-4 bg-accent/50 rounded-lg">
+            <p className="text-sm text-muted-foreground mb-1">Blue Team Win Rate</p>
+            <p className="text-2xl font-bold">
               {score.red + score.blue > 0
                 ? ((score.blue / (score.red + score.blue)) * 100).toFixed(1)
                 : 0}%
             </p>
           </div>
-          <div className="p-4 bg-white/5 rounded-lg">
-            <p className="text-sm text-gray-400 mb-1">System Owner</p>
-            <p className="text-lg font-bold text-blue-400">Preet Raval</p>
+          <div className="p-4 bg-accent/50 rounded-lg">
+            <p className="text-sm text-muted-foreground mb-1">System Owner</p>
+            <p className="text-lg font-bold text-primary">Preet Raval</p>
           </div>
         </div>
       </div>

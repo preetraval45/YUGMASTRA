@@ -90,18 +90,18 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 p-8">
+    <div className="min-h-screen bg-background p-8">
       {/* Header */}
       <div className="mb-8">
         <div className="flex items-center justify-between flex-wrap gap-4">
           <div>
-            <h1 className="text-4xl font-bold text-white mb-2">Dashboard</h1>
-            <p className="text-blue-200">Real-time co-evolution metrics and system status</p>
+            <h1 className="text-4xl font-bold mb-2">Dashboard</h1>
+            <p className="text-muted-foreground">Real-time co-evolution metrics and system status</p>
           </div>
-          <div className="bg-white/10 backdrop-blur-lg rounded-lg px-6 py-3 border border-blue-500/30">
-            <p className="text-sm text-gray-300">Defending system owned by</p>
-            <p className="text-lg font-semibold text-white">Preet Raval</p>
-            <p className="text-xs text-blue-300">preetraval45@gmail.com</p>
+          <div className="bg-card backdrop-blur-lg rounded-lg px-6 py-3 border">
+            <p className="text-sm text-muted-foreground">Defending system owned by</p>
+            <p className="text-lg font-semibold">Preet Raval</p>
+            <p className="text-xs text-primary">preetraval45@gmail.com</p>
           </div>
         </div>
       </div>
@@ -109,77 +109,77 @@ export default function Dashboard() {
       {/* Metrics Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         {/* Total Episodes */}
-        <div className="bg-white/10 backdrop-blur-lg rounded-lg p-6 border border-white/20 hover:bg-white/15 hover:border-blue-400/50 transition-all cursor-pointer transform hover:scale-105 hover:shadow-xl hover:shadow-blue-500/20">
+        <div className="bg-card rounded-lg p-6 border hover:border-primary/50 transition-all cursor-pointer transform hover:scale-105 hover:shadow-xl">
           <div className="flex items-center justify-between mb-4">
-            <div className="p-3 bg-blue-500/20 rounded-lg">
-              <Activity className="w-6 h-6 text-blue-400" />
+            <div className="p-3 bg-primary/20 rounded-lg">
+              <Activity className="w-6 h-6 text-primary" />
             </div>
-            <span className="text-xs text-green-400 font-semibold">+12 today</span>
+            <span className="text-xs text-green-500 font-semibold">+12 today</span>
           </div>
-          <h3 className="text-2xl font-bold text-white">{metrics.totalEpisodes}</h3>
-          <p className="text-sm text-gray-300">Total Episodes</p>
+          <h3 className="text-2xl font-bold">{metrics.totalEpisodes}</h3>
+          <p className="text-sm text-muted-foreground">Total Episodes</p>
         </div>
 
         {/* Red Team Wins */}
-        <div className="bg-white/10 backdrop-blur-lg rounded-lg p-6 border border-white/20 hover:bg-white/15 hover:border-red-400/50 transition-all cursor-pointer transform hover:scale-105 hover:shadow-xl hover:shadow-red-500/20">
+        <div className="bg-card rounded-lg p-6 border hover:border-red-500/50 transition-all cursor-pointer transform hover:scale-105 hover:shadow-xl">
           <div className="flex items-center justify-between mb-4">
             <div className="p-3 bg-red-500/20 rounded-lg">
-              <Swords className="w-6 h-6 text-red-400" />
+              <Swords className="w-6 h-6 text-red-500" />
             </div>
-            <span className="text-xs text-red-400 font-semibold">
+            <span className="text-xs text-red-500 font-semibold">
               {(metrics.redWinRate * 100).toFixed(1)}%
             </span>
           </div>
-          <h3 className="text-2xl font-bold text-white">{metrics.redWins}</h3>
-          <p className="text-sm text-gray-300">Red Team Wins</p>
+          <h3 className="text-2xl font-bold">{metrics.redWins}</h3>
+          <p className="text-sm text-muted-foreground">Red Team Wins</p>
         </div>
 
         {/* Blue Team Wins */}
-        <div className="bg-white/10 backdrop-blur-lg rounded-lg p-6 border border-white/20 hover:bg-white/15 hover:border-blue-400/50 transition-all cursor-pointer transform hover:scale-105 hover:shadow-xl hover:shadow-blue-500/20">
+        <div className="bg-card rounded-lg p-6 border hover:border-primary/50 transition-all cursor-pointer transform hover:scale-105 hover:shadow-xl">
           <div className="flex items-center justify-between mb-4">
-            <div className="p-3 bg-blue-500/20 rounded-lg">
-              <Shield className="w-6 h-6 text-blue-400" />
+            <div className="p-3 bg-primary/20 rounded-lg">
+              <Shield className="w-6 h-6 text-primary" />
             </div>
-            <span className="text-xs text-blue-400 font-semibold">
+            <span className="text-xs text-primary font-semibold">
               {(metrics.blueDetectionRate * 100).toFixed(1)}%
             </span>
           </div>
-          <h3 className="text-2xl font-bold text-white">{metrics.blueWins}</h3>
-          <p className="text-sm text-gray-300">Blue Team Wins</p>
+          <h3 className="text-2xl font-bold">{metrics.blueWins}</h3>
+          <p className="text-sm text-muted-foreground">Blue Team Wins</p>
         </div>
 
         {/* Evolution Phase */}
-        <div className="bg-white/10 backdrop-blur-lg rounded-lg p-6 border border-white/20 hover:bg-white/15 hover:border-purple-400/50 transition-all cursor-pointer transform hover:scale-105 hover:shadow-xl hover:shadow-purple-500/20">
+        <div className="bg-card rounded-lg p-6 border hover:border-purple-500/50 transition-all cursor-pointer transform hover:scale-105 hover:shadow-xl">
           <div className="flex items-center justify-between mb-4">
             <div className="p-3 bg-purple-500/20 rounded-lg">
-              <TrendingUp className="w-6 h-6 text-purple-400" />
+              <TrendingUp className="w-6 h-6 text-purple-500" />
             </div>
-            <span className="text-xs text-purple-400 font-semibold uppercase">
+            <span className="text-xs text-purple-500 font-semibold uppercase">
               {metrics.currentPhase}
             </span>
           </div>
-          <h3 className="text-2xl font-bold text-white">Active</h3>
-          <p className="text-sm text-gray-300">Evolution Phase</p>
+          <h3 className="text-2xl font-bold">Active</h3>
+          <p className="text-sm text-muted-foreground">Evolution Phase</p>
         </div>
       </div>
 
       {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Real-time Activity */}
-        <div className="lg:col-span-2 bg-white/10 backdrop-blur-lg rounded-lg p-6 border border-white/20">
-          <h2 className="text-xl font-bold text-white mb-4">Real-time Activity</h2>
+        <div className="lg:col-span-2 bg-card rounded-lg p-6 border">
+          <h2 className="text-xl font-bold mb-4">Real-time Activity</h2>
           <div className="space-y-3 max-h-96 overflow-y-auto">
             {realtimeUpdates.map((update, index) => (
               <div
                 key={index}
-                className="flex items-start gap-3 p-3 bg-white/5 rounded-lg border border-white/10 hover:bg-white/10 transition-colors"
+                className="flex items-start gap-3 p-3 bg-accent/50 rounded-lg border hover:bg-accent transition-colors"
               >
-                <div className="p-2 bg-blue-500/20 rounded">
-                  <Activity className="w-4 h-4 text-blue-400" />
+                <div className="p-2 bg-primary/20 rounded">
+                  <Activity className="w-4 h-4 text-primary" />
                 </div>
                 <div className="flex-1">
-                  <p className="text-sm text-white">{update}</p>
-                  <p className="text-xs text-gray-400 mt-1">Just now</p>
+                  <p className="text-sm">{update}</p>
+                  <p className="text-xs text-muted-foreground mt-1">Just now</p>
                 </div>
               </div>
             ))}
@@ -187,59 +187,59 @@ export default function Dashboard() {
         </div>
 
         {/* System Status */}
-        <div className="bg-white/10 backdrop-blur-lg rounded-lg p-6 border border-white/20">
-          <h2 className="text-xl font-bold text-white mb-4">System Status</h2>
+        <div className="bg-card rounded-lg p-6 border">
+          <h2 className="text-xl font-bold mb-4">System Status</h2>
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <CheckCircle className="w-5 h-5 text-green-400" />
-                <span className="text-sm text-white">Cyber Range</span>
+                <CheckCircle className="w-5 h-5 text-green-500" />
+                <span className="text-sm">Cyber Range</span>
               </div>
-              <span className="text-xs bg-green-500/20 text-green-400 px-2 py-1 rounded">
+              <span className="text-xs bg-green-500/20 text-green-500 px-2 py-1 rounded">
                 Online
               </span>
             </div>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <CheckCircle className="w-5 h-5 text-green-400" />
-                <span className="text-sm text-white">Red Team AI</span>
+                <CheckCircle className="w-5 h-5 text-green-500" />
+                <span className="text-sm">Red Team AI</span>
               </div>
-              <span className="text-xs bg-green-500/20 text-green-400 px-2 py-1 rounded">
+              <span className="text-xs bg-green-500/20 text-green-500 px-2 py-1 rounded">
                 Training
               </span>
             </div>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <CheckCircle className="w-5 h-5 text-green-400" />
-                <span className="text-sm text-white">Blue Team AI</span>
+                <CheckCircle className="w-5 h-5 text-green-500" />
+                <span className="text-sm">Blue Team AI</span>
               </div>
-              <span className="text-xs bg-green-500/20 text-green-400 px-2 py-1 rounded">
+              <span className="text-xs bg-green-500/20 text-green-500 px-2 py-1 rounded">
                 Training
               </span>
             </div>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <AlertTriangle className="w-5 h-5 text-yellow-400" />
-                <span className="text-sm text-white">Knowledge Graph</span>
+                <AlertTriangle className="w-5 h-5 text-yellow-500" />
+                <span className="text-sm">Knowledge Graph</span>
               </div>
-              <span className="text-xs bg-yellow-500/20 text-yellow-400 px-2 py-1 rounded">
+              <span className="text-xs bg-yellow-500/20 text-yellow-500 px-2 py-1 rounded">
                 Indexing
               </span>
             </div>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <CheckCircle className="w-5 h-5 text-green-400" />
-                <span className="text-sm text-white">API Gateway</span>
+                <CheckCircle className="w-5 h-5 text-green-500" />
+                <span className="text-sm">API Gateway</span>
               </div>
-              <span className="text-xs bg-green-500/20 text-green-400 px-2 py-1 rounded">
+              <span className="text-xs bg-green-500/20 text-green-500 px-2 py-1 rounded">
                 Healthy
               </span>
             </div>
           </div>
 
           {/* Quick Actions */}
-          <div className="mt-6 pt-6 border-t border-white/10">
-            <h3 className="text-sm font-semibold text-white mb-3">Quick Actions</h3>
+          <div className="mt-6 pt-6 border-t">
+            <h3 className="text-sm font-semibold mb-3">Quick Actions</h3>
             <div className="space-y-2">
               <button
                 onClick={handleStartTraining}
@@ -270,11 +270,11 @@ export default function Dashboard() {
       </div>
 
       {/* Performance Charts Preview */}
-      <div className="mt-6 bg-white/10 backdrop-blur-lg rounded-lg p-6 border border-white/20">
-        <h2 className="text-xl font-bold text-white mb-4">Performance Overview</h2>
+      <div className="mt-6 bg-card rounded-lg p-6 border">
+        <h2 className="text-xl font-bold mb-4">Performance Overview</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="p-4 bg-white/5 rounded-lg">
-            <p className="text-sm text-gray-300 mb-2">Win Rate Trend</p>
+          <div className="p-4 bg-accent/50 rounded-lg">
+            <p className="text-sm text-muted-foreground mb-2">Win Rate Trend</p>
             <div className="h-20 flex items-end gap-1">
               {[0.45, 0.48, 0.52, 0.50, 0.53, 0.52, 0.54].map((val, i) => (
                 <div
@@ -285,8 +285,8 @@ export default function Dashboard() {
               ))}
             </div>
           </div>
-          <div className="p-4 bg-white/5 rounded-lg">
-            <p className="text-sm text-gray-300 mb-2">Detection Rate</p>
+          <div className="p-4 bg-accent/50 rounded-lg">
+            <p className="text-sm text-muted-foreground mb-2">Detection Rate</p>
             <div className="h-20 flex items-end gap-1">
               {[0.42, 0.45, 0.47, 0.48, 0.46, 0.49, 0.48].map((val, i) => (
                 <div
@@ -297,8 +297,8 @@ export default function Dashboard() {
               ))}
             </div>
           </div>
-          <div className="p-4 bg-white/5 rounded-lg">
-            <p className="text-sm text-gray-300 mb-2">Equilibrium Distance</p>
+          <div className="p-4 bg-accent/50 rounded-lg">
+            <p className="text-sm text-muted-foreground mb-2">Equilibrium Distance</p>
             <div className="h-20 flex items-end gap-1">
               {[0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.25].map((val, i) => (
                 <div

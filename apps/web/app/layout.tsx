@@ -10,6 +10,9 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {
   title: 'YUGMĀSTRA - Autonomous Cyber Defense',
   description: 'Autonomous Adversary-Defender Co-Evolution Platform',
+  icons: {
+    icon: '/favicon.svg',
+  },
 };
 
 export default function RootLayout({
