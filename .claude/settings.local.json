@@ -33,7 +33,9 @@
       "Bash(netstat:*)",
       "Bash(findstr:*)",
       "Bash(DATABASE_URL=\"postgresql://yugmastra:yugmastra_dev_password@localhost:5433/yugmastra?schema=public\" npx prisma db push:*)",
-      "Bash(DATABASE_URL=\"postgresql://yugmastra:yugmastra_dev_password@localhost:5433/yugmastra?schema=public\" npx tsx:*)"
+      "Bash(DATABASE_URL=\"postgresql://yugmastra:yugmastra_dev_password@localhost:5433/yugmastra?schema=public\" npx tsx:*)",
+      "Bash(copy:*)",
+      "Bash(del docker-compose.yml)"
     ]
   }
 }

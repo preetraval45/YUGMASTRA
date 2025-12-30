@@ -3,13 +3,14 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, TrendingUp, Swords, Shield, Network, Settings, LogOut, Zap, Lightbulb, Menu, X, User } from 'lucide-react';
+import { Home, TrendingUp, Swords, Shield, Network, Settings, LogOut, Zap, Lightbulb, Menu, X, User, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Logo } from '@/components/logo';
 
 const navItems = [
   { href: '/dashboard', icon: Home, label: 'Dashboard' },
-  { href: '/live-battle', icon: Zap, label: 'Live Battle', highlight: true },
+  { href: '/ai-assistant', icon: Sparkles, label: 'AI Assistant', highlight: true },
+  { href: '/live-battle', icon: Zap, label: 'Live Battle' },
   { href: '/recommendations', icon: Lightbulb, label: 'Recommendations' },
   { href: '/evolution', icon: TrendingUp, label: 'Evolution' },
   { href: '/attacks', icon: Swords, label: 'Attacks' },
