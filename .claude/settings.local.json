@@ -56,7 +56,18 @@
       "Bash(npm run dev:*)",
       "Bash(npm run start:*)",
       "Bash(timeout /t 5 /nobreak)",
-      "Bash(python clean_ai_indicators.py:*)"
+      "Bash(python clean_ai_indicators.py:*)",
+      "Bash(docker-compose stop:*)",
+      "Bash(docker-compose start:*)",
+      "Bash(docker start:*)",
+      "Bash(docker-compose rm:*)",
+      "Bash(docker restart:*)",
+      "Bash(timeout /t 10 /nobreak)",
+      "Bash(docker images:*)",
+      "Bash(docker-compose logs:*)",
+      "Bash(if exist page.tsx del page.tsx)",
+      "Bash(ren:*)",
+      "Bash(dir)"
     ]
   }
 }

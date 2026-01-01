@@ -46,9 +46,9 @@ export class ErrorBoundary extends Component<Props, State> {
       this.props.onError(error, errorInfo);
     }
     if (typeof window !== 'undefined') {
-      // @ts-ignore
+      // @ts-expect-error - Sentry may not be defined
       if (window.Sentry) {
-        // @ts-ignore
+        // @ts-expect-error - Sentry API
         window.Sentry.captureException(error, { extra: errorInfo });
       }
     }
@@ -138,9 +138,11 @@ export function withErrorBoundary<P extends object>(
   Component: React.ComponentType<P>,
   fallback?: ReactNode
 ) {
-  return (props: P) => (
+  const WrappedComponent = (props: P) => (
     <ErrorBoundary fallback={fallback}>
       <Component {...props} />
     </ErrorBoundary>
   );
+  WrappedComponent.displayName = `withErrorBoundary(${Component.displayName || Component.name || 'Component'})`;
+  return WrappedComponent;
 }

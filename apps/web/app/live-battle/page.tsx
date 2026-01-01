@@ -211,7 +211,7 @@ export default function LiveBattlePage() {
       case 'low':
         return 'text-blue-600 bg-blue-500/20 border-blue-500/30';
       default:
-        return 'text-gray-600 bg-gray-500/20 border-gray-500/30';
+        return 'text-muted-foreground bg-muted/50 border-border';
     }
   };
 

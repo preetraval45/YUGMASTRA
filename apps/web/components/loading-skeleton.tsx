@@ -99,16 +99,17 @@ export function GraphSkeleton() {
             const x = Math.cos(angle) * radius;
             const y = Math.sin(angle) * radius;
             return (
-              <Skeleton
+              <div
                 key={i}
-                variant="circular"
-                className="w-16 h-16 absolute"
+                className="absolute"
                 style={{
                   left: `calc(50% + ${x}px)`,
                   top: `calc(50% + ${y}px)`,
                   transform: 'translate(-50%, -50%)',
                 }}
-              />
+              >
+                <Skeleton variant="circular" className="w-16 h-16" />
+              </div>
             );
           })}
         </div>

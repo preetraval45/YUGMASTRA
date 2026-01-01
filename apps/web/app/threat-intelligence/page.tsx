@@ -92,7 +92,7 @@ export default function ThreatIntelligencePage() {
       case 'high': return 'bg-orange-500 text-white';
       case 'medium': return 'bg-yellow-500 text-black';
       case 'low': return 'bg-blue-500 text-white';
-      default: return 'bg-gray-500 text-white';
+      default: return 'bg-muted text-foreground';
     }
   };
 
@@ -113,7 +113,7 @@ export default function ThreatIntelligencePage() {
               "px-4 py-2 rounded-lg font-semibold transition-all",
               realTimeMode
                 ? "bg-green-500 text-white animate-pulse"
-                : "bg-gray-700 text-gray-300"
+                : "bg-muted text-muted-foreground"
             )}
           >
             {realTimeMode ? '🔴 LIVE' : 'Paused'}

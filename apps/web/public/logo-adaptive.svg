@@ -1,0 +1,294 @@
+<svg width="400" height="400" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Unique Multi-Stop Gradients -->
+    <linearGradient id="adaptive-primary" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563eb"/>
+      <stop offset="25%" stop-color="#4f46e5"/>
+      <stop offset="50%" stop-color="#7c3aed"/>
+      <stop offset="75%" stop-color="#a855f7"/>
+      <stop offset="100%" stop-color="#d946ef"/>
+    </linearGradient>
+
+    <linearGradient id="adaptive-accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#60a5fa"/>
+      <stop offset="50%" stop-color="#c084fc"/>
+      <stop offset="100%" stop-color="#f472b6"/>
+    </linearGradient>
+
+    <linearGradient id="adaptive-shield-light" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#8b5cf6" stop-opacity="0.05"/>
+    </linearGradient>
+
+    <!-- Radial Glow -->
+    <radialGradient id="adaptive-glow" cx="50%" cy="40%">
+      <stop offset="0%" stop-color="#a78bfa" stop-opacity="0.8"/>
+      <stop offset="40%" stop-color="#7c3aed" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="transparent" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Cyber Circuit Pattern -->
+    <pattern id="circuit-pattern" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 0 20 L 20 20 L 20 0" stroke="url(#adaptive-primary)" stroke-width="0.5" fill="none" opacity="0.3"/>
+      <circle cx="20" cy="20" r="1.5" fill="url(#adaptive-accent)" opacity="0.4"/>
+    </pattern>
+
+    <!-- Advanced Filters -->
+    <filter id="adaptive-glow-filter">
+      <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <filter id="adaptive-shadow">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-opacity="0.4"/>
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity="0.3"/>
+    </filter>
+
+    <filter id="adaptive-inner-glow">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feComposite in="blur" in2="SourceGraphic" operator="atop"/>
+    </filter>
+
+    <!-- Animated Pulse (optional for web) -->
+    <radialGradient id="pulse-gradient">
+      <stop offset="0%" stop-color="#a78bfa" stop-opacity="0.6">
+        <animate attributeName="stop-opacity" values="0.6;0.9;0.6" dur="2s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" stop-color="#7c3aed" stop-opacity="0">
+        <animate attributeName="stop-opacity" values="0;0.3;0" dur="2s" repeatCount="indefinite"/>
+      </stop>
+    </radialGradient>
+  </defs>
+
+  <!-- Background Glow -->
+  <ellipse cx="200" cy="200" rx="180" ry="180" fill="url(#adaptive-glow)" opacity="0.6"/>
+
+  <!-- Pulse Animation Layer -->
+  <ellipse cx="200" cy="200" rx="160" ry="160" fill="url(#pulse-gradient)"/>
+
+  <!-- Main Logo Container -->
+  <g transform="translate(200, 200)">
+
+    <!-- Outer Hexagonal Shield Frame -->
+    <g opacity="0.3">
+      <path
+        d="M 0 -140 L 70 -105 L 70 -35 L 0 0 L -70 -35 L -70 -105 Z"
+        stroke="url(#adaptive-primary)"
+        stroke-width="1.5"
+        fill="none"
+        opacity="0.5"
+      />
+    </g>
+
+    <!-- Pentagon Shield Base -->
+    <path
+      d="M 0 -120 L 85 -90 L 92 10 C 92 58, 65 105, 0 130 C -65 105, -92 58, -92 10 L -85 -90 Z"
+      fill="url(#adaptive-shield-light)"
+      stroke="url(#adaptive-primary)"
+      stroke-width="5"
+      opacity="0.85"
+      filter="url(#adaptive-shadow)"
+    />
+
+    <!-- Inner Shield Layers -->
+    <path
+      d="M 0 -100 L 70 -75 L 76 10 C 76 48, 54 87, 0 108 C -54 87, -76 48, -76 10 L -70 -75 Z"
+      fill="none"
+      stroke="url(#adaptive-accent)"
+      stroke-width="3"
+      opacity="0.6"
+    />
+
+    <path
+      d="M 0 -82 L 56 -60 L 60 10 C 60 38, 42 70, 0 88 C -42 70, -60 38, -60 10 L -56 -60 Z"
+      fill="none"
+      stroke="url(#adaptive-primary)"
+      stroke-width="2"
+      opacity="0.4"
+    />
+
+    <!-- Circuit Pattern Background -->
+    <rect x="-80" y="-100" width="160" height="210" fill="url(#circuit-pattern)" opacity="0.15"/>
+
+    <!-- Geometric Neural Network Grid -->
+    <g opacity="0.25" stroke="url(#adaptive-primary)" stroke-width="1.5">
+      <!-- Vertical Lines -->
+      <path d="M -50 -80 L -50 90"/>
+      <path d="M 0 -100 L 0 110"/>
+      <path d="M 50 -80 L 50 90"/>
+
+      <!-- Horizontal Lines -->
+      <path d="M -70 -50 L 70 -50"/>
+      <path d="M -75 0 L 75 0"/>
+      <path d="M -70 50 L 70 50"/>
+
+      <!-- Neural Nodes -->
+      <circle cx="-50" cy="-50" r="4" fill="url(#adaptive-accent)" opacity="0.6"/>
+      <circle cx="0" cy="-50" r="4" fill="url(#adaptive-accent)" opacity="0.6"/>
+      <circle cx="50" cy="-50" r="4" fill="url(#adaptive-accent)" opacity="0.6"/>
+      <circle cx="-50" cy="0" r="4" fill="url(#adaptive-accent)" opacity="0.6"/>
+      <circle cx="50" cy="0" r="4" fill="url(#adaptive-accent)" opacity="0.6"/>
+      <circle cx="-40" cy="50" r="4" fill="url(#adaptive-accent)" opacity="0.6"/>
+      <circle cx="40" cy="50" r="4" fill="url(#adaptive-accent)" opacity="0.6"/>
+    </g>
+
+    <!-- Unique Y Design - Sword & AI Fusion -->
+    <g filter="url(#adaptive-glow-filter)">
+
+      <!-- Y Outer Mega Glow -->
+      <path
+        d="M -38 -60 L 0 -18 L 38 -60 M 0 -18 L 0 75"
+        stroke="url(#adaptive-accent)"
+        stroke-width="32"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        opacity="0.35"
+      />
+
+      <!-- Y Main Structure - Thick Bold -->
+      <g filter="url(#adaptive-shadow)">
+        <!-- Left Arm with Blade Effect -->
+        <path
+          d="M -38 -60 L 0 -18"
+          stroke="url(#adaptive-primary)"
+          stroke-width="16"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+
+        <!-- Right Arm with Blade Effect -->
+        <path
+          d="M 38 -60 L 0 -18"
+          stroke="url(#adaptive-primary)"
+          stroke-width="16"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+
+        <!-- Vertical Stem - Powerful -->
+        <path
+          d="M 0 -18 L 0 75"
+          stroke="url(#adaptive-primary)"
+          stroke-width="16"
+          stroke-linecap="round"
+        />
+      </g>
+
+      <!-- Inner Highlights - Premium Look -->
+      <path d="M -34 -54 L -4 -22" stroke="#ffffff" stroke-width="5" stroke-linecap="round" opacity="0.6"/>
+      <path d="M 34 -54 L 4 -22" stroke="#ffffff" stroke-width="5" stroke-linecap="round" opacity="0.6"/>
+      <path d="M 0 -15 L 0 68" stroke="#ffffff" stroke-width="5" stroke-linecap="round" opacity="0.5"/>
+
+      <!-- Cyber Edge Highlights -->
+      <path d="M -36 -58 L -2 -20" stroke="url(#adaptive-accent)" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
+      <path d="M 36 -58 L 2 -20" stroke="url(#adaptive-accent)" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
+
+      <!-- Accent Wing Lines - Unique -->
+      <g opacity="0.85">
+        <!-- Left Wing -->
+        <path d="M -50 -72 L -40 -62" stroke="url(#adaptive-accent)" stroke-width="8" stroke-linecap="round"/>
+        <path d="M -45 -68 L -38 -61" stroke="url(#adaptive-accent)" stroke-width="4" stroke-linecap="round" opacity="0.7"/>
+        <path d="M -52 -74 L -44 -66" stroke="url(#adaptive-primary)" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+
+        <!-- Right Wing -->
+        <path d="M 50 -72 L 40 -62" stroke="url(#adaptive-accent)" stroke-width="8" stroke-linecap="round"/>
+        <path d="M 45 -68 L 38 -61" stroke="url(#adaptive-accent)" stroke-width="4" stroke-linecap="round" opacity="0.7"/>
+        <path d="M 52 -74 L 44 -66" stroke="url(#adaptive-primary)" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+      </g>
+
+      <!-- Central AI Core - Multi-Layer -->
+      <circle cx="0" cy="-18" r="14" fill="url(#adaptive-accent)" opacity="0.5" filter="url(#adaptive-inner-glow)"/>
+      <circle cx="0" cy="-18" r="11" fill="url(#adaptive-primary)" filter="url(#adaptive-glow-filter)"/>
+      <circle cx="0" cy="-18" r="7" fill="#ffffff" opacity="0.95"/>
+      <circle cx="0" cy="-18" r="5" fill="url(#adaptive-accent)" opacity="0.8"/>
+      <circle cx="0" cy="-18" r="2.5" fill="#ffffff" opacity="1"/>
+
+      <!-- Core Pulse Ring -->
+      <circle cx="0" cy="-18" r="9" fill="none" stroke="url(#adaptive-accent)" stroke-width="1" opacity="0.6">
+        <animate attributeName="r" values="9;12;9" dur="2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.6;0.2;0.6" dur="2s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+
+    <!-- Tech Corner Frames - HUD Style -->
+    <g opacity="0.75" stroke="url(#adaptive-primary)" stroke-width="5" stroke-linecap="round">
+      <!-- Top Left -->
+      <path d="M -85 -85 L -85 -70 M -85 -85 L -70 -85"/>
+      <!-- Top Right -->
+      <path d="M 85 -85 L 85 -70 M 85 -85 L 70 -85"/>
+      <!-- Bottom Left -->
+      <path d="M -85 110 L -85 95 M -85 110 L -70 110"/>
+      <!-- Bottom Right -->
+      <path d="M 85 110 L 85 95 M 85 110 L 70 110"/>
+    </g>
+
+    <!-- Corner Inner Accent -->
+    <g opacity="0.6" stroke="url(#adaptive-accent)" stroke-width="2.5" stroke-linecap="round">
+      <path d="M -80 -80 L -80 -72 M -80 -80 L -72 -80"/>
+      <path d="M 80 -80 L 80 -72 M 80 -80 L 72 -80"/>
+      <path d="M -80 105 L -80 97 M -80 105 L -72 105"/>
+      <path d="M 80 105 L 80 97 M 80 105 L 72 105"/>
+    </g>
+
+    <!-- Data Flow Lines - Cyber Connections -->
+    <g opacity="0.5" stroke="url(#adaptive-accent)" stroke-width="2.5" stroke-dasharray="6,6">
+      <path d="M -70 -35 L 0 -5" filter="url(#adaptive-inner-glow)">
+        <animate attributeName="stroke-dashoffset" values="0;12;0" dur="3s" repeatCount="indefinite"/>
+      </path>
+      <path d="M 70 -35 L 0 -5" filter="url(#adaptive-inner-glow)">
+        <animate attributeName="stroke-dashoffset" values="0;12;0" dur="3s" repeatCount="indefinite"/>
+      </path>
+      <path d="M -60 60 L 0 30" filter="url(#adaptive-inner-glow)">
+        <animate attributeName="stroke-dashoffset" values="0;12;0" dur="3s" repeatCount="indefinite"/>
+      </path>
+      <path d="M 60 60 L 0 30" filter="url(#adaptive-inner-glow)">
+        <animate attributeName="stroke-dashoffset" values="0;12;0" dur="3s" repeatCount="indefinite"/>
+      </path>
+    </g>
+
+    <!-- Data Nodes - Glowing Connection Points -->
+    <g opacity="0.65">
+      <circle cx="-70" cy="-35" r="5" fill="url(#adaptive-accent)" filter="url(#adaptive-glow-filter)"/>
+      <circle cx="-70" cy="-35" r="2.5" fill="#ffffff"/>
+
+      <circle cx="70" cy="-35" r="5" fill="url(#adaptive-accent)" filter="url(#adaptive-glow-filter)"/>
+      <circle cx="70" cy="-35" r="2.5" fill="#ffffff"/>
+
+      <circle cx="-60" cy="60" r="5" fill="url(#adaptive-accent)" filter="url(#adaptive-glow-filter)"/>
+      <circle cx="-60" cy="60" r="2.5" fill="#ffffff"/>
+
+      <circle cx="60" cy="60" r="5" fill="url(#adaptive-accent)" filter="url(#adaptive-glow-filter)"/>
+      <circle cx="60" cy="60" r="2.5" fill="#ffffff"/>
+    </g>
+
+    <!-- Binary Code Pattern - AI Theme -->
+    <g opacity="0.2" font-family="'JetBrains Mono', 'Courier New', monospace" font-size="12" fill="url(#adaptive-primary)" font-weight="700">
+      <text x="-85" y="-60" text-anchor="middle">01</text>
+      <text x="85" y="-60" text-anchor="middle">11</text>
+      <text x="-75" y="85" text-anchor="middle">10</text>
+      <text x="75" y="85" text-anchor="middle">00</text>
+    </g>
+
+    <!-- Small Data Indicators -->
+    <g opacity="0.35">
+      <rect x="-85" y="-15" width="8" height="2" fill="url(#adaptive-accent)" rx="1"/>
+      <rect x="-85" y="-10" width="12" height="2" fill="url(#adaptive-accent)" rx="1"/>
+      <rect x="-85" y="-5" width="6" height="2" fill="url(#adaptive-accent)" rx="1"/>
+
+      <rect x="77" y="-15" width="8" height="2" fill="url(#adaptive-accent)" rx="1"/>
+      <rect x="73" y="-10" width="12" height="2" fill="url(#adaptive-accent)" rx="1"/>
+      <rect x="79" y="-5" width="6" height="2" fill="url(#adaptive-accent)" rx="1"/>
+    </g>
+
+  </g>
+
+  <!-- Outer Glow Ring -->
+  <circle cx="200" cy="200" r="195" fill="none" stroke="url(#adaptive-primary)" stroke-width="2" opacity="0.2">
+    <animate attributeName="r" values="195;198;195" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+</svg>

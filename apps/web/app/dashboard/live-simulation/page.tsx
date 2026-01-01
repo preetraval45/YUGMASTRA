@@ -248,15 +248,15 @@ export default function LiveSimulationPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-accent/20 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white p-6">
       <div className="max-w-[1800px] mx-auto space-y-6">
 
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent mb-2">
+            <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-2">
               Live Cyber Warfare Simulation
             </h1>
-            <p className="text-muted-foreground text-lg">Real-time Attack & Defense Battle - Multiple AI Agents Engaged</p>
+            <p className="text-gray-400 text-lg">Real-time Attack & Defense Battle - Multiple AI Agents Engaged</p>
           </div>
           <div className="flex gap-3">
             {!isSimulationRunning ? (
@@ -340,19 +340,19 @@ export default function LiveSimulationPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-          <Card className="lg:col-span-2 bg-card/50 backdrop-blur-lg border">
+          <Card className="lg:col-span-2 bg-gray-900/50 border-gray-700">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-foreground">
-                <Activity className="h-5 w-5 text-blue-500" />
+              <CardTitle className="flex items-center gap-2">
+                <Activity className="h-5 w-5 text-blue-400" />
                 Real-Time Attack vs Defense Battle
               </CardTitle>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={300}>
                 <AreaChart data={attackData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                  <XAxis dataKey="time" stroke="hsl(var(--muted-foreground))" />
-                  <YAxis stroke="hsl(var(--muted-foreground))" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+                  <XAxis dataKey="time" stroke="#9ca3af" />
+                  <YAxis stroke="#9ca3af" />
                   <Tooltip
                     contentStyle={{ backgroundColor: '#1f2937', border: '1px solid #374151' }}
                     labelStyle={{ color: '#fff' }}
@@ -366,10 +366,10 @@ export default function LiveSimulationPage() {
             </CardContent>
           </Card>
 
-          <Card className="bg-card/50 backdrop-blur-lg border">
+          <Card className="bg-gray-900/50 border-gray-700">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-foreground">
-                <Users className="h-5 w-5 text-purple-500" />
+              <CardTitle className="flex items-center gap-2">
+                <Users className="h-5 w-5 text-purple-400" />
                 Active Agents ({agents.length})
               </CardTitle>
             </CardHeader>
@@ -377,14 +377,14 @@ export default function LiveSimulationPage() {
               <ScrollArea className="h-[280px]">
                 <div className="space-y-2">
                   {agents.map(agent => (
-                    <div key={agent.id} className="p-3 rounded-lg bg-accent/50 border hover:border-primary/50 transition-colors">
+                    <div key={agent.id} className="p-3 rounded-lg bg-gray-800/50 border border-gray-700 hover:border-gray-600 transition-colors">
                       <div className="flex items-center justify-between mb-2">
-                        <span className="font-semibold text-sm text-foreground">{agent.name}</span>
+                        <span className="font-semibold text-sm">{agent.name}</span>
                         <Badge className={`${agentTypeColors[agent.type]} text-xs`}>
                           {agent.status}
                         </Badge>
                       </div>
-                      <div className="text-xs text-muted-foreground">{agent.type}</div>
+                      <div className="text-xs text-gray-400">{agent.type}</div>
                       {agent.attacks !== undefined && (
                         <div className="text-xs text-red-400 mt-1">
                           {agent.attacks} attacks, {agent.success} successful
@@ -405,17 +405,17 @@ export default function LiveSimulationPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-          <Card className="bg-card/50 backdrop-blur-lg border">
+          <Card className="bg-gray-900/50 border-gray-700">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-foreground">
-                <Terminal className="h-5 w-5 text-green-500" />
+              <CardTitle className="flex items-center gap-2">
+                <Terminal className="h-5 w-5 text-green-400" />
                 Command Terminal - User Intervention
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div
                 ref={terminalRef}
-                className="bg-black dark:bg-gray-950 rounded-lg p-4 font-mono text-sm h-[300px] overflow-y-auto mb-3 border border-green-500/30"
+                className="bg-black rounded-lg p-4 font-mono text-sm h-[300px] overflow-y-auto mb-3 border border-green-500/30"
               >
                 {commandHistory.map((line, idx) => (
                   <div key={idx} className={line.startsWith('>') ? 'text-green-400' : 'text-gray-300'}>
@@ -433,7 +433,7 @@ export default function LiveSimulationPage() {
                   onChange={(e) => setCurrentCommand(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && executeCommand(currentCommand)}
                   placeholder="Type 'help' for commands"
-                  className="bg-background border font-mono text-green-500"
+                  className="bg-gray-800 border-gray-700 font-mono text-green-400"
                 />
                 <Button onClick={() => executeCommand(currentCommand)} className="bg-green-600 hover:bg-green-700">
                   Execute
@@ -442,10 +442,10 @@ export default function LiveSimulationPage() {
             </CardContent>
           </Card>
 
-          <Card className="bg-card/50 backdrop-blur-lg border">
+          <Card className="bg-gray-900/50 border-gray-700">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-foreground">
-                <Zap className="h-5 w-5 text-yellow-500" />
+              <CardTitle className="flex items-center gap-2">
+                <Zap className="h-5 w-5 text-yellow-400" />
                 Live Event Stream
               </CardTitle>
             </CardHeader>
@@ -487,19 +487,19 @@ export default function LiveSimulationPage() {
           </Card>
         </div>
 
-        <Card className="bg-card/50 backdrop-blur-lg border">
+        <Card className="bg-gray-900/50 border-gray-700">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-foreground">
-              <AlertTriangle className="h-5 w-5 text-orange-500" />
+            <CardTitle className="flex items-center gap-2">
+              <AlertTriangle className="h-5 w-5 text-orange-400" />
               Real-World Cyber Incidents - Learn from Actual Attacks
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {realWorldIncidents.map(incident => (
-                <div key={incident.id} className="p-4 rounded-lg bg-accent/50 border">
+                <div key={incident.id} className="p-4 rounded-lg bg-gray-800/50 border border-gray-700">
                   <div className="flex items-start justify-between mb-3">
-                    <h3 className="font-bold text-lg text-foreground">{incident.title}</h3>
+                    <h3 className="font-bold text-lg">{incident.title}</h3>
                     <Badge className={
                       incident.severity === 'CRITICAL' ? 'bg-red-500' :
                       incident.severity === 'HIGH' ? 'bg-orange-500' : 'bg-yellow-500'
@@ -509,40 +509,40 @@ export default function LiveSimulationPage() {
                   </div>
 
                   <div className="space-y-2 text-sm">
-                    <div><span className="text-muted-foreground">Date:</span> <span className="text-foreground">{incident.date}</span></div>
-                    <div><span className="text-muted-foreground">Status:</span> <Badge variant="outline" className="ml-2">{incident.status}</Badge></div>
-                    <div><span className="text-muted-foreground">Attacker:</span> <span className="text-red-500">{incident.attacker}</span></div>
-                    <div><span className="text-muted-foreground">Target:</span> <span className="text-foreground">{incident.target}</span></div>
-                    <div><span className="text-muted-foreground">Technique:</span> <span className="text-purple-500">{incident.technique}</span></div>
+                    <div><span className="text-gray-400">Date:</span> <span className="text-white">{incident.date}</span></div>
+                    <div><span className="text-gray-400">Status:</span> <Badge variant="outline" className="ml-2">{incident.status}</Badge></div>
+                    <div><span className="text-gray-400">Attacker:</span> <span className="text-red-400">{incident.attacker}</span></div>
+                    <div><span className="text-gray-400">Target:</span> <span className="text-white">{incident.target}</span></div>
+                    <div><span className="text-gray-400">Technique:</span> <span className="text-purple-400">{incident.technique}</span></div>
 
-                    <div className="pt-2 border-t mt-3">
-                      <div className="font-semibold text-yellow-500 mb-1">How it Started:</div>
-                      <div className="text-muted-foreground text-xs">{incident.technique} was used to gain initial access</div>
+                    <div className="pt-2 border-t border-gray-700 mt-3">
+                      <div className="font-semibold text-yellow-400 mb-1">How it Started:</div>
+                      <div className="text-gray-300 text-xs">{incident.technique} was used to gain initial access</div>
                     </div>
 
                     <div>
-                      <div className="font-semibold text-orange-500 mb-1">Impact:</div>
-                      <div className="text-muted-foreground text-xs">{incident.impact}</div>
+                      <div className="font-semibold text-orange-400 mb-1">Impact:</div>
+                      <div className="text-gray-300 text-xs">{incident.impact}</div>
                     </div>
 
                     <div>
-                      <div className="font-semibold text-cyan-500 mb-1">Detection Method:</div>
-                      <div className="text-muted-foreground text-xs">{incident.detection}</div>
+                      <div className="font-semibold text-cyan-400 mb-1">Detection Method:</div>
+                      <div className="text-gray-300 text-xs">{incident.detection}</div>
                     </div>
 
                     <div>
-                      <div className="font-semibold text-blue-500 mb-1">Mitigation:</div>
-                      <div className="text-muted-foreground text-xs">{incident.mitigation}</div>
+                      <div className="font-semibold text-blue-400 mb-1">Mitigation:</div>
+                      <div className="text-gray-300 text-xs">{incident.mitigation}</div>
                     </div>
 
                     <div>
-                      <div className="font-semibold text-green-500 mb-1">Resolution:</div>
-                      <div className="text-muted-foreground text-xs">{incident.resolution}</div>
+                      <div className="font-semibold text-green-400 mb-1">Resolution:</div>
+                      <div className="text-gray-300 text-xs">{incident.resolution}</div>
                     </div>
 
                     <div>
-                      <div className="font-semibold text-purple-500 mb-1">Lessons Learned:</div>
-                      <div className="text-muted-foreground text-xs">{incident.lessons}</div>
+                      <div className="font-semibold text-purple-400 mb-1">Lessons Learned:</div>
+                      <div className="text-gray-300 text-xs">{incident.lessons}</div>
                     </div>
                   </div>
                 </div>

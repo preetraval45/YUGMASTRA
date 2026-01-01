@@ -321,7 +321,7 @@ export default function SettingsPage() {
         {/* Delete Confirmation Dialog */}
         {showConfirmDelete && (
           <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 backdrop-blur-sm animate-in fade-in">
-            <div className="bg-gray-900 border border-red-500/50 rounded-lg p-6 max-w-md mx-4 animate-in zoom-in">
+            <div className="bg-card border border-red-500/50 rounded-lg p-6 max-w-md mx-4 animate-in zoom-in">
               <div className="flex items-center gap-3 mb-4">
                 <AlertCircle className="w-8 h-8 text-red-500" />
                 <h3 className="text-2xl font-bold ">Confirm Deletion</h3>

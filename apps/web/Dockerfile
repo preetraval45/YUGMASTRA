@@ -18,6 +18,9 @@ COPY apps/web/.env ./apps/web/.env
 # Build application
 WORKDIR /app/apps/web
 RUN npx prisma generate
+# Skip static generation for API routes during build
+ENV SKIP_ENV_VALIDATION=true \
+    DATABASE_URL="postgresql://yugmastra:yugmastra_dev_password@postgres:5433/yugmastra?schema=public"
 RUN npm run build
 
 # Production stage

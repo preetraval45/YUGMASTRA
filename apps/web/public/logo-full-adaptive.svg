@@ -1,0 +1,216 @@
+<svg width="700" height="250" viewBox="0 0 700 250" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Premium Gradients - Same as logo-adaptive -->
+    <linearGradient id="full-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563eb"/>
+      <stop offset="25%" stop-color="#4f46e5"/>
+      <stop offset="50%" stop-color="#7c3aed"/>
+      <stop offset="75%" stop-color="#a855f7"/>
+      <stop offset="100%" stop-color="#d946ef"/>
+    </linearGradient>
+
+    <linearGradient id="full-accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#60a5fa"/>
+      <stop offset="50%" stop-color="#c084fc"/>
+      <stop offset="100%" stop-color="#f472b6"/>
+    </linearGradient>
+
+    <radialGradient id="full-glow" cx="50%" cy="40%">
+      <stop offset="0%" stop-color="#a78bfa" stop-opacity="0.8"/>
+      <stop offset="40%" stop-color="#7c3aed" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="transparent" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Animated Pulse -->
+    <radialGradient id="full-pulse" cx="50%" cy="50%">
+      <stop offset="0%" stop-color="#a78bfa" stop-opacity="0.6">
+        <animate attributeName="stop-opacity" values="0.6;0.9;0.6" dur="2s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" stop-color="#7c3aed" stop-opacity="0">
+        <animate attributeName="stop-opacity" values="0;0.3;0" dur="2s" repeatCount="indefinite"/>
+      </stop>
+    </radialGradient>
+
+    <filter id="full-shadow">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-opacity="0.4"/>
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity="0.3"/>
+    </filter>
+
+    <filter id="full-glow-filter">
+      <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <filter id="full-inner-glow">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feComposite in="blur" in2="SourceGraphic" operator="atop"/>
+    </filter>
+
+    <filter id="text-shadow">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+
+  <!-- Background Glow - Enhanced -->
+  <ellipse cx="125" cy="125" rx="110" ry="110" fill="url(#full-glow)" opacity="0.6"/>
+
+  <!-- Pulse Animation Layer -->
+  <ellipse cx="125" cy="125" rx="95" ry="95" fill="url(#full-pulse)"/>
+
+  <!-- Main Logo Icon -->
+  <g transform="translate(125, 125)">
+    <!-- Inner Glow Circle -->
+    <circle cx="0" cy="0" r="70" fill="url(#full-glow)" opacity="0.4"/>
+
+    <!-- Shield with Glow -->
+    <path
+      d="M0 -85 L55 -63 L60 8 C60 45, 42 72, 0 90 C-42 72, -60 45, -60 8 L-55 -63 Z"
+      fill="none"
+      stroke="url(#full-gradient)"
+      stroke-width="4.5"
+      opacity="0.8"
+      filter="url(#full-shadow)"
+    />
+
+    <!-- Shield Inner Glow -->
+    <path
+      d="M0 -75 L48 -56 L52 8 C52 38, 36 63, 0 78 C-36 63, -52 38, -52 8 L-48 -56 Z"
+      fill="none"
+      stroke="url(#full-accent)"
+      stroke-width="2"
+      opacity="0.4"
+    />
+
+    <!-- Y Letter -->
+    <g filter="url(#full-glow-filter)">
+      <!-- Y Outer Glow -->
+      <path
+        d="M -25 -45 L 0 -12 L 25 -45 M 0 -12 L 0 50"
+        stroke="url(#full-accent)"
+        stroke-width="20"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        opacity="0.35"
+      />
+
+      <!-- Main Y -->
+      <path
+        d="M -25 -45 L 0 -12 L 25 -45 M 0 -12 L 0 50"
+        stroke="url(#full-gradient)"
+        stroke-width="13"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        filter="url(#full-shadow)"
+      />
+
+      <!-- Highlights -->
+      <path d="M -22 -40 L -3 -15" stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity="0.55"/>
+      <path d="M 22 -40 L 3 -15" stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity="0.55"/>
+
+      <!-- Core with Enhanced Glow -->
+      <circle cx="0" cy="-12" r="11" fill="url(#full-accent)" opacity="0.5" filter="url(#full-glow-filter)"/>
+      <circle cx="0" cy="-12" r="9" fill="url(#full-gradient)" filter="url(#full-glow-filter)"/>
+      <circle cx="0" cy="-12" r="6" fill="#ffffff" opacity="0.98"/>
+      <circle cx="0" cy="-12" r="3.5" fill="url(#full-accent)" opacity="0.75"/>
+    </g>
+
+    <!-- Corner Brackets with Glow -->
+    <g opacity="0.65" stroke="url(#full-gradient)" stroke-width="4.5" stroke-linecap="round" filter="url(#full-glow-filter)">
+      <path d="M -52 -52 L -52 -45 M -52 -52 L -45 -52"/>
+      <path d="M 52 -52 L 52 -45 M 52 -52 L 45 -52"/>
+      <path d="M -52 75 L -52 68 M -52 75 L -45 75"/>
+      <path d="M 52 75 L 52 68 M 52 75 L 45 75"/>
+    </g>
+
+    <!-- Corner Inner Accents -->
+    <g opacity="0.45" stroke="url(#full-accent)" stroke-width="2" stroke-linecap="round">
+      <path d="M -48 -48 L -48 -43 M -48 -48 L -43 -48"/>
+      <path d="M 48 -48 L 48 -43 M 48 -48 L 43 -48"/>
+      <path d="M -48 71 L -48 66 M -48 71 L -43 71"/>
+      <path d="M 48 71 L 48 66 M 48 71 L 43 71"/>
+    </g>
+  </g>
+
+  <!-- Text Content -->
+  <g transform="translate(240, 125)">
+    <!-- YUGMĀSTRA Title -->
+    <text
+      x="0"
+      y="0"
+      font-family="'Inter', 'Segoe UI', system-ui, sans-serif"
+      font-size="60"
+      font-weight="800"
+      letter-spacing="-1.5"
+      fill="url(#full-gradient)"
+      filter="url(#text-shadow)"
+    >
+      YUGMĀSTRA
+    </text>
+
+    <!-- Title Glow -->
+    <text
+      x="0"
+      y="0"
+      font-family="'Inter', 'Segoe UI', system-ui, sans-serif"
+      font-size="60"
+      font-weight="800"
+      letter-spacing="-1.5"
+      fill="none"
+      stroke="url(#full-accent)"
+      stroke-width="0.5"
+      opacity="0.5"
+    >
+      YUGMĀSTRA
+    </text>
+
+    <!-- Tagline -->
+    <text
+      x="2"
+      y="28"
+      font-family="'Inter', 'Segoe UI', system-ui, sans-serif"
+      font-size="15"
+      font-weight="600"
+      letter-spacing="3.5"
+      fill="url(#full-accent)"
+      opacity="0.85"
+    >
+      AI CYBER WARFARE PLATFORM
+    </text>
+
+    <!-- Decorative Line -->
+    <line
+      x1="0"
+      y1="42"
+      x2="240"
+      y2="42"
+      stroke="url(#full-gradient)"
+      stroke-width="2"
+      opacity="0.5"
+    />
+
+    <!-- Subtitle -->
+    <text
+      x="2"
+      y="62"
+      font-family="'Inter', 'Segoe UI', system-ui, sans-serif"
+      font-size="12"
+      font-weight="500"
+      letter-spacing="0.8"
+      opacity="0.7"
+    >
+      <tspan fill="url(#full-gradient)">Autonomous Adversary-Defender Co-Evolution</tspan>
+    </text>
+  </g>
+
+  <!-- Corner Accents -->
+  <g opacity="0.15" font-family="'Courier New', monospace" font-size="9" fill="url(#full-accent)">
+    <text x="20" y="20">01</text>
+    <text x="675" y="20">11</text>
+    <text x="20" y="240">10</text>
+    <text x="675" y="240">00</text>
+  </g>
+</svg>

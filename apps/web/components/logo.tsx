@@ -17,17 +17,17 @@ export function Logo({
   variant = 'default',
 }: LogoProps) {
   const sizeClasses = {
-    sm: 'h-6 w-6',
-    md: 'h-8 w-8',
-    lg: 'h-12 w-12',
-    xl: 'h-16 w-16',
+    sm: 'h-8 w-8',
+    md: 'h-12 w-12',
+    lg: 'h-16 w-16',
+    xl: 'h-24 w-24',
   };
 
   const textSizeClasses = {
-    sm: 'text-lg',
-    md: 'text-xl',
-    lg: 'text-2xl',
-    xl: 'text-3xl',
+    sm: 'text-xl',
+    md: 'text-2xl',
+    lg: 'text-3xl',
+    xl: 'text-4xl',
   };
 
   return (
@@ -47,93 +47,112 @@ export function Logo({
               <stop offset="50%" stopColor="#8b5cf6" />
               <stop offset="100%" stopColor="#ec4899" />
             </linearGradient>
-            <linearGradient id="yugmastra-glow" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#60a5fa" stopOpacity="0.8" />
-              <stop offset="100%" stopColor="#a78bfa" stopOpacity="0.8" />
+            <linearGradient id="yugmastra-accent" x1="100%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="#60a5fa" />
+              <stop offset="100%" stopColor="#a78bfa" />
             </linearGradient>
+            <radialGradient id="yugmastra-glow" cx="50%" cy="50%">
+              <stop offset="0%" stopColor="#a78bfa" stopOpacity="0.25" />
+              <stop offset="100%" stopColor="transparent" stopOpacity="0" />
+            </radialGradient>
+            <filter id="yugmastra-shadow">
+              <feDropShadow dx="0" dy="2" stdDeviation="4" floodOpacity="0.3" />
+            </filter>
+            <filter id="yugmastra-glow-filter">
+              <feGaussianBlur stdDeviation="2" result="blur"/>
+              <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
           </defs>
 
           {variant === 'default' ? (
             <>
-              {/* Outer Glow */}
-              <circle
-                cx="50"
-                cy="50"
-                r="48"
-                fill="none"
-                stroke="url(#yugmastra-glow)"
-                strokeWidth="2"
-                opacity="0.3"
-              />
+              {/* Subtle Background Glow */}
+              <circle cx="50" cy="50" r="40" fill="url(#yugmastra-glow)"/>
 
-              {/* Shield Background */}
+              {/* Main Shield - Clean */}
               <path
-                d="M50 10 L75 20 L78 50 C78 70, 65 85, 50 90 C35 85, 22 70, 22 50 L25 20 Z"
-                fill="url(#yugmastra-gradient)"
-                opacity="0.2"
+                d="M50 10 L72 22 L75 50 C75 67, 64 80, 50 88 C36 80, 25 67, 25 50 L28 22 Z"
+                fill="none"
+                stroke="url(#yugmastra-gradient)"
+                strokeWidth="3.5"
+                opacity="0.7"
+                filter="url(#yugmastra-shadow)"
               />
 
-              {/* Stylized Y with Crossed Swords */}
+              {/* Y Letter - Bold and Unique */}
               <g transform="translate(50, 50)">
-                {/* Left Sword */}
+                {/* Y Glow */}
                 <path
-                  d="M -20 -25 L -15 -20 L -15 10 L -17 12 L -13 12 L -15 10 L -15 -20 Z"
-                  fill="url(#yugmastra-gradient)"
-                  stroke="currentColor"
-                  strokeWidth="0.5"
-                  className="text-blue-400 dark:text-blue-300"
-                />
-
-                {/* Right Sword */}
-                <path
-                  d="M 20 -25 L 15 -20 L 15 10 L 13 12 L 17 12 L 15 10 L 15 -20 Z"
-                  fill="url(#yugmastra-gradient)"
-                  stroke="currentColor"
-                  strokeWidth="0.5"
-                  className="text-purple-400 dark:text-purple-300"
-                />
-
-                {/* Letter Y - Modern Angular Design */}
-                <path
-                  d="M -8 -20 L 0 -5 L 8 -20 M 0 -5 L 0 15"
-                  stroke="url(#yugmastra-gradient)"
-                  strokeWidth="4"
+                  d="M -13 -22 L 0 -6 L 13 -22 M 0 -6 L 0 24"
+                  stroke="url(#yugmastra-accent)"
+                  strokeWidth="10"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  fill="none"
+                  opacity="0.25"
                 />
 
-                {/* Central Dot/Core */}
-                <circle cx="0" cy="0" r="3" fill="url(#yugmastra-gradient)" />
-                <circle cx="0" cy="0" r="2" fill="#fff" opacity="0.9" />
-              </g>
-
-              {/* Circuit Pattern */}
-              <g opacity="0.3">
-                <circle cx="30" cy="30" r="2" fill="url(#yugmastra-gradient)" />
-                <circle cx="70" cy="30" r="2" fill="url(#yugmastra-gradient)" />
-                <circle cx="30" cy="70" r="2" fill="url(#yugmastra-gradient)" />
-                <circle cx="70" cy="70" r="2" fill="url(#yugmastra-gradient)" />
-                <path d="M 30 30 L 70 30 M 30 70 L 70 70 M 30 30 L 30 70 M 70 30 L 70 70"
-                  stroke="url(#yugmastra-gradient)"
-                  strokeWidth="0.5"
-                  strokeDasharray="2,2"
-                />
-              </g>
-            </>
-          ) : (
-            <>
-              {/* Minimal Version - Just Y with Gradient */}
-              <g transform="translate(50, 50)">
+                {/* Y Main */}
                 <path
-                  d="M -15 -25 L 0 -5 L 15 -25 M 0 -5 L 0 25"
+                  d="M -13 -22 L 0 -6 L 13 -22 M 0 -6 L 0 24"
                   stroke="url(#yugmastra-gradient)"
                   strokeWidth="6"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  fill="none"
+                  filter="url(#yugmastra-shadow)"
                 />
-                <circle cx="0" cy="0" r="4" fill="url(#yugmastra-gradient)" />
+
+                {/* Inner Highlights */}
+                <path
+                  d="M -11 -19 L -2 -8"
+                  stroke="#ffffff"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  opacity="0.5"
+                />
+                <path
+                  d="M 11 -19 L 2 -8"
+                  stroke="#ffffff"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  opacity="0.5"
+                />
+
+                {/* Central Core */}
+                <circle
+                  cx="0"
+                  cy="-6"
+                  r="4.5"
+                  fill="url(#yugmastra-gradient)"
+                  filter="url(#yugmastra-glow-filter)"
+                />
+                <circle cx="0" cy="-6" r="3" fill="#ffffff" opacity="0.95"/>
+                <circle cx="0" cy="-6" r="1.5" fill="url(#yugmastra-accent)" opacity="0.7"/>
+              </g>
+
+              {/* Corner Brackets - Minimal */}
+              <g opacity="0.55" stroke="url(#yugmastra-gradient)" strokeWidth="2.5" strokeLinecap="round">
+                <path d="M 27 27 L 27 30 M 27 27 L 30 27" />
+                <path d="M 73 27 L 73 30 M 73 27 L 70 27" />
+                <path d="M 27 73 L 27 70 M 27 73 L 30 73" />
+                <path d="M 73 73 L 73 70 M 73 73 L 70 73" />
+              </g>
+            </>
+          ) : (
+            <>
+              {/* Minimal Version - Clean Y */}
+              <g transform="translate(50, 50)">
+                <path
+                  d="M -13 -22 L 0 -6 L 13 -22 M 0 -6 L 0 24"
+                  stroke="url(#yugmastra-gradient)"
+                  strokeWidth="6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <circle cx="0" cy="-6" r="3.5" fill="url(#yugmastra-gradient)" />
+                <circle cx="0" cy="-6" r="2" fill="#ffffff" opacity="0.9" />
               </g>
             </>
           )}
