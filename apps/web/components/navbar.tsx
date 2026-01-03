@@ -25,6 +25,8 @@ import {
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
+// Navigation configuration for YUGMASTRA platform
+
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
   {
