@@ -37,6 +37,11 @@ const navigation = [
     hasLive: true,
     children: [
       { name: 'AI Assistant', href: '/ai-assistant', hasLive: true },
+      { name: 'Threat Hunting', href: '/threat-hunting', hasLive: true },
+      { name: 'Code Review', href: '/code-review', hasLive: true },
+      { name: 'Incident Response', href: '/incident-response', hasLive: true },
+      { name: 'Zero-Day Discovery', href: '/zero-day', hasLive: true },
+      { name: 'SIEM Rules', href: '/siem-rules', hasLive: true },
       { name: 'Model Training', href: '/model-training', hasLive: true },
       { name: 'ML Analytics', href: '/analytics', hasLive: true },
     ]
