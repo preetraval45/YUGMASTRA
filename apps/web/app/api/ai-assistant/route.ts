@@ -10,28 +10,49 @@ interface AIRequest {
   message: string;
   mode: 'red-team' | 'blue-team' | 'evolution';
   history?: Message[];
+  conversationId?: string;
 }
 
 // AI Engine URL - from environment variable
 const AI_ENGINE_URL = process.env.AI_ENGINE_URL || 'http://localhost:8001';
 
-// Call actual AI Engine service
+// Map frontend modes to backend agent types
+const modeToAgent: Record<string, string> = {
+  'red-team': 'red_team',
+  'blue-team': 'blue_team',
+  'evolution': 'evolution',
+};
+
+// Call actual AI Engine service with enhanced capabilities
 const callAIEngine = async (request: AIRequest): Promise<string> => {
   const { message, mode, history } = request;
+  const agentType = modeToAgent[mode] || 'red_team';
 
   try {
-    // Call the AI Engine service
-    const response = await fetch(`${AI_ENGINE_URL}/api/ai/chat`, {
+    // Try orchestrator endpoint first for complex queries
+    const isComplexQuery = message.length > 200 ||
+                          message.includes('analyze') ||
+                          message.includes('recommend') ||
+                          message.includes('detect');
+
+    const endpoint = isComplexQuery
+      ? `${AI_ENGINE_URL}/api/orchestrator/analyze`
+      : `${AI_ENGINE_URL}/api/${agentType}/analyze`;
+
+    const response = await fetch(endpoint, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        message,
-        mode,
-        history: history || [],
-        context: {}
+        prompt: message,
+        query: message,
+        context: {
+          history: history || [],
+          mode: agentType,
+        }
       }),
+      signal: AbortSignal.timeout(30000), // 30 second timeout
     });
 
     if (!response.ok) {
@@ -40,11 +61,10 @@ const callAIEngine = async (request: AIRequest): Promise<string> => {
     }
 
     const data = await response.json();
-    return data.response;
+    return data.analysis || data.response || data.result || 'Analysis completed.';
 
   } catch (error) {
     console.error('AI Engine connection error:', error);
-    // Fallback to basic response if AI Engine is unavailable
     throw error;
   }
 };

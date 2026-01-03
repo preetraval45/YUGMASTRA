@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, TrendingUp, Swords, Shield, Network, Settings, LogOut, Zap, Lightbulb, Menu, X, User, Sparkles, Activity, Target, Brain, Server, BarChart3 } from 'lucide-react';
+import { Home, TrendingUp, Swords, Shield, Network, Settings, LogOut, Zap, Lightbulb, Menu, X, User, Sparkles, Activity, Target, Brain, Server, BarChart3, Bug, FileCode } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Logo } from '@/components/logo';
 
@@ -14,6 +14,8 @@ const navItems = [
   { href: '/ai-assistant', icon: Sparkles, label: 'AI Assistant' },
   { href: '/live-battle', icon: Zap, label: 'Live Battle' },
   { href: '/cyber-range', icon: Server, label: 'Cyber Range', highlight: true },
+  { href: '/zero-day', icon: Bug, label: 'Zero-Day Discovery', highlight: true },
+  { href: '/siem-rules', icon: FileCode, label: 'SIEM Rules', highlight: true },
   { href: '/model-training', icon: Brain, label: 'Model Training', highlight: true },
   { href: '/analytics', icon: BarChart3, label: 'ML Analytics', highlight: true },
   { href: '/recommendations', icon: Lightbulb, label: 'Recommendations' },

@@ -1,8 +1,9 @@
 'use client';
 
 import { useEffect, useState, useMemo } from 'react';
-import { Shield, Swords, AlertTriangle, CheckCircle2, XCircle, Zap, Target, Activity } from 'lucide-react';
+import { Shield, Swords, AlertTriangle, CheckCircle2, XCircle, Zap, Target, Activity, Wifi, WifiOff } from 'lucide-react';
 import { sendNotification } from '@/hooks/use-notifications';
+import { useBattleWebSocket } from '@/hooks/useBattleWebSocket';
 
 interface Attack {
   id: string;
