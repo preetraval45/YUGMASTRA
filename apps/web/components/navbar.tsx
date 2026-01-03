@@ -13,7 +13,9 @@ import {
   Settings,
   ChevronDown,
   Bell,
-  User
+  User,
+  Bug,
+  FileCode
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
@@ -35,6 +37,8 @@ const navigation = [
     hasLive: true,
     children: [
       { name: 'AI Assistant', href: '/ai-assistant', hasLive: true },
+      { name: 'Zero-Day Discovery', href: '/zero-day', hasLive: true, icon: Bug },
+      { name: 'SIEM Rules', href: '/siem-rules', hasLive: true, icon: FileCode },
       { name: 'Model Training', href: '/model-training', hasLive: true },
       { name: 'ML Analytics', href: '/analytics', hasLive: true },
     ]
