@@ -166,9 +166,9 @@ export default function AuthPage() {
   };
 
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen flex flex-col lg:flex-row">
       {/* Left Side - Branding */}
-      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 p-12 flex-col justify-between relative overflow-hidden border-r border-border/20">
+      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 p-6 md:p-8 lg:p-12 flex-col justify-between relative overflow-hidden border-r border-border/20">
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-5">
           <div className="absolute inset-0" style={{
@@ -233,35 +233,35 @@ export default function AuthPage() {
       </div>
 
       {/* Right Side - Auth Forms */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-background">
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-4 sm:p-6 md:p-8 bg-background">
         <div className="w-full max-w-md">
           {/* Mobile Logo */}
-          <div className="lg:hidden mb-8">
+          <div className="lg:hidden mb-6 sm:mb-8 text-center">
             <img
               src="/logo-full-adaptive.svg"
               alt="YUGMĀSTRA"
-              className="h-16 w-auto"
+              className="h-12 sm:h-14 md:h-16 w-auto mx-auto"
             />
           </div>
 
           <Tabs defaultValue="login" className="w-full" onValueChange={setActiveTab}>
-            <TabsList className="grid w-full grid-cols-3 bg-muted/50 p-1 rounded-xl">
-              <TabsTrigger value="login" className="rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm">
+            <TabsList className="grid w-full grid-cols-3 bg-muted/50 p-1 rounded-xl mb-4 sm:mb-6">
+              <TabsTrigger value="login" className="rounded-lg text-xs sm:text-sm data-[state=active]:bg-background data-[state=active]:shadow-sm py-2">
                 Login
               </TabsTrigger>
-              <TabsTrigger value="signup" className="rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm">
+              <TabsTrigger value="signup" className="rounded-lg text-xs sm:text-sm data-[state=active]:bg-background data-[state=active]:shadow-sm py-2">
                 Sign Up
               </TabsTrigger>
-              <TabsTrigger value="reset" className="rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm">
+              <TabsTrigger value="reset" className="rounded-lg text-xs sm:text-sm data-[state=active]:bg-background data-[state=active]:shadow-sm py-2">
                 Reset
               </TabsTrigger>
             </TabsList>
 
             {/* Login Tab */}
-            <TabsContent value="login" className="mt-6 space-y-4">
+            <TabsContent value="login" className="mt-4 sm:mt-6 space-y-3 sm:space-y-4">
               <div>
-                <h2 className="text-2xl font-bold text-foreground">Welcome Back</h2>
-                <p className="text-muted-foreground text-sm mt-1">Enter your credentials to access your account</p>
+                <h2 className="text-xl sm:text-2xl font-bold text-foreground">Welcome Back</h2>
+                <p className="text-muted-foreground text-xs sm:text-sm mt-1">Enter your credentials to access your account</p>
               </div>
 
               {error && activeTab === 'login' && (

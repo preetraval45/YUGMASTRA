@@ -112,51 +112,51 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-accent/20">
-      <div className="container mx-auto px-6 py-8 pt-32">
+      <div className="container-responsive py-4 sm:py-6 md:py-8 pt-20 sm:pt-24 md:pt-28 lg:pt-32">
         {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-2">
+        <div className="mb-6 sm:mb-8">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-2">
             <div>
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-purple-500 bg-clip-text text-transparent">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary to-purple-500 bg-clip-text text-transparent">
                 Command Center
               </h1>
-              <p className="text-muted-foreground mt-2">
+              <p className="text-muted-foreground mt-1 sm:mt-2 text-sm sm:text-base">
                 Real-time autonomous cyber defense operations
               </p>
             </div>
-            <div className="flex items-center gap-3 bg-card/50 backdrop-blur-lg rounded-lg px-6 py-3 border shadow-lg">
+            <div className="flex items-center gap-2 sm:gap-3 bg-card/50 backdrop-blur-lg rounded-lg px-3 sm:px-4 md:px-6 py-2 sm:py-3 border shadow-lg">
               <div className="h-2 w-2 bg-green-500 rounded-full animate-pulse"></div>
               <div>
                 <p className="text-xs text-muted-foreground">System Owner</p>
-                <p className="text-sm font-semibold">Preet Raval</p>
+                <p className="text-xs sm:text-sm font-semibold">Preet Raval</p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Metrics Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 backdrop-blur-lg rounded-xl p-6 border border-blue-500/20 shadow-lg hover:shadow-xl transition-all hover:scale-105 cursor-pointer">
-            <div className="flex items-center justify-between mb-4">
-              <div className="p-3 bg-blue-500/20 rounded-lg">
-                <Activity className="w-6 h-6 text-blue-500" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 mb-6 sm:mb-8">
+          <div className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 backdrop-blur-lg rounded-lg sm:rounded-xl p-4 sm:p-5 md:p-6 border border-blue-500/20 shadow-lg hover:shadow-xl transition-all hover:scale-105 cursor-pointer">
+            <div className="flex items-center justify-between mb-3 sm:mb-4">
+              <div className="p-2 sm:p-2.5 md:p-3 bg-blue-500/20 rounded-lg">
+                <Activity className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-blue-500" />
               </div>
               <span className="text-xs text-blue-400 font-semibold">+12 today</span>
             </div>
-            <h3 className="text-3xl font-bold text-blue-500">{metrics.totalEpisodes}</h3>
-            <p className="text-sm text-muted-foreground mt-1">Total Episodes</p>
+            <h3 className="text-2xl sm:text-3xl font-bold text-blue-500">{metrics.totalEpisodes}</h3>
+            <p className="text-xs sm:text-sm text-muted-foreground mt-1">Total Episodes</p>
           </div>
 
-          <div className="bg-gradient-to-br from-red-500/10 to-orange-500/10 backdrop-blur-lg rounded-xl p-6 border border-red-500/20 shadow-lg hover:shadow-xl transition-all hover:scale-105 cursor-pointer">
-            <div className="flex items-center justify-between mb-4">
-              <div className="p-3 bg-red-500/20 rounded-lg">
-                <Swords className="w-6 h-6 text-red-500" />
+          <div className="bg-gradient-to-br from-red-500/10 to-orange-500/10 backdrop-blur-lg rounded-lg sm:rounded-xl p-4 sm:p-5 md:p-6 border border-red-500/20 shadow-lg hover:shadow-xl transition-all hover:scale-105 cursor-pointer">
+            <div className="flex items-center justify-between mb-3 sm:mb-4">
+              <div className="p-2 sm:p-2.5 md:p-3 bg-red-500/20 rounded-lg">
+                <Swords className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-red-500" />
               </div>
               <span className="text-xs text-red-400 font-semibold">
                 {((metrics.redWins / metrics.totalEpisodes) * 100).toFixed(1)}%
               </span>
             </div>
-            <h3 className="text-3xl font-bold text-red-500">{metrics.redWins}</h3>
+            <h3 className="text-2xl sm:text-3xl font-bold text-red-500">{metrics.redWins}</h3>
             <p className="text-sm text-muted-foreground mt-1">Red Team Wins</p>
           </div>
 
