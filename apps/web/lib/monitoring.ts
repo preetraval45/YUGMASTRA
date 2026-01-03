@@ -79,9 +79,11 @@ export function trackEvent(name: string, data?: Record<string, any>) {
 // Performance tracking
 export function startTransaction(name: string, op: string) {
   if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
-    return Sentry.startTransaction({
+    return Sentry.startSpan({
       name,
       op,
+    }, () => {
+      // Span implementation
     });
   }
   return null;
