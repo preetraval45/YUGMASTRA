@@ -33,7 +33,7 @@ export default function AuthPage() {
     if (!/[0-9]/.test(password)) {
       return { valid: false, message: 'Password must contain at least one number' };
     }
-    if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) {
+    if (!/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(password)) {
       return { valid: false, message: 'Password must contain at least one special character' };
     }
     return { valid: true };
