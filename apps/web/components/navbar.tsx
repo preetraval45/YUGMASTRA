@@ -15,7 +15,13 @@ import {
   Bell,
   User,
   Bug,
-  FileCode
+  FileCode,
+  Search,
+  Code,
+  GitBranch,
+  Monitor,
+  Microscope,
+  Crosshair
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
@@ -37,6 +43,9 @@ const navigation = [
     hasLive: true,
     children: [
       { name: 'AI Assistant', href: '/ai-assistant', hasLive: true },
+      { name: 'Threat Hunting', href: '/threat-hunting', hasLive: true, icon: Search },
+      { name: 'Code Review', href: '/code-review', hasLive: true, icon: Code },
+      { name: 'Incident Response', href: '/incident-response', hasLive: true, icon: Shield },
       { name: 'Zero-Day Discovery', href: '/zero-day', hasLive: true, icon: Bug },
       { name: 'SIEM Rules', href: '/siem-rules', hasLive: true, icon: FileCode },
       { name: 'Model Training', href: '/model-training', hasLive: true },

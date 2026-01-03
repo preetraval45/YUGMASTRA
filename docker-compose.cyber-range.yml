@@ -1,0 +1,192 @@
+version: '3.8'
+
+# YUGMASTRA CYBER RANGE - ISOLATED ATTACK ENVIRONMENT
+# WARNING: Only use on isolated network. Do NOT expose to internet.
+
+networks:
+  cyber_range:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.30.0.0/16
+    internal: true  # No external internet access
+
+services:
+  # ============================================
+  # VULNERABLE TARGETS
+  # ============================================
+
+  # Damn Vulnerable Web Application
+  dvwa:
+    image: vulnerables/web-dvwa
+    container_name: yugmastra_dvwa
+    networks:
+      cyber_range:
+        ipv4_address: 172.30.0.10
+    ports:
+      - "127.0.0.1:8080:80"  # Localhost only!
+    environment:
+      - MYSQL_HOST=mysql-vuln
+      - MYSQL_DATABASE=dvwa
+      - MYSQL_USER=dvwa
+      - MYSQL_PASSWORD=password
+    restart: unless-stopped
+
+  # Vulnerable MySQL Database
+  mysql-vuln:
+    image: mysql:5.5  # Intentionally old version
+    container_name: yugmastra_mysql
+    networks:
+      cyber_range:
+        ipv4_address: 172.30.0.11
+    environment:
+      MYSQL_ROOT_PASSWORD: "password123"
+      MYSQL_DATABASE: "dvwa"
+      MYSQL_USER: "dvwa"
+      MYSQL_PASSWORD: "password"
+    restart: unless-stopped
+
+  # Metasploitable2 - Multiple Vulnerabilities
+  metasploitable:
+    image: tleemcjr/metasploitable2
+    container_name: yugmastra_metasploitable
+    networks:
+      cyber_range:
+        ipv4_address: 172.30.0.20
+    restart: unless-stopped
+
+  # Vulnerable FTP Server
+  vsftpd-vuln:
+    image: fauria/vsftpd
+    container_name: yugmastra_ftp
+    networks:
+      cyber_range:
+        ipv4_address: 172.30.0.12
+    environment:
+      FTP_USER: admin
+      FTP_PASS: password
+      PASV_ADDRESS: 172.30.0.12
+    restart: unless-stopped
+
+  # ============================================
+  # ATTACK PLATFORM (Red Team)
+  # ============================================
+
+  # Kali Linux with pentesting tools
+  kali-attacker:
+    image: kalilinux/kali-rolling
+    container_name: yugmastra_attacker
+    networks:
+      cyber_range:
+        ipv4_address: 172.30.0.100
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    volumes:
+      - ./cyber-range/exploits:/exploits
+      - ./cyber-range/results:/results
+      - ./cyber-range/wordlists:/wordlists
+    command: tail -f /dev/null  # Keep container running
+    restart: unless-stopped
+
+  # ============================================
+  # DEFENSE PLATFORM (Blue Team)
+  # ============================================
+
+  # Suricata IDS
+  suricata-ids:
+    image: jasonish/suricata:latest
+    container_name: yugmastra_suricata
+    networks:
+      cyber_range:
+        ipv4_address: 172.30.0.101
+    cap_add:
+      - NET_ADMIN
+      - SYS_NICE
+    volumes:
+      - ./cyber-range/suricata/logs:/var/log/suricata
+      - ./cyber-range/suricata/rules:/etc/suricata/rules
+    command: -i eth0
+    restart: unless-stopped
+
+  # Wazuh SIEM (lightweight)
+  wazuh-manager:
+    image: wazuh/wazuh-manager:latest
+    container_name: yugmastra_wazuh
+    networks:
+      cyber_range:
+        ipv4_address: 172.30.0.102
+    ports:
+      - "127.0.0.1:55000:55000"  # API
+    volumes:
+      - ./cyber-range/wazuh/data:/var/ossec/data
+      - ./cyber-range/wazuh/logs:/var/ossec/logs
+    restart: unless-stopped
+
+  # ============================================
+  # MONITORING & LOGGING
+  # ============================================
+
+  # Elasticsearch for log storage
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+    container_name: yugmastra_elasticsearch
+    networks:
+      cyber_range:
+        ipv4_address: 172.30.0.110
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - xpack.security.enabled=false
+    volumes:
+      - ./cyber-range/elasticsearch/data:/usr/share/elasticsearch/data
+    restart: unless-stopped
+
+  # Kibana for visualization
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.11.0
+    container_name: yugmastra_kibana
+    networks:
+      cyber_range:
+        ipv4_address: 172.30.0.111
+    ports:
+      - "127.0.0.1:5601:5601"  # Localhost only!
+    environment:
+      - ELASTICSEARCH_HOSTS=http://172.30.0.110:9200
+    depends_on:
+      - elasticsearch
+    restart: unless-stopped
+
+  # ============================================
+  # AI ENGINE INTEGRATION
+  # ============================================
+
+  # Python service for executing AI agent commands
+  ai-executor:
+    build:
+      context: ./services/ai-engine
+      dockerfile: Dockerfile.executor
+    container_name: yugmastra_ai_executor
+    networks:
+      cyber_range:
+        ipv4_address: 172.30.0.200
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock  # Docker API access
+      - ./cyber-range/results:/results
+    environment:
+      - CYBER_RANGE_NETWORK=yugmastra_cyber_range
+      - ALLOWED_TARGETS=172.30.0.10,172.30.0.11,172.30.0.12,172.30.0.20
+      - REAL_ATTACKS_ENABLED=true
+    restart: unless-stopped
+
+volumes:
+  elasticsearch-data:
+  wazuh-data:
+  suricata-logs:
+
+# SECURITY NOTES:
+# 1. This entire network is ISOLATED - no internet access
+# 2. All ports bound to 127.0.0.1 (localhost only)
+# 3. No containers can reach your host network
+# 4. Emergency shutdown: docker-compose -f docker-compose.cyber-range.yml down
+# 5. NEVER deploy this to cloud or public server
