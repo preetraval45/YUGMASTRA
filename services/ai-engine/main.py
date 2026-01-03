@@ -16,6 +16,7 @@ from agents.security_advisor import SecurityAdvisorAgent
 from agents.orchestrator import AIOrchestrator
 from agents.predictive_intel import PredictiveThreatIntelligence
 from agents.code_generator import SecurityCodeGenerator
+from agents.realtime_threat_detector import RealtimeThreatDetector
 from models.llm_manager import LLMManager
 from services.rag_service import RAGService
 from services.vector_store import VectorStore
@@ -102,6 +103,7 @@ incident_response_agent = IncidentResponseAgent(llm_manager, rag_service)
 security_advisor_agent = SecurityAdvisorAgent(llm_manager, rag_service)
 predictive_intel_agent = PredictiveThreatIntelligence(llm_manager, rag_service)
 code_generator_agent = SecurityCodeGenerator(llm_manager, rag_service)
+realtime_detector_agent = RealtimeThreatDetector(llm_manager, rag_service)
 
 # Initialize orchestrator with all agents
 all_agents = {
@@ -114,6 +116,7 @@ all_agents = {
     "security_advisor": security_advisor_agent,
     "predictive_intel": predictive_intel_agent,
     "code_generator": code_generator_agent,
+    "realtime_detector": realtime_detector_agent,
 }
 orchestrator = AIOrchestrator(all_agents)
 
@@ -1378,3 +1381,36 @@ async def generate_kubernetes_security(app_spec: Dict[str, Any]):
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8001)
+
+# ==================== Real-Time Threat Detection Endpoints ====================
+
+@app.post("/api/realtime/analyze-traffic")
+async def analyze_network_traffic(traffic_data: Dict[str, Any]):
+    """Analyze network traffic in real-time"""
+    try:
+        result = await realtime_detector_agent.analyze_network_traffic(traffic_data)
+        return result
+    except Exception as e:
+        logger.error(f"Traffic analysis error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/realtime/detect-anomaly")
+async def detect_behavioral_anomaly(user_activity: Dict[str, Any]):
+    """Detect behavioral anomalies"""
+    try:
+        result = await realtime_detector_agent.detect_behavioral_anomaly(user_activity)
+        return result
+    except Exception as e:
+        logger.error(f"Anomaly detection error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/realtime/match-ioc")
+async def match_ioc(observable: str, ioc_type: str):
+    """Match observable against IOCs"""
+    try:
+        result = await realtime_detector_agent.match_ioc(observable, ioc_type)
+        return result
+    except Exception as e:
+        logger.error(f"IOC matching error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
