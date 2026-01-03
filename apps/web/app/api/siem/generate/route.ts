@@ -50,11 +50,13 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('SIEM rule generation error:', error)
 
+    const { threatDescription, format: reqFormat, severity: reqSeverity } = body
+
     // Return basic structure on error
     return NextResponse.json({
-      rule: `# Failed to generate ${format} rule for: ${body.threatDescription}\n# Please try again or check AI Engine connection`,
-      format: body.format || 'sigma',
-      severity: body.severity || 'high',
+      rule: `# Failed to generate ${reqFormat || 'sigma'} rule for: ${threatDescription}\n# Please try again or check AI Engine connection`,
+      format: reqFormat || 'sigma',
+      severity: reqSeverity || 'high',
       mitreTechniques: [],
       confidence: 0,
       error: 'AI Engine unavailable',
