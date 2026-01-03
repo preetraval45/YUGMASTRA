@@ -83,7 +83,11 @@
       "Bash(vercel --version:*)",
       "Bash(vercel:*)",
       "Bash(cat:*)",
-      "Bash(git rm:*)"
+      "Bash(git rm:*)",
+      "Bash(grep:*)",
+      "Bash(git checkout:*)",
+      "Bash(DATABASE_URL=\"\" npm run build:*)",
+      "Bash(DATABASE_URL=\"postgresql://test:test@localhost:5432/test\" npm run build:*)"
     ]
   }
 }
