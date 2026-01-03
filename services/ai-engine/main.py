@@ -9,16 +9,60 @@ from datetime import datetime
 from agents.red_team import RedTeamAgent
 from agents.blue_team import BlueTeamAgent
 from agents.evolution import EvolutionAgent
+from agents.threat_intelligence import ThreatIntelligenceAgent
+from agents.vulnerability_scanner import VulnerabilityScanner
+from agents.incident_response import IncidentResponseAgent
+from agents.security_advisor import SecurityAdvisorAgent
 from models.llm_manager import LLMManager
-from models.knowledge_graph import Neo4jKnowledgeGraph, GraphNode, GraphEdge, KnowledgeGraphBuilder
-from models.zero_day_discovery import ZeroDayDiscoveryEngine, BehaviorAnomaly
-from models.siem_rule_generator import SIEMRuleGeneratorEngine, RuleFormat, Severity
 from services.rag_service import RAGService
 from services.vector_store import VectorStore
 from utils.logger import setup_logger
+import os
 
-# Setup logging
+# Setup logging first
 logger = setup_logger(__name__)
+
+# Conditional imports for advanced features
+ENABLE_KNOWLEDGE_GRAPH = os.getenv('ENABLE_KNOWLEDGE_GRAPH', 'false').lower() == 'true'
+ENABLE_ZERO_DAY = os.getenv('ENABLE_ZERO_DAY_DISCOVERY', 'false').lower() == 'true'
+ENABLE_SIEM = os.getenv('ENABLE_SIEM_GENERATION', 'false').lower() == 'true'
+
+knowledge_graph = None
+kg_builder = None
+zero_day_engine = None
+siem_generator = None
+GraphNode = None
+GraphEdge = None
+RuleFormat = None
+Severity = None
+
+if ENABLE_KNOWLEDGE_GRAPH:
+    try:
+        from models.knowledge_graph import Neo4jKnowledgeGraph, GraphNode, GraphEdge, KnowledgeGraphBuilder
+        knowledge_graph = Neo4jKnowledgeGraph()
+        kg_builder = KnowledgeGraphBuilder(knowledge_graph)
+        logger.info("Knowledge Graph enabled")
+    except Exception as e:
+        logger.warning(f"Knowledge Graph disabled: {str(e)}")
+        ENABLE_KNOWLEDGE_GRAPH = False
+
+if ENABLE_ZERO_DAY:
+    try:
+        from models.zero_day_discovery import ZeroDayDiscoveryEngine, BehaviorAnomaly
+        zero_day_engine = ZeroDayDiscoveryEngine()
+        logger.info("Zero-Day Discovery enabled")
+    except Exception as e:
+        logger.warning(f"Zero-Day Discovery disabled: {str(e)}")
+        ENABLE_ZERO_DAY = False
+
+if ENABLE_SIEM:
+    try:
+        from models.siem_rule_generator import SIEMRuleGeneratorEngine, RuleFormat, Severity
+        siem_generator = SIEMRuleGeneratorEngine(None)  # Will initialize after llm_manager
+        logger.info("SIEM Rule Generator enabled")
+    except Exception as e:
+        logger.warning(f"SIEM Rule Generator disabled: {str(e)}")
+        ENABLE_SIEM = False
 
 # Initialize FastAPI app
 app = FastAPI(
@@ -36,19 +80,45 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Initialize AI services
+# Initialize core AI services
 llm_manager = LLMManager()
 rag_service = RAGService()
 vector_store = VectorStore()
-knowledge_graph = Neo4jKnowledgeGraph()
-kg_builder = KnowledgeGraphBuilder(knowledge_graph)
-zero_day_engine = ZeroDayDiscoveryEngine()
-siem_generator = SIEMRuleGeneratorEngine(llm_manager)
+
+# Initialize SIEM generator if enabled (needs llm_manager)
+if ENABLE_SIEM and siem_generator is not None:
+    siem_generator.llm_manager = llm_manager
 
 # Initialize agents
 red_team_agent = RedTeamAgent(llm_manager, rag_service)
 blue_team_agent = BlueTeamAgent(llm_manager, rag_service)
 evolution_agent = EvolutionAgent(llm_manager, rag_service, vector_store)
+threat_intel_agent = ThreatIntelligenceAgent(llm_manager, rag_service)
+vuln_scanner_agent = VulnerabilityScanner(llm_manager, rag_service)
+incident_response_agent = IncidentResponseAgent(llm_manager, rag_service)
+security_advisor_agent = SecurityAdvisorAgent(llm_manager, rag_service)
+
+# Helper functions for feature checks
+def check_knowledge_graph_enabled():
+    if not ENABLE_KNOWLEDGE_GRAPH or knowledge_graph is None:
+        raise HTTPException(
+            status_code=503,
+            detail="Knowledge Graph feature is disabled. Set ENABLE_KNOWLEDGE_GRAPH=true and ensure Neo4j is running."
+        )
+
+def check_zero_day_enabled():
+    if not ENABLE_ZERO_DAY or zero_day_engine is None:
+        raise HTTPException(
+            status_code=503,
+            detail="Zero-Day Discovery feature is disabled. Set ENABLE_ZERO_DAY_DISCOVERY=true to enable."
+        )
+
+def check_siem_enabled():
+    if not ENABLE_SIEM or siem_generator is None:
+        raise HTTPException(
+            status_code=503,
+            detail="SIEM Rule Generator feature is disabled. Set ENABLE_SIEM_GENERATION=true to enable."
+        )
 
 # Request/Response Models
 class Message(BaseModel):
@@ -90,14 +160,29 @@ async def root():
 
 @app.get("/health")
 async def health_check():
+    services = {
+        "llm": llm_manager.is_ready(),
+        "rag": rag_service.is_ready(),
+        "vector_store": vector_store.is_ready(),
+    }
+
+    # Only check advanced features if enabled
+    if ENABLE_KNOWLEDGE_GRAPH and knowledge_graph is not None:
+        services["knowledge_graph"] = knowledge_graph.driver is not None or knowledge_graph.fallback_graph is not None
+
+    if ENABLE_ZERO_DAY and zero_day_engine is not None:
+        services["zero_day_engine"] = zero_day_engine.isolation_forest.is_trained
+
+    if ENABLE_SIEM and siem_generator is not None:
+        services["siem_generator"] = True
+
     return {
         "status": "healthy",
-        "services": {
-            "llm": llm_manager.is_ready(),
-            "rag": rag_service.is_ready(),
-            "vector_store": vector_store.is_ready(),
-            "knowledge_graph": knowledge_graph.driver is not None or knowledge_graph.fallback_graph is not None,
-            "zero_day_engine": zero_day_engine.isolation_forest.is_trained,
+        "services": services,
+        "features": {
+            "knowledge_graph": ENABLE_KNOWLEDGE_GRAPH,
+            "zero_day_discovery": ENABLE_ZERO_DAY,
+            "siem_generation": ENABLE_SIEM,
         }
     }
 
@@ -277,6 +362,12 @@ async def get_knowledge_graph(
     """
     Get knowledge graph data for visualization
     """
+    if not ENABLE_KNOWLEDGE_GRAPH or knowledge_graph is None:
+        raise HTTPException(
+            status_code=503,
+            detail="Knowledge Graph feature is disabled. Set ENABLE_KNOWLEDGE_GRAPH=true to enable."
+        )
+
     try:
         stats = knowledge_graph.get_graph_statistics()
 
@@ -340,6 +431,12 @@ async def query_knowledge_graph(query: str):
     """
     Natural language query to knowledge graph
     """
+    if not ENABLE_KNOWLEDGE_GRAPH or knowledge_graph is None:
+        raise HTTPException(
+            status_code=503,
+            detail="Knowledge Graph feature is disabled. Set ENABLE_KNOWLEDGE_GRAPH=true and ensure Neo4j is running."
+        )
+
     try:
         results = knowledge_graph.natural_language_query(query)
 
@@ -362,6 +459,8 @@ async def add_graph_node(
     """
     Add a node to the knowledge graph
     """
+    check_knowledge_graph_enabled()
+
     try:
         node = GraphNode(
             id=id,
@@ -395,6 +494,8 @@ async def add_graph_edge(
     """
     Add an edge to the knowledge graph
     """
+    check_knowledge_graph_enabled()
+
     try:
         edge = GraphEdge(
             source=source,

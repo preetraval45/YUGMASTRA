@@ -113,4 +113,38 @@ export const emailTemplates = {
       </div>
     `,
   }),
+
+  passwordReset: (resetUrl: string, userName?: string) => ({
+    subject: 'Password Reset Request - YUGMĀSTRA',
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; text-align: center; border-radius: 8px 8px 0 0;">
+          <h1>🛡️ YUGMĀSTRA</h1>
+          <p style="margin: 0; font-size: 18px;">Password Reset Request</p>
+        </div>
+        <div style="background: #f9f9f9; padding: 30px; border-radius: 0 0 8px 8px;">
+          <p>Hello${userName ? ` ${userName}` : ''},</p>
+          <p>We received a request to reset your password. Click the button below to create a new password:</p>
+          <div style="text-align: center; margin: 30px 0;">
+            <a href="${resetUrl}" style="display: inline-block; background: #667eea; color: white; padding: 15px 40px; text-decoration: none; border-radius: 5px; font-weight: bold;">Reset Password</a>
+          </div>
+          <p>Or copy and paste this link into your browser:</p>
+          <p style="word-break: break-all; color: #667eea; background: white; padding: 10px; border-radius: 4px;">${resetUrl}</p>
+          <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 20px 0;">
+            <strong>⚠️ Security Notice:</strong>
+            <ul style="margin: 10px 0; padding-left: 20px;">
+              <li>This link will expire in 1 hour</li>
+              <li>If you didn't request this reset, please ignore this email</li>
+              <li>Never share this link with anyone</li>
+            </ul>
+          </div>
+          <p style="color: #666; font-size: 14px; margin-top: 30px;">If you have any questions or concerns, please contact our support team.</p>
+        </div>
+        <div style="text-align: center; padding: 20px; color: #999; font-size: 12px;">
+          <p>This is an automated message from YUGMĀSTRA. Please do not reply to this email.</p>
+          <p>&copy; ${new Date().getFullYear()} YUGMĀSTRA. All rights reserved.</p>
+        </div>
+      </div>
+    `,
+  }),
 };

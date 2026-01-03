@@ -321,7 +321,7 @@ export default function KnowledgeGraphPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="container mx-auto p-8">
+      <div className="container mx-auto p-8 pt-32">
         <div className="mb-8 flex items-center justify-between">
           <div>
             <h1 className="text-4xl font-bold mb-2 flex items-center gap-3">

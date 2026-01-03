@@ -248,7 +248,7 @@ export default function LiveSimulationPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-accent/20 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-accent/20 p-6 pt-32">
       <div className="max-w-[1800px] mx-auto space-y-6">
 
         <div className="flex items-center justify-between mb-8">

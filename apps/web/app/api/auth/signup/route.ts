@@ -1,16 +1,33 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { hashPassword, signToken, setAuthCookie } from '@/lib/auth';
+import { strictLimiter } from '@/lib/rate-limit';
 import { z } from 'zod';
 
 const signupSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
   email: z.string().email('Invalid email address'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
+  password: z.string()
+    .min(12, 'Password must be at least 12 characters')
+    .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
+    .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
+    .regex(/[0-9]/, 'Password must contain at least one number')
+    .regex(/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/, 'Password must contain at least one special character'),
 });
 
 export async function POST(request: NextRequest) {
   try {
+    // Rate limiting: 3 signup attempts per minute per IP
+    const identifier = request.headers.get('x-forwarded-for') || request.ip || 'unknown';
+    const rateLimitCheck = strictLimiter.check(request, 3, identifier);
+
+    if (!rateLimitCheck.success) {
+      return NextResponse.json(
+        { error: `Too many signup attempts. Please try again in ${rateLimitCheck.retryAfter} seconds.` },
+        { status: 429 }
+      );
+    }
+
     const body = await request.json();
 
     // Validate input

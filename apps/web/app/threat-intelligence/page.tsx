@@ -97,7 +97,7 @@ export default function ThreatIntelligencePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-accent/5 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-accent/5 p-6 pt-32">
       {/* Header */}
       <div className="mb-8 flex items-center justify-between">
         <div>

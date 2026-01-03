@@ -67,7 +67,16 @@
       "Bash(docker-compose logs:*)",
       "Bash(if exist page.tsx del page.tsx)",
       "Bash(ren:*)",
-      "Bash(dir)"
+      "Bash(dir)",
+      "Bash(docker inspect:*)",
+      "Bash(python -m json.tool:*)",
+      "Bash(npm audit:*)",
+      "Bash(npm update:*)",
+      "Bash(wc:*)",
+      "Bash(python:*)",
+      "Bash(openssl rand:*)",
+      "Bash(timeout:*)",
+      "Bash(dir:*)"
     ]
   }
 }

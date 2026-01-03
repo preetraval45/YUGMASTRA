@@ -122,7 +122,7 @@ export default function ModelTrainingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background p-8">
+    <div className="min-h-screen bg-background p-8 pt-32">
       {/* Header */}
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">

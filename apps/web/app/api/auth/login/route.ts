@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { verifyPassword, signToken, setAuthCookie } from '@/lib/auth';
+import { strictLimiter } from '@/lib/rate-limit';
 import { z } from 'zod';
 
 const loginSchema = z.object({
@@ -10,6 +11,17 @@ const loginSchema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
+    // Rate limiting: 5 login attempts per minute per IP
+    const identifier = request.headers.get('x-forwarded-for') || request.ip || 'unknown';
+    const rateLimitCheck = strictLimiter.check(request, 5, identifier);
+
+    if (!rateLimitCheck.success) {
+      return NextResponse.json(
+        { error: `Too many login attempts. Please try again in ${rateLimitCheck.retryAfter} seconds.` },
+        { status: 429 }
+      );
+    }
+
     const body = await request.json();
 
     // Validate input
@@ -28,7 +40,7 @@ export async function POST(request: NextRequest) {
       where: { email },
     });
 
-    if (!user) {
+    if (!user || !user.password) {
       return NextResponse.json(
         { error: 'Invalid email or password' },
         { status: 401 }
