@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "buildCommand": "cd apps/web && npm run vercel-build",
+  "outputDirectory": "apps/web/.next",
+  "framework": "nextjs",
+  "installCommand": "cd apps/web && npm install",
+  "rewrites": [
+    {
+      "source": "/api/ai/:path*",
+      "destination": "https://yugmastra-ai.up.railway.app/api/:path*"
+    }
+  ]
+}

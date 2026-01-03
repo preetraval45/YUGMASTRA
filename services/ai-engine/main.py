@@ -13,6 +13,9 @@ from agents.threat_intelligence import ThreatIntelligenceAgent
 from agents.vulnerability_scanner import VulnerabilityScanner
 from agents.incident_response import IncidentResponseAgent
 from agents.security_advisor import SecurityAdvisorAgent
+from agents.orchestrator import AIOrchestrator
+from agents.predictive_intel import PredictiveThreatIntelligence
+from agents.code_generator import SecurityCodeGenerator
 from models.llm_manager import LLMManager
 from services.rag_service import RAGService
 from services.vector_store import VectorStore
@@ -97,6 +100,22 @@ threat_intel_agent = ThreatIntelligenceAgent(llm_manager, rag_service)
 vuln_scanner_agent = VulnerabilityScanner(llm_manager, rag_service)
 incident_response_agent = IncidentResponseAgent(llm_manager, rag_service)
 security_advisor_agent = SecurityAdvisorAgent(llm_manager, rag_service)
+predictive_intel_agent = PredictiveThreatIntelligence(llm_manager, rag_service)
+code_generator_agent = SecurityCodeGenerator(llm_manager, rag_service)
+
+# Initialize orchestrator with all agents
+all_agents = {
+    "red_team": red_team_agent,
+    "blue_team": blue_team_agent,
+    "evolution": evolution_agent,
+    "threat_intelligence": threat_intel_agent,
+    "vulnerability_scanner": vuln_scanner_agent,
+    "incident_response": incident_response_agent,
+    "security_advisor": security_advisor_agent,
+    "predictive_intel": predictive_intel_agent,
+    "code_generator": code_generator_agent,
+}
+orchestrator = AIOrchestrator(all_agents)
 
 # Helper functions for feature checks
 def check_knowledge_graph_enabled():
@@ -166,6 +185,20 @@ async def health_check():
         "vector_store": vector_store.is_ready(),
     }
 
+    # Core AI Agents
+    agents = {
+        "red_team": red_team_agent is not None,
+        "blue_team": blue_team_agent is not None,
+        "evolution": evolution_agent is not None,
+        "threat_intelligence": threat_intel_agent is not None,
+        "vulnerability_scanner": vuln_scanner_agent is not None,
+        "incident_response": incident_response_agent is not None,
+        "security_advisor": security_advisor_agent is not None,
+        "predictive_intel": predictive_intel_agent is not None,
+        "code_generator": code_generator_agent is not None,
+        "orchestrator": orchestrator is not None,
+    }
+
     # Only check advanced features if enabled
     if ENABLE_KNOWLEDGE_GRAPH and knowledge_graph is not None:
         services["knowledge_graph"] = knowledge_graph.driver is not None or knowledge_graph.fallback_graph is not None
@@ -179,6 +212,8 @@ async def health_check():
     return {
         "status": "healthy",
         "services": services,
+        "agents": agents,
+        "agent_count": len([a for a in agents.values() if a]),
         "features": {
             "knowledge_graph": ENABLE_KNOWLEDGE_GRAPH,
             "zero_day_discovery": ENABLE_ZERO_DAY,
@@ -995,6 +1030,350 @@ async def get_supported_formats():
         "severities": [sev.value for sev in Severity],
         "timestamp": datetime.now().isoformat()
     }
+
+# ==================== Threat Intelligence Endpoints ====================
+
+@app.post("/api/threat-intel/analyze-ioc")
+async def analyze_ioc(ioc: str, ioc_type: str):
+    """Analyze Indicator of Compromise"""
+    try:
+        result = await threat_intel_agent.analyze_ioc(ioc, ioc_type)
+        return result
+    except Exception as e:
+        logger.error(f"IOC analysis error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/threat-intel/map-mitre")
+async def map_to_mitre(attack_description: str):
+    """Map attack to MITRE ATT&CK framework"""
+    try:
+        result = await threat_intel_agent.map_to_mitre(attack_description)
+        return result
+    except Exception as e:
+        logger.error(f"MITRE mapping error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/threat-intel/profile-actor")
+async def profile_threat_actor(actor_info: str):
+    """Profile a threat actor"""
+    try:
+        result = await threat_intel_agent.profile_threat_actor(actor_info)
+        return result
+    except Exception as e:
+        logger.error(f"Actor profiling error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/threat-intel/identify-malware")
+async def identify_malware(malware_data: str):
+    """Identify malware family"""
+    try:
+        result = await threat_intel_agent.identify_malware(malware_data)
+        return result
+    except Exception as e:
+        logger.error(f"Malware identification error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+# ==================== Vulnerability Scanner Endpoints ====================
+
+@app.post("/api/vuln-scan/code")
+async def scan_code(code: str, language: str):
+    """Scan code for vulnerabilities"""
+    try:
+        result = await vuln_scanner_agent.scan_code(code, language)
+        return result
+    except Exception as e:
+        logger.error(f"Code scan error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/vuln-scan/config")
+async def assess_configuration(config: Dict[str, Any], service_type: str):
+    """Assess security configuration"""
+    try:
+        result = await vuln_scanner_agent.assess_configuration(config, service_type)
+        return result
+    except Exception as e:
+        logger.error(f"Config assessment error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/vuln-scan/dependencies")
+async def check_dependencies(dependencies: List[Dict[str, str]]):
+    """Check dependencies for vulnerabilities"""
+    try:
+        result = await vuln_scanner_agent.check_dependencies(dependencies)
+        return result
+    except Exception as e:
+        logger.error(f"Dependency check error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/vuln-scan/cvss")
+async def calculate_cvss(vulnerability_details: str):
+    """Calculate CVSS score"""
+    try:
+        result = await vuln_scanner_agent.calculate_cvss(vulnerability_details)
+        return result
+    except Exception as e:
+        logger.error(f"CVSS calculation error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+# ==================== Incident Response Endpoints ====================
+
+@app.post("/api/incident/detect")
+async def detect_incident(events: List[Dict[str, Any]]):
+    """Detect and classify incidents"""
+    try:
+        result = await incident_response_agent.detect_incident(events)
+        return result
+    except Exception as e:
+        logger.error(f"Incident detection error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/incident/root-cause")
+async def perform_root_cause_analysis(incident_data: Dict[str, Any]):
+    """Perform root cause analysis"""
+    try:
+        result = await incident_response_agent.perform_root_cause_analysis(incident_data)
+        return result
+    except Exception as e:
+        logger.error(f"Root cause analysis error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/incident/playbook")
+async def generate_response_playbook(incident_type: str, severity: str):
+    """Generate incident response playbook"""
+    try:
+        result = await incident_response_agent.generate_response_playbook(incident_type, severity)
+        return result
+    except Exception as e:
+        logger.error(f"Playbook generation error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/incident/timeline")
+async def reconstruct_timeline(events: List[Dict[str, Any]]):
+    """Reconstruct incident timeline"""
+    try:
+        result = await incident_response_agent.reconstruct_timeline(events)
+        return result
+    except Exception as e:
+        logger.error(f"Timeline reconstruction error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+# ==================== Security Advisor Endpoints ====================
+
+@app.post("/api/advisor/review-architecture")
+async def review_architecture(architecture: str):
+    """Review security architecture"""
+    try:
+        result = await security_advisor_agent.review_architecture(architecture)
+        return result
+    except Exception as e:
+        logger.error(f"Architecture review error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/advisor/assess-compliance")
+async def assess_compliance(framework: str, current_state: str):
+    """Assess compliance with security framework"""
+    try:
+        result = await security_advisor_agent.assess_compliance(framework, current_state)
+        return result
+    except Exception as e:
+        logger.error(f"Compliance assessment error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/advisor/risk-assessment")
+async def perform_risk_assessment(assets: List[Dict[str, Any]]):
+    """Perform risk assessment"""
+    try:
+        result = await security_advisor_agent.perform_risk_assessment(assets)
+        return result
+    except Exception as e:
+        logger.error(f"Risk assessment error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/advisor/security-roadmap")
+async def create_security_roadmap(current_state: str, target_state: str, timeline: str):
+    """Create security roadmap"""
+    try:
+        result = await security_advisor_agent.create_security_roadmap(current_state, target_state, timeline)
+        return result
+    except Exception as e:
+        logger.error(f"Roadmap creation error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/advisor/maturity-assessment")
+async def assess_security_maturity(organization_info: str):
+    """Assess security maturity"""
+    try:
+        result = await security_advisor_agent.assess_security_maturity(organization_info)
+        return result
+    except Exception as e:
+        logger.error(f"Maturity assessment error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+# ==================== AI Orchestrator Endpoints ====================
+
+@app.post("/api/orchestrator/workflow")
+async def execute_workflow(workflow_type: str, context: Dict[str, Any]):
+    """Execute multi-agent workflow"""
+    try:
+        result = await orchestrator.execute_workflow(workflow_type, context)
+        return result
+    except Exception as e:
+        logger.error(f"Workflow execution error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/orchestrator/status")
+async def get_orchestrator_status():
+    """Get orchestrator status"""
+    try:
+        status = orchestrator.get_status()
+        return status
+    except Exception as e:
+        logger.error(f"Status error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+# ==================== Predictive Intelligence Endpoints ====================
+
+@app.post("/api/predictive/future-attacks")
+async def predict_future_attacks(timeframe: str, context: str):
+    """Predict future cyber attacks"""
+    try:
+        result = await predictive_intel_agent.predict_future_attacks(timeframe, context)
+        return result
+    except Exception as e:
+        logger.error(f"Attack prediction error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/predictive/emerging-threats")
+async def forecast_emerging_threats(technology: str):
+    """Forecast emerging threats for new technology"""
+    try:
+        result = await predictive_intel_agent.forecast_emerging_threats(technology)
+        return result
+    except Exception as e:
+        logger.error(f"Threat forecast error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/predictive/vulnerability-trends")
+async def analyze_vulnerability_trends(historical_data: List[Dict[str, Any]]):
+    """Analyze vulnerability trends"""
+    try:
+        result = await predictive_intel_agent.analyze_vulnerability_trends(historical_data)
+        return result
+    except Exception as e:
+        logger.error(f"Trend analysis error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/predictive/industry-threats")
+async def forecast_industry_threats(industry: str, timeframe: str):
+    """Forecast industry-specific threats"""
+    try:
+        result = await predictive_intel_agent.forecast_industry_threats(industry, timeframe)
+        return result
+    except Exception as e:
+        logger.error(f"Industry forecast error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/predictive/ransomware-trends")
+async def predict_ransomware_trends():
+    """Predict ransomware trends"""
+    try:
+        result = await predictive_intel_agent.predict_ransomware_trends()
+        return result
+    except Exception as e:
+        logger.error(f"Ransomware prediction error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/predictive/threat-calendar")
+async def generate_threat_calendar(year: int):
+    """Generate predictive threat calendar"""
+    try:
+        result = await predictive_intel_agent.generate_threat_calendar(year)
+        return result
+    except Exception as e:
+        logger.error(f"Calendar generation error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+# ==================== Code Generator Endpoints ====================
+
+@app.post("/api/codegen/secure-api")
+async def generate_secure_api(spec: Dict[str, Any]):
+    """Generate secure API endpoint code"""
+    try:
+        result = await code_generator_agent.generate_secure_api(spec)
+        return result
+    except Exception as e:
+        logger.error(f"API generation error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/codegen/auth-system")
+async def generate_auth_system(requirements: str):
+    """Generate authentication system"""
+    try:
+        result = await code_generator_agent.generate_auth_system(requirements)
+        return result
+    except Exception as e:
+        logger.error(f"Auth system generation error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/codegen/encryption")
+async def generate_encryption_code(use_case: str, language: str = "python"):
+    """Generate encryption code"""
+    try:
+        result = await code_generator_agent.generate_encryption_code(use_case, language)
+        return result
+    except Exception as e:
+        logger.error(f"Encryption code generation error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/codegen/input-validation")
+async def generate_input_validation(fields: List[Dict[str, str]], language: str = "python"):
+    """Generate input validation functions"""
+    try:
+        result = await code_generator_agent.generate_input_validation(fields, language)
+        return result
+    except Exception as e:
+        logger.error(f"Validation generation error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/codegen/security-tests")
+async def generate_security_tests(code: str, language: str):
+    """Generate security tests"""
+    try:
+        result = await code_generator_agent.generate_security_tests(code, language)
+        return result
+    except Exception as e:
+        logger.error(f"Test generation error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/codegen/waf-rules")
+async def generate_waf_rules(attack_patterns: List[str]):
+    """Generate WAF rules"""
+    try:
+        result = await code_generator_agent.generate_waf_rules(attack_patterns)
+        return result
+    except Exception as e:
+        logger.error(f"WAF rules generation error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/codegen/dockerfile")
+async def generate_secure_dockerfile(base_requirements: str):
+    """Generate secure Dockerfile"""
+    try:
+        result = await code_generator_agent.generate_secure_dockerfile(base_requirements)
+        return result
+    except Exception as e:
+        logger.error(f"Dockerfile generation error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/codegen/kubernetes")
+async def generate_kubernetes_security(app_spec: Dict[str, Any]):
+    """Generate secure Kubernetes manifests"""
+    try:
+        result = await code_generator_agent.generate_kubernetes_security(app_spec)
+        return result
+    except Exception as e:
+        logger.error(f"Kubernetes manifest generation error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":
     import uvicorn

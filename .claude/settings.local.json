@@ -76,7 +76,8 @@
       "Bash(python:*)",
       "Bash(openssl rand:*)",
       "Bash(timeout:*)",
-      "Bash(dir:*)"
+      "Bash(dir:*)",
+      "Bash(git add:*)"
     ]
   }
 }
