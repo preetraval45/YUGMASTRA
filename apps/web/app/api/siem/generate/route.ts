@@ -4,13 +4,15 @@ import { getSession } from '@/lib/auth'
 const AI_ENGINE_URL = process.env.AI_ENGINE_URL || 'http://localhost:8001'
 
 export async function POST(request: NextRequest) {
+  let body: any
+
   try {
     const user = await getSession()
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const body = await request.json()
+    body = await request.json()
     const { threatDescription, format = 'sigma', severity = 'high' } = body
 
     if (!threatDescription) {
@@ -50,13 +52,13 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('SIEM rule generation error:', error)
 
-    const { threatDescription, format: reqFormat, severity: reqSeverity } = body
+    const { threatDescription = 'unknown', format: reqFormat = 'sigma', severity: reqSeverity = 'high' } = body || {}
 
     // Return basic structure on error
     return NextResponse.json({
-      rule: `# Failed to generate ${reqFormat || 'sigma'} rule for: ${threatDescription}\n# Please try again or check AI Engine connection`,
-      format: reqFormat || 'sigma',
-      severity: reqSeverity || 'high',
+      rule: `# Failed to generate ${reqFormat} rule for: ${threatDescription}\n# Please try again or check AI Engine connection`,
+      format: reqFormat,
+      severity: reqSeverity,
       mitreTechniques: [],
       confidence: 0,
       error: 'AI Engine unavailable',

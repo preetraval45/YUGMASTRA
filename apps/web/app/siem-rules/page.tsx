@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { FileCode, Download, Sparkles, Copy, CheckCircle, AlertTriangle } from 'lucide-react'
-import { toast } from '@/components/ui/toast'
+import { useToast } from '@/hooks/use-toast'
 
 interface GeneratedRule {
   id: string
@@ -22,6 +22,7 @@ interface GeneratedRule {
 }
 
 export default function SIEMRulesPage() {
+  const { toast } = useToast()
   const [threatDescription, setThreatDescription] = useState('')
   const [selectedFormat, setSelectedFormat] = useState<string>('sigma')
   const [loading, setLoading] = useState(false)
