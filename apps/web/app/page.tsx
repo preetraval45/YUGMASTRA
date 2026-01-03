@@ -2,45 +2,45 @@ import Link from 'next/link';
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-24 bg-gradient-to-br from-background via-accent to-accent/50">
-      <div className="z-10 max-w-5xl w-full items-center justify-center font-mono text-sm">
-        <div className="text-center mb-12">
-          <h1 className="text-6xl font-bold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent mb-4 tracking-tight">
+    <main className="flex min-h-screen flex-col items-center justify-center p-4 sm:p-8 md:p-12 lg:p-24 bg-gradient-to-br from-background via-accent to-accent/50">
+      <div className="z-10 max-w-5xl w-full items-center justify-center">
+        <div className="text-center mb-8 sm:mb-12">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent mb-3 sm:mb-4 tracking-tight px-2">
             YUGMĀSTRA
           </h1>
-          <p className="text-2xl text-primary mb-4">
+          <p className="text-lg sm:text-xl md:text-2xl text-primary mb-3 sm:mb-4 px-4">
             Autonomous Adversary-Defender Co-Evolution Platform
           </p>
-          <div className="inline-block bg-card/50 backdrop-blur-lg border rounded-lg px-6 py-3 mb-8">
-            <p className="text-lg text-foreground">
+          <div className="inline-block bg-card/50 backdrop-blur-lg border rounded-lg px-3 sm:px-4 md:px-6 py-2 sm:py-3 mb-4 sm:mb-6 md:mb-8 mx-2">
+            <p className="text-sm sm:text-base md:text-lg text-foreground">
               <span className="font-semibold text-primary">System Owner:</span> Preet Raval
             </p>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-xs sm:text-sm text-muted-foreground">
               <span className="font-semibold">Email:</span> preetraval45@gmail.com
             </p>
           </div>
-          <p className="text-lg text-muted-foreground max-w-3xl mx-auto mb-12">
+          <p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-3xl mx-auto mb-6 sm:mb-8 md:mb-12 px-4">
             Where cybersecurity defenses are not engineered—they emerge through
             adversarial self-play between autonomous AI agents. Watch as Red Team AI attacks
             your system in real-time while Blue Team AI learns to defend it.
           </p>
 
-          <div className="flex gap-4 justify-center flex-wrap">
+          <div className="flex gap-2 sm:gap-3 md:gap-4 justify-center flex-wrap px-4">
             <Link
               href="/live-battle"
-              className="bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all transform hover:scale-105 shadow-lg"
+              className="bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 text-white px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 rounded-lg text-sm sm:text-base md:text-lg font-semibold transition-all transform hover:scale-105 shadow-lg"
             >
               🔥 Watch Live Battle
             </Link>
             <Link
               href="/dashboard"
-              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-colors"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 rounded-lg text-sm sm:text-base md:text-lg font-semibold transition-colors"
             >
               Launch Dashboard
             </Link>
             <Link
               href="/evolution"
-              className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-colors"
+              className="bg-purple-600 hover:bg-purple-700 text-white px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 rounded-lg text-sm sm:text-base md:text-lg font-semibold transition-colors"
             >
               View Evolution
             </Link>

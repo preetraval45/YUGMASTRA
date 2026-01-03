@@ -104,15 +104,15 @@ export function ProfessionalNavbar() {
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/98 backdrop-blur-xl supports-[backdrop-filter]:bg-background/95 shadow-lg dark:shadow-primary/5">
-      <div className="w-full px-8">
-        <div className="flex h-24 items-center justify-between gap-8">
+      <div className="w-full px-3 sm:px-4 md:px-6 lg:px-8">
+        <div className="flex h-16 sm:h-20 lg:h-24 items-center justify-between gap-2 sm:gap-4 lg:gap-8">
           {/* LEFT: Logo - Full SVG Logo */}
           <div className="flex-shrink-0">
             <Link href="/" className="block group">
               <img
                 src="/logo-full-adaptive.svg"
                 alt="YUGMĀSTRA"
-                className="h-16 w-auto transition-all group-hover:scale-105"
+                className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto transition-all group-hover:scale-105"
               />
             </Link>
           </div>
@@ -188,15 +188,15 @@ export function ProfessionalNavbar() {
           </div>
 
           {/* RIGHT: Profile, Notifications, Theme - Bigger */}
-          <div className="flex items-center gap-3 flex-shrink-0">
+          <div className="flex items-center gap-1 sm:gap-2 lg:gap-3 flex-shrink-0">
             {/* Notifications */}
             <div className="relative notification-dropdown">
               <button
                 onClick={() => setNotificationOpen(!notificationOpen)}
-                className="relative flex items-center justify-center w-11 h-11 rounded-full hover:bg-accent/90 dark:hover:bg-accent/70 text-muted-foreground hover:text-foreground transition-all"
+                className="relative flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 lg:w-11 lg:h-11 rounded-full hover:bg-accent/90 dark:hover:bg-accent/70 text-muted-foreground hover:text-foreground transition-all"
               >
-                <Bell className="h-5 w-5" />
-                <span className="absolute top-1.5 right-1.5 h-2 w-2 bg-red-500 rounded-full animate-pulse shadow-sm"></span>
+                <Bell className="h-4 w-4 sm:h-5 sm:w-5" />
+                <span className="absolute top-1 right-1 sm:top-1.5 sm:right-1.5 h-1.5 w-1.5 sm:h-2 sm:w-2 bg-red-500 rounded-full animate-pulse shadow-sm"></span>
               </button>
 
               {notificationOpen && (
