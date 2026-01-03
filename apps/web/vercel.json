@@ -1,9 +1,8 @@
 {
-  "version": 2,
-  "buildCommand": "cd apps/web && npm run vercel-build",
-  "outputDirectory": "apps/web/.next",
+  "buildCommand": "npm run vercel-build",
+  "outputDirectory": ".next",
+  "installCommand": "npm install",
   "framework": "nextjs",
-  "installCommand": "cd apps/web && npm install",
   "rewrites": [
     {
       "source": "/api/ai/:path*",
