@@ -411,14 +411,40 @@ export default function IncidentResponsePage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="min-h-screen bg-background p-8 pt-32">
+      <div className="mb-8">
+        <div className="mb-4">
+          <h1 className="text-4xl font-bold mb-2">Incident Response Playbooks</h1>
+          <p className="text-muted-foreground">AI-powered NIST-compliant incident handling procedures</p>
+        </div>
+
+        {/* Description Banner */}
+        <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-4 flex items-start gap-3">
+          <Shield className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
+          <div>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              <strong className="text-foreground">What this page does:</strong> Incident Response provides AI-powered playbooks following NIST guidelines for handling security incidents. Access comprehensive step-by-step response procedures for Ransomware, Data Breaches, APT (Advanced Persistent Threat) intrusions, and DDoS attacks. Each playbook covers all six NIST phases: Preparation, Detection & Analysis, Containment, Eradication, Recovery, and Post-Incident lessons learned. Includes technical details about attack methods, automated response steps via SOAR integration, estimated timelines, and real-world examples. Execute playbooks automatically, track incident status, document findings, and learn proper incident handling procedures used by professional SOC teams and IR specialists.
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-3xl font-bold bg-gradient-to-r from-red-400 to-orange-600 bg-clip-text text-transparent">
             Automated Incident Response
           </h1>
           <p className="text-gray-400 mt-2">AI-powered incident detection, analysis, and orchestrated response</p>
+        </div>
+      </div>
+
+      <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-4 flex items-start gap-3">
+        <Shield className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+        <div>
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            <strong className="text-foreground">What this page does:</strong> Automate incident response following NIST framework (Preparation, Detection, Containment, Eradication, Recovery, Post-Incident). View active security incidents, AI-generated response playbooks, and automated remediation steps. Learn comprehensive incident response procedures for ransomware, data breaches, APT campaigns, and DDoS attacks with SOAR integration.
+          </p>
         </div>
       </div>
 

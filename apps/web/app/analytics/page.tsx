@@ -72,7 +72,6 @@ export default function AnalyticsPage() {
   const [anomalyScore, setAnomalyScore] = useState(7.3);
 
   useEffect(() => {
-    // Simulate real-time anomaly score updates
     const interval = setInterval(() => {
       setAnomalyScore(prev => {
         const change = (Math.random() - 0.5) * 2;
@@ -102,6 +101,12 @@ export default function AnalyticsPage() {
     }
   };
 
+  const getAnomalyColor = () => {
+    if (anomalyScore > 7) return 'text-red-500';
+    if (anomalyScore > 4) return 'text-yellow-500';
+    return 'text-green-500';
+  };
+
   return (
     <div className="min-h-screen bg-background p-8 pt-32">
       {/* Header */}
@@ -110,20 +115,26 @@ export default function AnalyticsPage() {
           <div>
             <h1 className="text-4xl font-bold mb-2 flex items-center gap-3">
               <Brain className="w-8 h-8 text-purple-500" />
-              ML-Powered Analytics
+              ML-Powered Security Analytics
             </h1>
             <p className="text-muted-foreground">
-              AI-driven threat prediction and pattern analysis - Preet Raval's Security Intelligence
+              Real-time threat prediction, pattern analysis, and defense optimization using advanced machine learning
             </p>
           </div>
           <div className="bg-card rounded-lg px-6 py-3 border">
-            <p className="text-sm text-muted-foreground">Anomaly Score</p>
-            <p className={`text-3xl font-bold font-mono ${
-              anomalyScore > 7 ? 'text-red-500' :
-              anomalyScore > 4 ? 'text-yellow-500' :
-              'text-green-500'
-            }`}>
+            <p className="text-sm text-muted-foreground">Live Anomaly Score</p>
+            <p className={`text-3xl font-bold font-mono ${getAnomalyColor()}`}>
               {anomalyScore.toFixed(1)} / 10
+            </p>
+          </div>
+        </div>
+
+        {/* Description Banner */}
+        <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4 flex items-start gap-3">
+          <Brain className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
+          <div>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              <strong className="text-foreground">What this page does:</strong> This analytics dashboard provides comprehensive security insights powered by advanced ML models including <strong>Isolation Forest</strong> for anomaly detection, <strong>LSTM Autoencoders</strong> for temporal pattern analysis, and <strong>PPO-based Reinforcement Learning</strong> for predictive threat intelligence. Analyze predictions with confidence scores, detect behavioral patterns, visualize attack vectors, and measure defense effectiveness in real-time.
             </p>
           </div>
         </div>
@@ -189,8 +200,8 @@ export default function AnalyticsPage() {
             AI Threat Predictions
           </h2>
           <div className="space-y-3">
-            {predictions.map((pred, i) => (
-              <div key={i} className="p-4 bg-accent/50 rounded-lg border">
+            {predictions.map((pred) => (
+              <div key={pred.attackType} className="p-4 bg-accent/50 rounded-lg border">
                 <div className="flex items-start justify-between mb-3">
                   <div>
                     <h3 className="font-semibold mb-1">{pred.attackType}</h3>
@@ -238,8 +249,8 @@ export default function AnalyticsPage() {
             Detected Patterns
           </h2>
           <div className="space-y-3">
-            {patterns.map((pattern, i) => (
-              <div key={i} className="p-4 bg-accent/50 rounded-lg border">
+            {patterns.map((pattern) => (
+              <div key={pattern.pattern} className="p-4 bg-accent/50 rounded-lg border">
                 <div className="flex items-start justify-between mb-2">
                   <div className="flex-1">
                     <h3 className="font-semibold text-sm mb-1">{pattern.pattern}</h3>
@@ -289,8 +300,8 @@ export default function AnalyticsPage() {
             Attack Vector Distribution
           </h2>
           <div className="space-y-4">
-            {attackVectorDistribution.map((vector, i) => (
-              <div key={i}>
+            {attackVectorDistribution.map((vector) => (
+              <div key={vector.name}>
                 <div className="flex items-center justify-between text-sm mb-2">
                   <span>{vector.name}</span>
                   <span className="font-semibold">{vector.value}%</span>
@@ -313,8 +324,8 @@ export default function AnalyticsPage() {
             Defense Effectiveness
           </h2>
           <div className="space-y-4">
-            {defenseEffectiveness.map((defense, i) => (
-              <div key={i}>
+            {defenseEffectiveness.map((defense) => (
+              <div key={defense.defense}>
                 <div className="flex items-center justify-between text-sm mb-2">
                   <div>
                     <span className="font-semibold">{defense.defense}</span>
@@ -346,15 +357,15 @@ export default function AnalyticsPage() {
             {[100, 80, 60, 40, 20, 0].map((val) => (
               <div key={val} className="flex items-center gap-2">
                 <span className="text-xs text-muted-foreground w-8">{val}</span>
-                <div className="flex-1 border-t border-gray-700/50" />
+                <div className="flex-1 border-t border-border" />
               </div>
             ))}
           </div>
 
           {/* Chart bars */}
           <div className="absolute inset-0 p-4 pl-12 pr-4 flex items-end gap-2">
-            {timeSeriesData.map((data, i) => (
-              <div key={i} className="flex-1 flex flex-col items-center gap-1">
+            {timeSeriesData.map((data) => (
+              <div key={data.time} className="flex-1 flex flex-col items-center gap-1">
                 <div className="w-full flex gap-1 items-end" style={{ height: '200px' }}>
                   <div
                     className="flex-1 bg-gradient-to-t from-red-600 to-red-400 rounded-t hover:from-red-500 hover:to-red-300 transition-all"

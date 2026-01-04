@@ -164,6 +164,16 @@ export default function ModelTrainingPage() {
           </div>
         </div>
 
+        {/* Description Banner */}
+        <div className="bg-purple-500/10 border border-purple-500/30 rounded-lg p-4 flex items-start gap-3 mb-6">
+          <Brain className="w-5 h-5 text-purple-400 flex-shrink-0 mt-0.5" />
+          <div>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              <strong className="text-foreground">What this page does:</strong> This is an advanced neural network training interface for building custom Red Team and Blue Team AI models. Configure hyperparameters including model architecture (Transformer, LSTM, GRU, CNN), epochs, batch size, learning rate, and optimizer (Adam, SGD, RMSprop, AdamW). Watch real-time training metrics including loss, accuracy, validation scores, and throughput. The system visualizes training/validation curves to detect overfitting, tracks learning rate decay, and shows detailed per-epoch metrics. Supports multiple deep learning architectures optimized for cybersecurity tasks like threat classification, attack pattern recognition, and behavioral analysis. Export trained models with full configuration and performance metrics for deployment.
+            </p>
+          </div>
+        </div>
+
         {/* Training Progress Bar */}
         {currentEpoch > 0 && (
           <div className="bg-card rounded-lg p-4 border">

@@ -307,19 +307,31 @@ export default function ZeroDayPage() {
   })
 
   return (
-    <div className="space-y-6">
+    <div className="min-h-screen bg-background p-8 pt-32">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">
-            Zero-Day Discovery
-          </h1>
-          <p className="text-gray-400 mt-2">AI-powered vulnerability detection and behavior analysis</p>
+      <div className="mb-8">
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">
+              Zero-Day Discovery
+            </h1>
+            <p className="text-muted-foreground mt-2">AI-powered vulnerability detection and behavior analysis</p>
+          </div>
+          <Button className="bg-gradient-to-r from-purple-500 to-pink-600">
+            <Download className="mr-2 h-4 w-4" />
+            Export Report
+          </Button>
         </div>
-        <Button className="bg-gradient-to-r from-purple-500 to-pink-600">
-          <Download className="mr-2 h-4 w-4" />
-          Export Report
-        </Button>
+
+        {/* Description Banner */}
+        <div className="bg-purple-500/10 border border-purple-500/30 rounded-lg p-4 flex items-start gap-3">
+          <Bug className="w-5 h-5 text-purple-400 flex-shrink-0 mt-0.5" />
+          <div>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              <strong className="text-foreground">What this page does:</strong> This AI-powered zero-day discovery system uses advanced machine learning to detect previously unknown vulnerabilities before they're publicly disclosed. It combines behavioral anomaly detection, pattern recognition, and automated fuzzing to identify security flaws that traditional scanners miss. The system monitors live behavioral anomalies in real-time and provides comprehensive educational content about famous zero-day vulnerabilities like Heartbleed, EternalBlue, Log4Shell, and Spectre/Meltdown, including their technical details, real-world impact, and lessons learned. You'll learn about CVE/CVSS scoring systems and how to prioritize vulnerabilities using EPSS (Exploit Prediction Scoring System).
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* Stats Cards */}

@@ -88,20 +88,32 @@ export default function ThreatHuntingPage() {
   }
 
   return (
-    <div className="container-responsive py-6 sm:py-8 space-y-6 sm:space-y-8">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent mb-3">
-            AI Threat Hunting
-          </h1>
-          <p className="text-lg sm:text-xl text-muted-foreground">
-            Proactive threat detection using AI-powered hypothesis generation and behavioral analysis
-          </p>
-        </div>
+    <div className="min-h-screen bg-background p-8 pt-32">
+      <div className="mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
+          <div>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent mb-3">
+              AI Threat Hunting
+            </h1>
+            <p className="text-lg sm:text-xl text-muted-foreground">
+              Proactive threat detection using AI-powered hypothesis generation and behavioral analysis
+            </p>
+          </div>
         <Button className="bg-gradient-to-r from-purple-500 to-pink-600 text-base sm:text-lg px-6 py-6">
           <Download className="mr-2 h-5 w-5" />
           Export Report
         </Button>
+        </div>
+
+        {/* Description Banner */}
+        <div className="bg-purple-500/10 border border-purple-500/30 rounded-lg p-4 flex items-start gap-3">
+          <Search className="w-5 h-5 text-purple-400 flex-shrink-0 mt-0.5" />
+          <div>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              <strong className="text-foreground">What this page does:</strong> AI Threat Hunting enables proactive threat detection by generating intelligent hypotheses about potential security compromises in your environment. Unlike reactive detection, this tool helps you actively search for threats that haven't triggered alerts yet. The AI analyzes behavioral patterns, generates hunt queries, and provides sample hypotheses for common attack scenarios like lateral movement (Pass-the-Hash), data exfiltration via DNS tunneling, Living-off-the-Land binaries (LOLBins) abuse, and PowerShell remoting attacks. Each hypothesis includes MITRE ATT&CK technique mappings, detection queries, and educational content explaining the attack method and why it matters. Perfect for SOC analysts and security researchers conducting threat hunting campaigns.
+            </p>
+          </div>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">

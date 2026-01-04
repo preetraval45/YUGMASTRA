@@ -205,6 +205,16 @@ export default function CyberRangePage() {
           </div>
         </div>
 
+        {/* Description Banner */}
+        <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4 flex items-start gap-3 mb-6">
+          <Network className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
+          <div>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              <strong className="text-foreground">What this page does:</strong> This Cyber Range is an OpenAI Gymnasium-compatible reinforcement learning environment that simulates realistic enterprise network attacks and defenses. It models 10 network nodes (web servers, databases, workstations, firewalls, routers) with realistic vulnerabilities and services. Red Team agents can execute 12 different attack actions (reconnaissance, port scanning, exploitation, privilege escalation, lateral movement, data exfiltration) while Blue Team agents deploy 9 defense actions (patching, firewall updates, node isolation, malware scanning). The simulation tracks compromise states, privilege levels, defense effectiveness, and stealth scores. Watch real-time attack progression, node status changes, and event logs as AI agents train to become better attackers and defenders through thousands of simulated battles.
+            </p>
+          </div>
+        </div>
+
         {/* Simulation Time */}
         <div className="bg-card rounded-lg p-4 border">
           <div className="flex items-center justify-between">

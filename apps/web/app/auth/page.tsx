@@ -244,6 +244,15 @@ export default function AuthPage() {
             />
           </div>
 
+          <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-4 flex items-start gap-3 mb-6">
+            <Lock className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
+            <div>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                <strong className="text-foreground">What this page does:</strong> Securely authenticate to access YUGMASTRA's AI-powered cyber defense platform. Sign in with email/password or OAuth (Google, Apple), create new accounts with strong password requirements (12+ characters, uppercase, lowercase, numbers, special characters), or reset forgotten passwords. Protected by enterprise-grade security and encrypted authentication.
+              </p>
+            </div>
+          </div>
+
           <Tabs defaultValue="login" className="w-full" onValueChange={setActiveTab}>
             <TabsList className="grid w-full grid-cols-3 bg-muted/50 p-1 rounded-xl mb-4 sm:mb-6">
               <TabsTrigger value="login" className="rounded-lg text-xs sm:text-sm data-[state=active]:bg-background data-[state=active]:shadow-sm py-2">

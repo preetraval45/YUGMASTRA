@@ -44,6 +44,15 @@ export default function AttacksPage() {
           <p className="text-muted-foreground">Red Team performance and attack patterns</p>
         </div>
 
+        <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-4 flex items-start gap-3 mb-6">
+          <Swords className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+          <div>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              <strong className="text-foreground">What this page does:</strong> Analyze Red Team AI offensive capabilities with detailed attack metrics. View total attacks, success rates, detection statistics, and time-to-detect averages. Explore attack type distribution (web exploits, phishing, lateral movement, privilege escalation) and recent attack history with severity classifications (critical, high, medium, low). Track Red Team's evolving tactics and techniques.
+            </p>
+          </div>
+        </div>
+
         {/* Filter Buttons */}
         <div className="flex gap-2 mb-6 flex-wrap">
           <button

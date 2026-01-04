@@ -169,7 +169,18 @@ export default function NotificationsPage() {
   const unreadCount = notifications.filter(n => !n.read).length;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background p-8 pt-32">
+      <div className="max-w-7xl mx-auto">
+        <div className="bg-purple-500/10 border border-purple-500/30 rounded-lg p-4 flex items-start gap-3 mb-6">
+          <Bell className="w-5 h-5 text-purple-400 flex-shrink-0 mt-0.5" />
+          <div>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              <strong className="text-foreground">What this page does:</strong> View real-time security alerts and system notifications from YUGMASTRA's AI agents. Receive critical attack alerts, defense updates, training completion notices, system maintenance schedules, and suspicious activity warnings. Filter by read/unread status, search notifications, and manage alert preferences for email and push notifications.
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* Header */}
       <div className="border-b bg-card/50 backdrop-blur-xl sticky top-16 z-40">
         <div className="max-w-7xl mx-auto px-6 py-6">

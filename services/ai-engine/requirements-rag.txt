@@ -1,0 +1,33 @@
+# RAG and Vector Database Requirements
+
+# Vector Stores
+chromadb>=0.4.0
+faiss-cpu>=1.7.4  # Use faiss-gpu for GPU acceleration
+pinecone-client>=2.2.0
+weaviate-client>=3.24.0
+
+# Embeddings
+sentence-transformers>=2.2.0
+transformers>=4.30.0
+torch>=2.0.0
+
+# LLM Integration
+openai>=1.0.0
+anthropic>=0.7.0
+langchain>=0.1.0
+llama-cpp-python>=0.2.0  # For local Llama models
+
+# Document Processing
+pypdf>=3.15.0
+python-docx>=0.8.11
+beautifulsoup4>=4.12.0
+markdown>=3.4.0
+
+# Search and Retrieval
+rank-bm25>=0.2.2
+elasticsearch>=8.9.0
+
+# Utilities
+numpy>=1.24.0
+pandas>=2.0.0
+tqdm>=4.65.0

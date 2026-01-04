@@ -90,7 +90,13 @@
       "Bash(DATABASE_URL=\"postgresql://test:test@localhost:5432/test\" npm run build:*)",
       "Bash(git pull:*)",
       "Bash(Select-String -Pattern \"\\(Creating|Compiled|Linting|success|Failed|error|Error|Route \\\\\\(\\)\")",
-      "Bash(Select-Object -Last 50)"
+      "Bash(Select-Object -Last 50)",
+      "Bash(for dir in */)",
+      "Bash(do file=\"$dirpage.tsx\")",
+      "Bash(if [ -f \"$file\" ])",
+      "Bash(then if grep -q \"What this page does:\" \"$file\")",
+      "Bash(then echo \"✅ $dir\")",
+      "Bash(fi)"
     ]
   }
 }

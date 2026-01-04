@@ -103,6 +103,15 @@ export default function SettingsPage() {
           <p className="text-muted-foreground">Manage your account and preferences - Preet Raval</p>
         </div>
 
+        <div className="bg-purple-500/10 border border-purple-500/30 rounded-lg p-4 flex items-start gap-3 mb-6">
+          <Shield className="w-5 h-5 text-purple-400 flex-shrink-0 mt-0.5" />
+          <div>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              <strong className="text-foreground">What this page does:</strong> Configure YUGMASTRA system preferences and training parameters. Adjust profile information, notification settings (email alerts, push notifications, weekly reports), AI training configuration (population size, difficulty level, learning rate), and data management options (export settings, clear cache, delete data). Customize the platform to match your security operations workflow.
+            </p>
+          </div>
+        </div>
+
         {/* Success/Info Message */}
         {showSuccess && (
           <div className="mb-6 p-4 bg-green-500/20 border border-green-500/50 rounded-lg flex items-center gap-3 animate-in slide-in-from-top">

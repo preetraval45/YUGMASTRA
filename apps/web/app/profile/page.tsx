@@ -68,7 +68,7 @@ export default function ProfilePage() {
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-accent/5 p-6 pt-32">
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Header */}
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
               Profile Settings
@@ -94,6 +94,15 @@ export default function ProfilePage() {
               </>
             )}
           </Button>
+        </div>
+
+        <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4 flex items-start gap-3">
+          <User className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
+          <div>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              <strong className="text-foreground">What this page does:</strong> Manage your YUGMASTRA user profile and account information. Update personal details (name, email, phone, location), view performance statistics (simulations run, threats detected, success rate), track achievements and badges, review recent activity, and configure security settings (2FA, password, active sessions). Monitor your journey as a cyber defense operator.
+            </p>
+          </div>
         </div>
 
         {/* Profile Card */}

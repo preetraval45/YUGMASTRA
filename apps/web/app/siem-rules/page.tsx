@@ -452,13 +452,25 @@ level: high`
   }
 
   return (
-    <div className="space-y-6">
+    <div className="min-h-screen bg-background p-8 pt-32">
       {/* Header */}
-      <div>
-        <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">
-          SIEM Rule Generator
-        </h1>
-        <p className="text-gray-400 mt-2">AI-powered detection rule generation for multiple SIEM platforms</p>
+      <div className="mb-8">
+        <div className="mb-4">
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">
+            SIEM Rule Generator
+          </h1>
+          <p className="text-muted-foreground mt-2">AI-powered detection rule generation for multiple SIEM platforms</p>
+        </div>
+
+        {/* Description Banner */}
+        <div className="bg-cyan-500/10 border border-cyan-500/30 rounded-lg p-4 flex items-start gap-3">
+          <FileCode className="w-5 h-5 text-cyan-400 flex-shrink-0 mt-0.5" />
+          <div>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              <strong className="text-foreground">What this page does:</strong> This AI-powered SIEM rule generator creates detection rules for 5 major security platforms: Sigma (universal format), Splunk SPL, Elasticsearch Query DSL, Suricata, and Snort. Simply describe a threat in plain English and the AI generates optimized detection logic with proper syntax, MITRE ATT&CK mappings, and false positive considerations. The educational section teaches you about each SIEM format, detection engineering best practices, and includes real-world examples like PowerShell download cradle detection, LSASS credential dumping, SQL injection patterns, and C2 beaconing signatures. Perfect for SOC analysts and security engineers building their detection capabilities.
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* Stats Cards */}

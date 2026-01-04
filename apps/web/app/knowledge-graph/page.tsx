@@ -320,9 +320,9 @@ export default function KnowledgeGraphPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="container mx-auto p-8 pt-32">
-        <div className="mb-8 flex items-center justify-between">
+    <div className="min-h-screen bg-background p-8 pt-32">
+      <div className="mb-8">
+        <div className="flex items-center justify-between mb-4">
           <div>
             <h1 className="text-4xl font-bold mb-2 flex items-center gap-3">
               <Network className="w-10 h-10 text-primary" />
@@ -348,7 +348,18 @@ export default function KnowledgeGraphPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-6 gap-4 mb-6">
+        {/* Description Banner */}
+        <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4 flex items-start gap-3">
+          <Network className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
+          <div>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              <strong className="text-foreground">What this page does:</strong> This 3D interactive knowledge graph visualizes the relationships between cyber threats, showing how attacks, defenses, vulnerabilities, threat actors, techniques, and assets connect in real-time. Built with Three.js and physics-based force-directed layout, nodes automatically position themselves based on their relationships. Click any node to see details including MITRE ATT&CK techniques, CVE scores, and connection counts. The graph includes real threat actors (APT28, Lazarus Group), actual attack techniques (Spearphishing, Credential Dumping), known vulnerabilities (CVEs), and defense mechanisms (WAF, RBAC, Sandboxing). Use it to understand attack paths, identify defense gaps, and visualize your security posture. You can pause the simulation, filter by node type, search by name/CVE/MITRE ID, and export the entire graph as JSON.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 md:grid-cols-6 gap-4 mb-6">
           <div className="bg-gradient-to-br from-blue-500/20 to-blue-600/20 border border-blue-500/30 rounded-lg p-4">
             <div className="text-2xl font-bold">{stats.total}</div>
             <div className="text-sm text-muted-foreground">Total Nodes</div>

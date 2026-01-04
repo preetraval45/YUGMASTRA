@@ -215,14 +215,42 @@ public void processData(String data) {
   }
 
   return (
-    <div className="container-responsive py-6 sm:py-8 space-y-6 sm:space-y-8">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div className="min-h-screen bg-background p-8 pt-32">
+      <div className="mb-8">
+        <div className="mb-4">
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">
+            AI Code Security Review
+          </h1>
+          <p className="text-muted-foreground mt-2">Automated vulnerability detection with fix suggestions</p>
+        </div>
+
+        {/* Description Banner */}
+        <div className="bg-cyan-500/10 border border-cyan-500/30 rounded-lg p-4 flex items-start gap-3">
+          <Code className="w-5 h-5 text-cyan-400 flex-shrink-0 mt-0.5" />
+          <div>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              <strong className="text-foreground">What this page does:</strong> This AI-powered code security scanner analyzes your source code for common vulnerabilities like SQL Injection, XSS (Cross-Site Scripting), Command Injection, insecure authentication, path traversal, and CSRF. Paste code in JavaScript, Python, Java, or PHP and get instant vulnerability detection with CWE IDs, severity ratings, vulnerable code highlighting, and secure code examples. Each finding includes detailed explanations of the security impact and step-by-step remediation guidance. The educational section provides real-world vulnerable code examples and their fixes, teaching you how to write secure code from the start. Perfect for developers learning secure coding practices.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent mb-3">
             AI Security Code Reviewer
           </h1>
           <p className="text-lg sm:text-xl text-muted-foreground">
             Automated vulnerability detection with AI-powered code analysis and secure fix recommendations
+          </p>
+        </div>
+      </div>
+
+      <div className="bg-cyan-500/10 border border-cyan-500/30 rounded-lg p-4 flex items-start gap-3 mb-6">
+        <Code className="w-5 h-5 text-cyan-400 flex-shrink-0 mt-0.5" />
+        <div>
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            <strong className="text-foreground">What this page does:</strong> Upload or paste your code to receive AI-powered security analysis. This tool uses machine learning models trained on millions of vulnerabilities to detect OWASP Top 10 issues (SQL injection, XSS, CSRF, etc.), provides secure code fixes, and maps findings to CWE (Common Weakness Enumeration). Learn how to write secure code through practical examples and automated remediation suggestions.
           </p>
         </div>
       </div>

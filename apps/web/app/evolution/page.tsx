@@ -70,6 +70,16 @@ export default function EvolutionPage() {
           </div>
         </div>
 
+        {/* Description Banner */}
+        <div className="bg-purple-500/10 border border-purple-500/30 rounded-lg p-4 flex items-start gap-3 mb-6">
+          <Activity className="w-5 h-5 text-purple-400 flex-shrink-0 mt-0.5" />
+          <div>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              <strong className="text-foreground">What this page does:</strong> This is a live co-evolutionary training arena where Red Team (attacker) and Blue Team (defender) AI agents compete and adapt to each other in real-time. Using Multi-Agent Reinforcement Learning (MARL) and game theory, both populations evolve simultaneously - as attackers discover new exploitation techniques, defenders learn to detect them, forcing attackers to evolve again. The system tracks Nash Equilibrium convergence (when both sides reach optimal strategies), strategy diversity, win rates, and shows evolved attack/defense patterns. Watch as the agents develop sophisticated behaviors like multi-stage SQL injection chains, polymorphic XSS variants, behavioral anomaly detection, and adaptive thresholds through thousands of generations of competitive evolution.
+            </p>
+          </div>
+        </div>
+
         {/* Time Range Selector */}
         <div className="flex gap-2">
           {['1h', '24h', '7d', '30d', 'All'].map((range) => (

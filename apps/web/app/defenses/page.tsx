@@ -88,6 +88,15 @@ export default function DefensesPage() {
           <p className="text-muted-foreground">Blue Team performance and detection capabilities</p>
         </div>
 
+        <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4 flex items-start gap-3 mb-6">
+          <Shield className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
+          <div>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              <strong className="text-foreground">What this page does:</strong> Monitor Blue Team AI defensive performance with real-time detection metrics. Track total detections, true positive rate, false positive reduction, and response times. View AI-generated detection rules with confidence scores, analyze detection rate trends over 30 days, and observe adaptive threshold adjustments. Watch as machine learning models continuously improve defense strategies.
+            </p>
+          </div>
+        </div>
+
         {/* Recent Activity Feed */}
         {recentActivity.length > 0 && (
           <div className="mb-6 bg-blue-500/10 border border-blue-500/30 rounded-lg p-4">

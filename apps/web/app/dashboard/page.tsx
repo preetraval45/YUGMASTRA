@@ -131,8 +131,8 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-accent/20">
-      <div className="container-responsive py-4 sm:py-6 md:py-8 pt-20 sm:pt-24 md:pt-28 lg:pt-32">
+    <div className="min-h-screen bg-background p-8 pt-32">
+      <div className="container-responsive">
         {/* Header with Help */}
         <div className="mb-6 sm:mb-8">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-2">
@@ -237,6 +237,15 @@ export default function Dashboard() {
                 <p className="text-xs text-muted-foreground">System Owner</p>
                 <p className="text-xs sm:text-sm font-semibold">Preet Raval</p>
               </div>
+            </div>
+          </div>
+
+          <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4 flex items-start gap-3">
+            <Activity className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
+            <div>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                <strong className="text-foreground">What this page does:</strong> Your central command hub for YUGMASTRA's autonomous adversary-defender co-evolution system. Monitor real-time AI training metrics, track Red vs Blue team battle outcomes, launch security tools, and view system health. Access live attack simulations, AI assistants, cyber ranges, and threat intelligence feeds from this unified dashboard.
+              </p>
             </div>
           </div>
         </div>

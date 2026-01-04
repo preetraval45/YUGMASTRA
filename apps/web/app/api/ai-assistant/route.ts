@@ -23,13 +23,34 @@ const modeToAgent: Record<string, string> = {
   'evolution': 'evolution',
 };
 
-// Call actual AI Engine service with enhanced capabilities
+// Call RAG + AI Engine with enhanced capabilities
 const callAIEngine = async (request: AIRequest): Promise<string> => {
   const { message, mode, history } = request;
   const agentType = modeToAgent[mode] || 'red_team';
 
   try {
-    // Try orchestrator endpoint first for complex queries
+    // Step 1: Query RAG system for relevant context
+    const ragResponse = await fetch(`${process.env.RAG_API_URL || 'http://localhost:8000'}/query`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        query: message,
+        mode: agentType,
+        k: 3,
+        alpha: 0.5
+      }),
+      signal: AbortSignal.timeout(10000),
+    });
+
+    let ragContext = '';
+    if (ragResponse.ok) {
+      const ragData = await ragResponse.json();
+      ragContext = ragData.retrieved_documents
+        .map((doc: any) => `[${doc.metadata?.title || 'Knowledge Base'}] ${doc.content}`)
+        .join('\n\n');
+    }
+
+    // Step 2: Try orchestrator endpoint for complex queries with RAG context
     const isComplexQuery = message.length > 200 ||
                           message.includes('analyze') ||
                           message.includes('recommend') ||
@@ -50,9 +71,10 @@ const callAIEngine = async (request: AIRequest): Promise<string> => {
         context: {
           history: history || [],
           mode: agentType,
+          rag_context: ragContext
         }
       }),
-      signal: AbortSignal.timeout(30000), // 30 second timeout
+      signal: AbortSignal.timeout(30000),
     });
 
     if (!response.ok) {

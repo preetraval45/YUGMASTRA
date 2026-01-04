@@ -97,7 +97,24 @@ export default function ThreatIntelligencePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-accent/5 p-6 pt-32">
+    <div className="min-h-screen bg-background p-8 pt-32">
+      <div className="mb-8">
+        <div className="mb-4">
+          <h1 className="text-4xl font-bold mb-2">Global Threat Intelligence</h1>
+          <p className="text-muted-foreground">Real-time threat data from global sources</p>
+        </div>
+
+        {/* Description Banner */}
+        <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-4 flex items-start gap-3">
+          <Globe className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+          <div>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              <strong className="text-foreground">What this page does:</strong> This real-time threat intelligence feed aggregates data from global sources to track active cyber threats including APTs (Advanced Persistent Threats), ransomware campaigns, phishing operations, DDoS attacks, and zero-day exploits. Monitor threat actors like APT29 (Cozy Bear), Lazarus Group, DarkSide Ransomware, and major incidents like SolarWinds supply chain attacks and Log4Shell exploitation. Each threat shows severity level, attribution (nation-state or cybercriminal group), number of targets affected, and confidence score. Filter by severity and enable real-time mode to see threats as they emerge globally. Essential for threat intelligence analysts and security operations centers.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div className="p-6 pt-0">
       {/* Header */}
       <div className="mb-8 flex items-center justify-between">
         <div>

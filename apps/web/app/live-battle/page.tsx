@@ -3,7 +3,7 @@
 import { useEffect, useState, useMemo } from 'react';
 import { Shield, Swords, AlertTriangle, CheckCircle2, XCircle, Zap, Target, Activity, Wifi, WifiOff } from 'lucide-react';
 import { sendNotification } from '@/hooks/use-notifications';
-import { useBattleWebSocket } from '@/hooks/useBattleWebSocket';
+import { useWebSocket } from '@/lib/websocket-client';
 
 interface Attack {
   id: string;
@@ -33,6 +33,56 @@ export default function LiveBattlePage() {
   const [isRunning, setIsRunning] = useState(true);
   const [battleEnded, setBattleEnded] = useState(false);
   const [battleDuration, setBattleDuration] = useState(0);
+
+  // WebSocket integration for real-time multi-client battles
+  const { status: wsStatus, sendMessage, subscribe } = useWebSocket(
+    `${process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:8080'}/battle/main`,
+    { debug: true }
+  );
+
+  // Subscribe to real-time attack events from WebSocket
+  useEffect(() => {
+    const unsubscribeAttack = subscribe('attack', (attackData: any) => {
+      const newAttack: Attack = {
+        id: attackData.id || `attack-${Date.now()}`,
+        timestamp: attackData.timestamp || Date.now(),
+        type: attackData.type,
+        target: attackData.target,
+        severity: attackData.severity,
+        status: 'attacking',
+        technique: attackData.technique,
+        x: Math.random() * 100,
+        y: Math.random() * 100,
+      };
+      setAttacks((prev) => [...prev.slice(-20), newAttack]);
+    });
+
+    const unsubscribeDefense = subscribe('defense', (defenseData: any) => {
+      const newDefense: Defense = {
+        id: defenseData.id || `defense-${Date.now()}`,
+        timestamp: defenseData.timestamp || Date.now(),
+        action: defenseData.action,
+        attackId: defenseData.attack_id,
+        effectiveness: defenseData.effectiveness || 0.8,
+      };
+      setDefenses((prev) => [...prev.slice(-15), newDefense]);
+    });
+
+    const unsubscribeScore = subscribe('score_update', (scoreData: any) => {
+      setScore(scoreData);
+    });
+
+    const unsubscribeHealth = subscribe('health_update', (healthData: any) => {
+      setSystemHealth(healthData.health || healthData);
+    });
+
+    return () => {
+      unsubscribeAttack();
+      unsubscribeDefense();
+      unsubscribeScore();
+      unsubscribeHealth();
+    };
+  }, [subscribe]);
   const attackTypes = useMemo(() => [
     { type: 'SQL Injection', technique: 'UNION-based SQLi', severity: 'high' as const },
     { type: 'XSS Attack', technique: 'Stored XSS', severity: 'medium' as const },
@@ -230,10 +280,10 @@ export default function LiveBattlePage() {
   };
 
   return (
-    <div className="min-h-screen bg-background p-6 pt-32">
+    <div className="min-h-screen bg-background p-8 pt-32">
       {/* Header */}
-      <div className="mb-6">
-        <div className="flex items-center justify-between">
+      <div className="mb-8">
+        <div className="flex items-center justify-between mb-4">
           <div>
             <h1 className="text-4xl font-bold mb-2 flex items-center gap-3">
               <Zap className="w-8 h-8 text-yellow-500 animate-pulse" />
@@ -276,6 +326,16 @@ export default function LiveBattlePage() {
             )}
           </div>
         </div>
+
+        <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-4 flex items-start gap-3">
+          <Target className="w-5 h-5 text-yellow-400 flex-shrink-0 mt-0.5" />
+          <div>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              <strong className="text-foreground">What this page does:</strong> Watch autonomous AI agents battle in real-time using multi-agent reinforcement learning. Red Team AI launches sophisticated attacks (SQL injection, XSS, lateral movement, privilege escalation) while Blue Team AI learns adaptive defense strategies. Monitor attack success rates, detection effectiveness, system health, and battle statistics in this live training environment.
+            </p>
+          </div>
+        </div>
+
         {battleEnded && (
           <div className="mt-4 p-4 bg-gradient-to-r from-purple-500/20 to-primary/20 border border-purple-500/30 rounded-lg">
             <h2 className="text-2xl font-bold mb-2">🏁 Battle Ended!</h2>
@@ -443,6 +503,16 @@ export default function LiveBattlePage() {
                   </div>
                 );
               })}
+          </div>
+        </div>
+
+        {/* Description Banner */}
+        <div className="bg-purple-500/10 border border-purple-500/30 rounded-lg p-4 flex items-start gap-3">
+          <Activity className="w-5 h-5 text-purple-400 flex-shrink-0 mt-0.5" />
+          <div>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              <strong className="text-foreground">What this page does:</strong> The Live Battle Arena is a real-time multi-agent reinforcement learning environment where Red Team attackers (SQL Injection, XSS, RCE, Privilege Escalation, Lateral Movement, DDoS, Phishing, Brute Force) compete against Blue Team defenders in continuous cyber warfare. Watch attacks spawn in real-time targeting critical infrastructure (web servers, databases, API gateways, auth services, file storage, network routers). Blue Team AI responds with automated defense actions (firewall blocks, IDS alerts, rate limiting, honeypot redirects, ML detection, behavioral analysis) with varying effectiveness (60-99%). Track live scores, system health deterioration, attack success vs. block rates, and battle duration. Includes WebSocket connection for distributed multi-client battles and real-time notifications for critical/high severity attacks.
+            </p>
           </div>
         </div>
       </div>

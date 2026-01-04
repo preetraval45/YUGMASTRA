@@ -248,10 +248,9 @@ export default function LiveSimulationPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-accent/20 p-6 pt-32">
-      <div className="max-w-[1800px] mx-auto space-y-6">
-
-        <div className="flex items-center justify-between mb-8">
+    <div className="min-h-screen bg-background p-8 pt-32">
+      <div className="mb-8">
+        <div className="flex items-center justify-between mb-4">
           <div>
             <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent mb-2">
               Live Cyber Warfare Simulation
@@ -271,6 +270,16 @@ export default function LiveSimulationPage() {
             <Button onClick={resetSimulation} size="lg" variant="outline">
               <RotateCcw className="mr-2 h-5 w-5" /> Reset
             </Button>
+          </div>
+        </div>
+
+        {/* Description Banner */}
+        <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4 flex items-start gap-3 mb-8">
+          <Activity className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
+          <div>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              <strong className="text-foreground">What this page does:</strong> This is a real-time simulation engine where multiple AI-powered attack and defense agents battle in a live cyber warfare scenario. Watch as nation-state APTs, ransomware crews, and script kiddies face off against SOC analysts, threat hunters, and incident responders. The simulation uses realistic attack techniques from the MITRE ATT&CK framework and demonstrates how defensive teams detect, block, and respond to threats. You can intervene using the command terminal to issue manual defense commands and influence the battle outcome.
+            </p>
           </div>
         </div>
 
