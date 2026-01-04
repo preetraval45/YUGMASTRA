@@ -96,7 +96,11 @@
       "Bash(if [ -f \"$file\" ])",
       "Bash(then if grep -q \"What this page does:\" \"$file\")",
       "Bash(then echo \"✅ $dir\")",
-      "Bash(fi)"
+      "Bash(fi)",
+      "Bash(Select-String -Pattern \"\\(Error|error|Failed|failed|warning\\)\")",
+      "Bash(Select-Object -First 50)",
+      "Bash(npx tsc:*)",
+      "Bash(awk:*)"
     ]
   }
 }

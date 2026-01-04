@@ -305,6 +305,8 @@ export default function ThreatIntelligencePage() {
         </div>
       </div>
     </div>
+    </div>
+    </div>
   );
 }
 

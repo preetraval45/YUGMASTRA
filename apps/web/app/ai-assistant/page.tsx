@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Send, Bot, User, Loader2, Sparkles, Zap, Shield, Swords, Copy, RefreshCw } from 'lucide-react';
+import { Send, Bot, User, Loader2, Sparkles, Zap, Shield, Swords, Copy, RefreshCw, Brain } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface Message {
