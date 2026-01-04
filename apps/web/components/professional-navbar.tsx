@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { ThemeToggle } from './theme-toggle';
+import { CommandPalette } from './command-palette';
 import {
   LayoutDashboard,
   Swords,
@@ -187,8 +188,11 @@ export function ProfessionalNavbar() {
             </div>
           </div>
 
-          {/* RIGHT: Profile, Notifications, Theme - Bigger */}
+          {/* RIGHT: Search, Profile, Notifications, Theme - Bigger */}
           <div className="flex items-center gap-1 sm:gap-2 lg:gap-3 flex-shrink-0">
+            {/* Command Palette Search */}
+            <CommandPalette />
+
             {/* Notifications */}
             <div className="relative notification-dropdown">
               <button

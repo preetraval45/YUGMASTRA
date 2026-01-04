@@ -121,14 +121,6 @@ export class YugmastraAIClient {
 
   // ==================== SIEM Rules ====================
 
-  async generateSIEMRule(config: {
-    attackPattern: string;
-    format: 'sigma' | 'splunk' | 'elastic' | 'suricata';
-  }): Promise<SIEMRule> {
-    const response = await this.api.post<SIEMRule>('/api/siem/generate-rule', config);
-    return response.data;
-  }
-
   async listSIEMRules(filters?: {
     format?: string;
     severity?: string;
@@ -414,7 +406,11 @@ export class YugmastraAIClient {
 // Singleton instance
 let defaultClient: YugmastraAIClient | null = null;
 
-export function getAIClient(config?: Parameters<typeof YugmastraAIClient>[0]): YugmastraAIClient {
+export function getAIClient(config?: {
+  apiURL?: string;
+  wsURL?: string;
+  apiKey?: string;
+}): YugmastraAIClient {
   if (!defaultClient || config) {
     defaultClient = new YugmastraAIClient(config);
   }

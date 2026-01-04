@@ -120,7 +120,7 @@ export interface SIEMRule {
   name: string;
   description: string;
   severity: 'critical' | 'high' | 'medium' | 'low' | 'info';
-  format: 'sigma' | 'splunk' | 'elastic' | 'suricata' | 'yara';
+  format: 'sigma' | 'splunk' | 'elastic' | 'suricata' | 'yara' | 'snort';
   rule: string;
   mitre_techniques: string[];
   tags: string[];

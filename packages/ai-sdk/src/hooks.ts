@@ -143,9 +143,23 @@ export function useSIEMRules() {
   const generateRule = useCallback(async (config: Parameters<typeof client.generateSIEMRule>[0]) => {
     setLoading(true);
     try {
-      const rule = await client.generateSIEMRule(config);
-      setRules(prev => [rule, ...prev]);
-      return rule;
+      const response = await client.generateSIEMRule(config);
+      const newRule: SIEMRule = {
+        id: Math.random().toString(36).substring(7),
+        name: 'Generated Rule',
+        description: 'Auto-generated SIEM rule',
+        rule: response.rule,
+        format: config.format || 'sigma',
+        severity: 'medium',
+        mitre_techniques: [],
+        tags: [],
+        confidence: 0.8,
+        created_at: new Date().toISOString(),
+        tested: false,
+        false_positive_rate: 0
+      };
+      setRules(prev => [newRule, ...prev]);
+      return newRule;
     } catch (err) {
       console.error('Failed to generate SIEM rule:', err);
       return null;

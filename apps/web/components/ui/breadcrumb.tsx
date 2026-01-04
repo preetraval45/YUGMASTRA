@@ -7,6 +7,9 @@ import { cn } from '@/lib/utils';
 
 export function Breadcrumb() {
   const pathname = usePathname();
+
+  if (!pathname || pathname === '/' || pathname === '/auth') return null;
+
   const paths = pathname.split('/').filter(Boolean);
 
   const getBreadcrumbName = (path: string) => {
@@ -35,8 +38,6 @@ export function Breadcrumb() {
     };
     return names[path] || path.charAt(0).toUpperCase() + path.slice(1);
   };
-
-  if (pathname === '/' || pathname === '/auth') return null;
 
   return (
     <nav className="flex items-center space-x-1 text-sm text-muted-foreground mb-4 sm:mb-6">

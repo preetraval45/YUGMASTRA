@@ -87,7 +87,10 @@
       "Bash(grep:*)",
       "Bash(git checkout:*)",
       "Bash(DATABASE_URL=\"\" npm run build:*)",
-      "Bash(DATABASE_URL=\"postgresql://test:test@localhost:5432/test\" npm run build:*)"
+      "Bash(DATABASE_URL=\"postgresql://test:test@localhost:5432/test\" npm run build:*)",
+      "Bash(git pull:*)",
+      "Bash(Select-String -Pattern \"\\(Creating|Compiled|Linting|success|Failed|error|Error|Route \\\\\\(\\)\")",
+      "Bash(Select-Object -Last 50)"
     ]
   }
 }
