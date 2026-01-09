@@ -29,8 +29,9 @@ const callAIEngine = async (request: AIRequest): Promise<string> => {
   const agentType = modeToAgent[mode] || 'red_team';
 
   try {
-    // Step 1: Query RAG system for relevant context
-    const ragResponse = await fetch(`${process.env.RAG_API_URL || 'http://localhost:8000'}/query`, {
+    // Step 1: Query RAG system for relevant context (Vercel serverless)
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000');
+    const ragResponse = await fetch(`${baseUrl}/api/rag/query`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -45,9 +46,7 @@ const callAIEngine = async (request: AIRequest): Promise<string> => {
     let ragContext = '';
     if (ragResponse.ok) {
       const ragData = await ragResponse.json();
-      ragContext = ragData.retrieved_documents
-        .map((doc: any) => `[${doc.metadata?.title || 'Knowledge Base'}] ${doc.content}`)
-        .join('\n\n');
+      ragContext = ragData.context || '';
     }
 
     // Step 2: Try orchestrator endpoint for complex queries with RAG context
