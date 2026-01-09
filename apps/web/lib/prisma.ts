@@ -9,21 +9,32 @@ const globalForPrisma = globalThis as unknown as {
   pool: pg.Pool | undefined;
 };
 
-// Create connection pool
-const pool = globalForPrisma.pool ?? new Pool({
-  connectionString: process.env.DATABASE_URL,
-});
+let prismaClient: PrismaClient;
 
-// Create Prisma adapter
-const adapter = new PrismaPg(pool);
+function getPrismaClient() {
+  if (!prismaClient) {
+    // Create connection pool only when needed
+    const pool = globalForPrisma.pool ?? new Pool({
+      connectionString: process.env.DATABASE_URL,
+    });
 
-// Create Prisma client
-export const prisma = globalForPrisma.prisma ?? new PrismaClient({
-  adapter,
-  log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
-});
+    // Create Prisma adapter
+    const adapter = new PrismaPg(pool);
 
-if (process.env.NODE_ENV !== 'production') {
-  globalForPrisma.prisma = prisma;
-  globalForPrisma.pool = pool;
+    // Create Prisma client
+    prismaClient = globalForPrisma.prisma ?? new PrismaClient({
+      adapter,
+      log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
+    });
+
+    if (process.env.NODE_ENV !== 'production') {
+      globalForPrisma.prisma = prismaClient;
+      globalForPrisma.pool = pool;
+    }
+  }
+
+  return prismaClient;
 }
+
+// Export prisma as a getter to avoid initialization during module load
+export const prisma = (() => getPrismaClient())();
