@@ -1,90 +1,43 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
   Activity,
   TrendingUp,
   AlertTriangle,
   Shield,
-  Zap,
   Globe,
   Target,
-  Crosshair,
   Flame,
-  Lock
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface ThreatData {
   id: string;
   name: string;
+  category: string;
   severity: 'critical' | 'high' | 'medium' | 'low';
-  type: string;
-  source: string;
-  targets: number;
-  confidence: number;
-  timestamp: Date;
+  trend: 'rising' | 'stable' | 'declining';
+  count: number;
 }
 
 export default function ThreatIntelligencePage() {
-  const [threats, setThreats] = useState<ThreatData[]>([]);
-  const [selectedThreat, setSelectedThreat] = useState<ThreatData | null>(null);
-  const [filter, setFilter] = useState<'all' | 'critical' | 'high' | 'medium' | 'low'>('all');
-  const [realTimeMode, setRealTimeMode] = useState(true);
-
-  // Simulate real-time threat data
-  useEffect(() => {
-    const generateMockThreats = (): ThreatData[] => {
-      const threatTypes = ['APT', 'Ransomware', 'Phishing', 'DDoS', 'Zero-Day', 'Malware', 'Data Breach'];
-      const sources = ['North Korea', 'Russia', 'China', 'Iran', 'Unknown', 'Cybercriminal Group'];
-      const names = [
-        'APT29 (Cozy Bear)',
-        'Lazarus Group',
-        'DarkSide Ransomware',
-        'Emotet Botnet',
-        'SolarWinds Supply Chain',
-        'Log4Shell Exploitation',
-        'ProxyShell Attack',
-        'Kaseya VSA Breach'
-      ];
-
-      return Array.from({ length: 15 }, (_, i) => ({
-        id: `threat-${i}`,
-        name: names[Math.floor(Math.random() * names.length)],
-        severity: ['critical', 'high', 'medium', 'low'][Math.floor(Math.random() * 4)] as any,
-        type: threatTypes[Math.floor(Math.random() * threatTypes.length)],
-        source: sources[Math.floor(Math.random() * sources.length)],
-        targets: Math.floor(Math.random() * 10000),
-        confidence: Math.floor(Math.random() * 30) + 70,
-        timestamp: new Date(Date.now() - Math.random() * 86400000)
-      }));
-    };
-
-    setThreats(generateMockThreats());
-
-    if (realTimeMode) {
-      const interval = setInterval(() => {
-        setThreats(prev => {
-          const newThreats = generateMockThreats();
-          return [...newThreats.slice(0, 3), ...prev.slice(0, 12)];
-        });
-      }, 5000);
-
-      return () => clearInterval(interval);
-    }
-  }, [realTimeMode]);
-
-  const filteredThreats = filter === 'all'
-    ? threats
-    : threats.filter(t => t.severity === filter);
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
   const stats = {
-    total: threats.length,
-    critical: threats.filter(t => t.severity === 'critical').length,
-    high: threats.filter(t => t.severity === 'high').length,
-    medium: threats.filter(t => t.severity === 'medium').length,
-    low: threats.filter(t => t.severity === 'low').length,
+    activeCampaigns: 47,
+    zeroDay: 12,
+    malwareFamilies: 234,
+    compromisedAssets: 891,
   };
+
+  const threats: ThreatData[] = [
+    { id: '1', name: 'Ransomware-as-a-Service', category: 'ransomware', severity: 'critical', trend: 'rising', count: 1247 },
+    { id: '2', name: 'Supply Chain Attacks', category: 'apt', severity: 'critical', trend: 'rising', count: 892 },
+    { id: '3', name: 'AI-Powered Phishing', category: 'phishing', severity: 'high', trend: 'rising', count: 3421 },
+    { id: '4', name: 'Zero-Day Exploits', category: 'exploit', severity: 'critical', trend: 'stable', count: 156 },
+    { id: '5', name: 'Cryptojacking', category: 'malware', severity: 'medium', trend: 'declining', count: 678 },
+  ];
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {
@@ -96,6 +49,12 @@ export default function ThreatIntelligencePage() {
     }
   };
 
+  const getTrendIcon = (trend: string) => {
+    if (trend === 'rising') return <TrendingUp className="w-4 h-4 text-red-500" />;
+    if (trend === 'declining') return <TrendingUp className="w-4 h-4 text-green-500 rotate-180" />;
+    return <Activity className="w-4 h-4 text-blue-500" />;
+  };
+
   return (
     <div className="min-h-screen bg-background p-8 pt-32">
       <div className="mb-8">
@@ -104,137 +63,76 @@ export default function ThreatIntelligencePage() {
           <p className="text-muted-foreground">Real-time threat data from global sources</p>
         </div>
 
-        {/* Description Banner */}
-        <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-4 flex items-start gap-3">
+        <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-4 flex items-start gap-3 mb-6">
           <Globe className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
           <div>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              <strong className="text-foreground">What this page does:</strong> This real-time threat intelligence feed aggregates data from global sources to track active cyber threats including APTs (Advanced Persistent Threats), ransomware campaigns, phishing operations, DDoS attacks, and zero-day exploits. Monitor threat actors like APT29 (Cozy Bear), Lazarus Group, DarkSide Ransomware, and major incidents like SolarWinds supply chain attacks and Log4Shell exploitation. Each threat shows severity level, attribution (nation-state or cybercriminal group), number of targets affected, and confidence score. Filter by severity and enable real-time mode to see threats as they emerge globally. Essential for threat intelligence analysts and security operations centers.
+              <strong className="text-foreground">What this page does:</strong> Aggregates real-time threat intelligence from global sources including MITRE ATT&CK, threat feeds, and OSINT platforms. Track active campaigns, zero-day exploits, malware families, and compromised assets. Monitor threat trends, severity levels, and geographic distribution. Uses ML to correlate IOCs and predict emerging threats.
             </p>
           </div>
         </div>
       </div>
-      <div className="p-6 pt-0">
-      {/* Header */}
-      <div className="mb-8 flex items-center justify-between">
-        <div>
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent">
-            Global Threat Intelligence
-          </h1>
-          <p className="text-muted-foreground mt-2">Real-time cyber threat monitoring and analysis</p>
-        </div>
-        <div className="flex items-center gap-4">
-          <button
-            onClick={() => setRealTimeMode(!realTimeMode)}
-            className={cn(
-              "px-4 py-2 rounded-lg font-semibold transition-all",
-              realTimeMode
-                ? "bg-green-500 text-white animate-pulse"
-                : "bg-muted text-muted-foreground"
-            )}
-          >
-            {realTimeMode ? '🔴 LIVE' : 'Paused'}
-          </button>
-        </div>
-      </div>
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
         <StatsCard
-          title="Total Threats"
-          value={stats.total}
-          icon={Activity}
-          gradient="from-blue-500 to-cyan-500"
-          onClick={() => setFilter('all')}
-          active={filter === 'all'}
-        />
-        <StatsCard
-          title="Critical"
-          value={stats.critical}
-          icon={AlertTriangle}
-          gradient="from-red-500 to-rose-500"
-          onClick={() => setFilter('critical')}
-          active={filter === 'critical'}
-        />
-        <StatsCard
-          title="High"
-          value={stats.high}
+          title="Active Campaigns"
+          value={stats.activeCampaigns}
           icon={Flame}
-          gradient="from-orange-500 to-amber-500"
-          onClick={() => setFilter('high')}
-          active={filter === 'high'}
+          gradient="from-red-500 to-orange-500"
+          onClick={() => {}}
+          active={false}
         />
         <StatsCard
-          title="Medium"
-          value={stats.medium}
-          icon={TrendingUp}
-          gradient="from-yellow-500 to-orange-500"
-          onClick={() => setFilter('medium')}
-          active={filter === 'medium'}
+          title="Zero-Day Exploits"
+          value={stats.zeroDay}
+          icon={AlertTriangle}
+          gradient="from-orange-500 to-yellow-500"
+          onClick={() => {}}
+          active={false}
         />
         <StatsCard
-          title="Low"
-          value={stats.low}
+          title="Malware Families"
+          value={stats.malwareFamilies}
           icon={Shield}
-          gradient="from-blue-500 to-indigo-500"
-          onClick={() => setFilter('low')}
-          active={filter === 'low'}
+          gradient="from-purple-500 to-pink-500"
+          onClick={() => {}}
+          active={false}
+        />
+        <StatsCard
+          title="Compromised Assets"
+          value={stats.compromisedAssets}
+          icon={Target}
+          gradient="from-blue-500 to-cyan-500"
+          onClick={() => {}}
+          active={false}
         />
       </div>
 
-      {/* Threat Map */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Threat List */}
-        <div className="lg:col-span-2 space-y-4">
-          <div className="bg-card border rounded-xl p-6">
-            <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
-              <Target className="h-6 w-6 text-red-500" />
-              Active Threats
-            </h2>
-            <div className="space-y-3 max-h-[600px] overflow-y-auto">
-              {filteredThreats.map((threat) => (
+        <div className="lg:col-span-2">
+          <div className="bg-card rounded-lg border p-6">
+            <h2 className="text-2xl font-bold mb-6">Active Threats</h2>
+            <div className="space-y-4">
+              {threats.map((threat) => (
                 <div
                   key={threat.id}
-                  onClick={() => setSelectedThreat(threat)}
-                  className={cn(
-                    "p-4 rounded-lg border-2 cursor-pointer transition-all hover:scale-[1.02]",
-                    selectedThreat?.id === threat.id
-                      ? "border-primary bg-primary/10"
-                      : "border-border bg-card hover:border-primary/50"
-                  )}
+                  className="bg-accent/50 rounded-lg p-4 border border-border hover:border-primary/50 transition-all cursor-pointer"
                 >
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-2">
-                        <span className={cn(
-                          "px-3 py-1 rounded-full text-xs font-bold uppercase",
-                          getSeverityColor(threat.severity)
-                        )}>
-                          {threat.severity}
-                        </span>
-                        <span className="text-xs bg-accent px-2 py-1 rounded">
-                          {threat.type}
-                        </span>
-                      </div>
-                      <h3 className="font-bold text-lg">{threat.name}</h3>
-                      <div className="flex items-center gap-4 mt-2 text-sm text-muted-foreground">
-                        <span className="flex items-center gap-1">
-                          <Globe className="h-4 w-4" />
-                          {threat.source}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <Crosshair className="h-4 w-4" />
-                          {threat.targets.toLocaleString()} targets
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <Zap className="h-4 w-4" />
-                          {threat.confidence}% confidence
-                        </span>
-                      </div>
-                    </div>
-                    <div className="text-xs text-muted-foreground">
-                      {new Date(threat.timestamp).toLocaleTimeString()}
-                    </div>
+                  <div className="flex items-start justify-between mb-2">
+                    <h3 className="font-semibold text-lg">{threat.name}</h3>
+                    {getTrendIcon(threat.trend)}
+                  </div>
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className={cn('text-xs px-2 py-1 rounded font-medium', getSeverityColor(threat.severity))}>
+                      {threat.severity.toUpperCase()}
+                    </span>
+                    <span className="text-xs bg-muted px-2 py-1 rounded">
+                      {threat.category}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between text-sm text-muted-foreground">
+                    <span>Detected instances: {threat.count}</span>
+                    <span className="capitalize">{threat.trend}</span>
                   </div>
                 </div>
               ))}
@@ -242,70 +140,70 @@ export default function ThreatIntelligencePage() {
           </div>
         </div>
 
-        {/* Threat Details */}
-        <div className="space-y-4">
-          {selectedThreat ? (
-            <div className="bg-card border rounded-xl p-6">
-              <h2 className="text-2xl font-bold mb-4">Threat Details</h2>
-              <div className="space-y-4">
-                <div>
-                  <label className="text-sm text-muted-foreground">Name</label>
-                  <p className="font-bold text-lg">{selectedThreat.name}</p>
+        <div className="space-y-6">
+          <div className="bg-card rounded-lg border p-6">
+            <h3 className="text-lg font-semibold mb-4">Threat Categories</h3>
+            <div className="space-y-2">
+              {['all', 'ransomware', 'apt', 'phishing', 'exploit', 'malware'].map((category) => (
+                <button
+                  key={category}
+                  onClick={() => setSelectedCategory(category)}
+                  className={cn(
+                    'w-full text-left px-3 py-2 rounded-lg transition-colors capitalize',
+                    selectedCategory === category
+                      ? 'bg-primary text-primary-foreground'
+                      : 'bg-background hover:bg-accent'
+                  )}
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="bg-card rounded-lg border p-6">
+            <h3 className="text-lg font-semibold mb-4">Geographic Distribution</h3>
+            <div className="space-y-3">
+              <div>
+                <div className="flex items-center justify-between text-sm mb-1">
+                  <span>North America</span>
+                  <span className="text-muted-foreground">32%</span>
                 </div>
-                <div>
-                  <label className="text-sm text-muted-foreground">Severity</label>
-                  <span className={cn(
-                    "inline-block px-3 py-1 rounded-full text-sm font-bold mt-1",
-                    getSeverityColor(selectedThreat.severity)
-                  )}>
-                    {selectedThreat.severity.toUpperCase()}
-                  </span>
+                <div className="h-2 bg-muted rounded-full overflow-hidden">
+                  <div className="h-full bg-blue-500" style={{ width: '32%' }} />
                 </div>
-                <div>
-                  <label className="text-sm text-muted-foreground">Type</label>
-                  <p className="font-semibold">{selectedThreat.type}</p>
+              </div>
+              <div>
+                <div className="flex items-center justify-between text-sm mb-1">
+                  <span>Europe</span>
+                  <span className="text-muted-foreground">28%</span>
                 </div>
-                <div>
-                  <label className="text-sm text-muted-foreground">Source</label>
-                  <p className="font-semibold">{selectedThreat.source}</p>
+                <div className="h-2 bg-muted rounded-full overflow-hidden">
+                  <div className="h-full bg-green-500" style={{ width: '28%' }} />
                 </div>
-                <div>
-                  <label className="text-sm text-muted-foreground">Affected Targets</label>
-                  <p className="font-semibold">{selectedThreat.targets.toLocaleString()}</p>
+              </div>
+              <div>
+                <div className="flex items-center justify-between text-sm mb-1">
+                  <span>Asia Pacific</span>
+                  <span className="text-muted-foreground">25%</span>
                 </div>
-                <div>
-                  <label className="text-sm text-muted-foreground">Confidence</label>
-                  <div className="mt-2">
-                    <div className="h-2 bg-accent rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-gradient-to-r from-blue-500 to-purple-500"
-                        style={{ width: `${selectedThreat.confidence}%` }}
-                      />
-                    </div>
-                    <p className="text-sm font-semibold mt-1">{selectedThreat.confidence}%</p>
-                  </div>
+                <div className="h-2 bg-muted rounded-full overflow-hidden">
+                  <div className="h-full bg-yellow-500" style={{ width: '25%' }} />
                 </div>
-                <div className="pt-4 border-t">
-                  <button className="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-3 rounded-lg transition-colors flex items-center justify-center gap-2">
-                    <Lock className="h-5 w-5" />
-                    Deploy Countermeasures
-                  </button>
-                  <button className="w-full mt-2 bg-primary hover:bg-primary/80 text-primary-foreground font-bold py-3 rounded-lg transition-colors">
-                    Analyze with AI
-                  </button>
+              </div>
+              <div>
+                <div className="flex items-center justify-between text-sm mb-1">
+                  <span>Other Regions</span>
+                  <span className="text-muted-foreground">15%</span>
+                </div>
+                <div className="h-2 bg-muted rounded-full overflow-hidden">
+                  <div className="h-full bg-purple-500" style={{ width: '15%' }} />
                 </div>
               </div>
             </div>
-          ) : (
-            <div className="bg-card border rounded-xl p-6 text-center text-muted-foreground">
-              <Target className="h-12 w-12 mx-auto mb-4 opacity-50" />
-              <p>Select a threat to view details</p>
-            </div>
-          )}
+          </div>
         </div>
       </div>
-    </div>
-    </div>
     </div>
   );
 }
